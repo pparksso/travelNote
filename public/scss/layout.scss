@@ -4,6 +4,7 @@ body {
   font-size: 18px;
   font-weight: 500;
   overflow-x: hidden;
+  position: relative;
 }
 * {
   box-sizing: border-box;
@@ -48,4 +49,14 @@ a {
       }
     }
   }
+}
+
+#footer {
+  background-color: #111;
+  color: #fff;
+  height: 120px;
+  text-align: center;
+  padding-top: 60px;
+  font-weight: 300;
+  letter-spacing: 1px;
 }

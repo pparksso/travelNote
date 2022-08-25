@@ -14,7 +14,7 @@
           width: 100%;
           height: 100%;
           object-fit: cover;
-          vertical-align: top;
+          vertical-align: middle;
           position: absolute;
           top: 0;
           left: 0;
@@ -25,33 +25,96 @@
 }
 
 .section {
+  &#contents {
+    min-height: 650px;
+  }
   .container {
-    padding: 50px 0;
+    padding: 80px 0 150px 0;
     width: 80vw;
     margin: 0 auto;
     ul {
       display: flex;
-      justify-content: space-around;
       flex-wrap: wrap;
+      justify-content: space-between;
       li {
         width: calc(33.33% - 20px);
         padding: 20px 0;
         a {
           .contentsBox {
             border-radius: 10px;
-            border: 1px solid #333;
+            overflow: hidden;
+            border: 1px solid #ddd;
             .img {
               width: 100%;
-
+              overflow: hidden;
               img {
                 object-fit: cover;
                 width: 100%;
-                height: 100%;
+                height: 250px;
+                border-radius: 10px 10px 0 0;
+                transition: all 0.5s ease-in-out;
+                &:hover {
+                  transform: scale(1.2);
+                }
+              }
+            }
+            .txtBox {
+              padding: 20px;
+              .top {
+                display: flex;
+                justify-content: space-between;
+                .heartIcon {
+                  .material-icons-outlined {
+                    color: rgb(228, 9, 9);
+                    font-size: 18px;
+                  }
+                }
+                h1 {
+                  font-weight: 700;
+                  margin-bottom: 10px;
+                }
+              }
+
+              p {
+                font-size: 15px;
+                font-weight: 400;
+                line-height: 1.2;
+                height: 2.4em;
+                overflow: hidden;
+                -webkit-box-orient: vertical;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
               }
             }
           }
         }
       }
+    }
+  }
+}
+
+.cover {
+  position: fixed;
+  user-select: none;
+  top: 0;
+  z-index: 5000;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  &#loginCover {
+    display: none;
+  }
+  .userBox {
+    overflow: hidden;
+    position: absolute;
+    width: 300px;
+    background-color: #fff;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    &#loginBox {
+      display: none;
     }
   }
 }
