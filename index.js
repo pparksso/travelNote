@@ -8,6 +8,8 @@ const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const nunjucks = require("nunjucks");
 
+const indexRouter = require("./routes");
+
 nunjucks.configure("views", {
   express: app,
   watch: true,
@@ -22,9 +24,13 @@ MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, c
   db = client.db("travelApp");
 });
 
-app.set("view engine", "njk");
+app.set("view engine", "html");
+app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.set("port", process.env.PORT || 8099);
 const PORT = app.get("port");
+app.use("/", indexRouter);
 app.listen(PORT, () => {
   console.log(PORT + "포트");
 });

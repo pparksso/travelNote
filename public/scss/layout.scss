@@ -1,0 +1,48 @@
+body {
+  color: #333;
+  font-family: "Noto Sans KR", "Roboto", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+}
+* {
+  box-sizing: border-box;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+#header {
+  position: fixed;
+  width: 100vw;
+  background-color: #fff;
+  height: 60px;
+  &.down {
+    background-color: none;
+    backdrop-filter: blur(80%);
+  }
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    position: relative;
+    .headerTitle {
+      a h1 {
+        font-weight: 700;
+        font-size: 20px;
+      }
+    }
+    .utilList {
+      display: flex;
+      position: absolute;
+      right: 10%;
+      font-weight: 400;
+      font-size: 16px;
+      li {
+        &:first-child {
+          margin-right: 30px;
+        }
+      }
+    }
+  }
+}
