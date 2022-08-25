@@ -1,5 +1,10 @@
 const header = document.querySelector("#header");
 
 window.addEventListener("scroll", () => {
-  console.log(window.scrollY);
+  const scrollTop = window.scrollY;
+  if (scrollTop > 0) {
+    header.classList.add("down");
+  } else {
+    header.classList.remove("down");
+  }
 });
