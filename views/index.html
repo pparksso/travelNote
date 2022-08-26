@@ -3,20 +3,18 @@
   <div class="container">
     <ul>
       <li>
-        <a href="">
-          <div class="contentsBox">
-            <div class="img">
-              <img src="images/main/slideVisual01.jpg" alt="" />
-            </div>
-            <div class="txtBox">
-              <div class="top">
-                <h1>뉴질랜드</h1>
-                <div class="heartIcon"><span class="material-icons-outlined"> favorite_border </span></div>
-              </div>
-              <p>뉴질랜드 퉁가리로국립공원 좋아용 뉴질랜드 가고싶다 뉴질랜드~~ 이거 언제 다 만들지 일주일 안에 할 수 있을까 엄청 많네 하 돌아버린다 진짜 ㅠㅠ 언제 다해 ㅠㅠ</p>
-            </div>
+        <div class="contentsBox">
+          <div class="img">
+            <img src="images/main/slideVisual01.jpg" alt="" />
           </div>
-        </a>
+          <div class="txtBox">
+            <div class="top">
+              <h1>뉴질랜드</h1>
+              <button><span class="material-icons-outlined"> favorite_border </span></button>
+            </div>
+            <p>뉴질랜드 퉁가리로국립공원 좋아용 뉴질랜드 가고싶다 뉴질랜드~~ 이거 언제 다 만들지 일주일 안에 할 수 있을까 엄청 많네 하 돌아버린다 진짜 ㅠㅠ 언제 다해 ㅠㅠ</p>
+          </div>
+        </div>
       </li>
     </ul>
   </div>
@@ -30,10 +28,8 @@
     </div>
     <form action="" method="POST">
       <div class="center">
-        <div class="inner">
-          <input type="text" placeholder="ID" id="loginId" name="loginId" />
-          <input type="password" placeholder="PASSWORD" id="loginPw" name="loginPw" />
-        </div>
+        <div class="inputBox"><input type="text" placeholder="ID" id="loginId" name="loginId" /></div>
+        <div class="inputBox"><input type="password" placeholder="PASSWORD" id="loginPw" name="loginPw" /></div>
       </div>
       <div class="bottom">
         <div class="btns">
@@ -53,14 +49,13 @@
     </div>
     <form action="" method="POST">
       <div class="center">
-        <div class="inner">
-          <div class="idBox">
-            <input type="text" placeholder="ID" id="joinId" name="joinId" /><button class="idCheckBtn"><span>ID체크</span></button>
-          </div>
-          <input type="text" name="nickname" id="nickname" placeholder="NICKNAME" />
-          <input type="password" placeholder="PASSWORD" id="joinPw" name="joinPw" />
-          <input type="password" placeholder="PASSWORD CHECK" id="joinPwCheck" name="joinPwCheck" />
+        <div class="idBox">
+          <div class="inputBox"><input type="text" placeholder="ID" id="joinId" name="joinId" /></div>
+          <button class="idCheckBtn"><span>ID check</span></button>
         </div>
+        <div class="inputBox"><input type="text" name="nickname" id="nickname" placeholder="NICKNAME" /></div>
+        <div class="inputBox"><input type="password" placeholder="PASSWORD" id="joinPw" name="joinPw" /></div>
+        <div class="inputBox"><input type="password" placeholder="PASSWORD CHECK" id="joinPwCheck" name="joinPwCheck" /></div>
       </div>
       <div class="bottom">
         <div class="btns">

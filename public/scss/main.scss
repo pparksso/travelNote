@@ -1,23 +1,59 @@
-#main {
+#mainVisualBox {
   width: 100vw;
-  #mainVisual {
-    ul {
-      li {
-        position: relative;
-        width: 100vw;
-        &::before {
-          content: "";
-          display: block;
-          padding-top: 20%;
-        }
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          vertical-align: middle;
-          position: absolute;
-          top: 0;
-          left: 0;
+  height: 40vh;
+  position: relative;
+  .top {
+    width: 100%;
+    height: 85%;
+    background-image: url("/images/main/mainVisual.jpg");
+    background-position: 0 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    opacity: 0.85;
+    .titleBox {
+      h1 {
+        color: #fff;
+        font-size: 40px;
+        font-family: "Playfair Display", serif;
+        font-weight: 400;
+      }
+    }
+  }
+  .utilBox {
+    width: 13vw;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    bottom: -10%;
+    left: 50%;
+    background-color: #fff;
+    transform: translateX(-50%);
+    .txtBox {
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+      p {
+        font-size: 19px;
+        font-weight: 700;
+        padding: 30px 0;
+      }
+    }
+    .utilMenu {
+      display: flex;
+      border-radius: 0 0 10px 10px;
+      background-color: #333;
+      a {
+        display: block;
+        text-align: center;
+        flex-grow: 1;
+        padding: 15px 0;
+        color: #fff;
+        font-size: 15px;
+        &:first-child {
+          border-right: 1px solid #ddd;
         }
       }
     }
@@ -37,54 +73,53 @@
       flex-wrap: wrap;
       justify-content: space-between;
       li {
+        cursor: pointer;
         width: calc(33.33% - 20px);
         padding: 20px 0;
-        a {
-          .contentsBox {
-            border-radius: 10px;
+        .contentsBox {
+          border-radius: 10px;
+          overflow: hidden;
+          border: 1px solid #ddd;
+          .img {
+            width: 100%;
             overflow: hidden;
-            border: 1px solid #ddd;
-            .img {
+            img {
+              object-fit: cover;
               width: 100%;
-              overflow: hidden;
-              img {
-                object-fit: cover;
-                width: 100%;
-                height: 250px;
-                border-radius: 10px 10px 0 0;
-                transition: all 0.5s ease-in-out;
-                &:hover {
-                  transform: scale(1.2);
-                }
+              height: 250px;
+              border-radius: 10px 10px 0 0;
+              transition: all 0.5s ease-in-out;
+              &:hover {
+                transform: scale(1.2);
               }
             }
-            .txtBox {
-              padding: 20px;
-              .top {
-                display: flex;
-                justify-content: space-between;
-                .heartIcon {
-                  .material-icons-outlined {
-                    color: rgb(228, 9, 9);
-                    font-size: 18px;
-                  }
-                }
-                h1 {
-                  font-weight: 700;
-                  margin-bottom: 10px;
+          }
+          .txtBox {
+            padding: 20px;
+            .top {
+              display: flex;
+              justify-content: space-between;
+              button {
+                .material-icons-outlined {
+                  color: rgb(228, 9, 9);
+                  font-size: 18px;
                 }
               }
+              h1 {
+                font-weight: 700;
+                margin-bottom: 10px;
+              }
+            }
 
-              p {
-                font-size: 15px;
-                font-weight: 400;
-                line-height: 1.2;
-                height: 2.4em;
-                overflow: hidden;
-                -webkit-box-orient: vertical;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-              }
+            p {
+              font-size: 15px;
+              font-weight: 400;
+              line-height: 1.2;
+              height: 2.4em;
+              overflow: hidden;
+              -webkit-box-orient: vertical;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
             }
           }
         }
@@ -94,6 +129,7 @@
 }
 
 .cover {
+  // display: none;
   position: fixed;
   user-select: none;
   top: 0;
@@ -101,8 +137,17 @@
   background-color: rgba(0, 0, 0, 0.5);
   width: 100vw;
   height: 100vh;
+  &#joinCover {
+    display: none;
+    &.on {
+      display: block;
+    }
+  }
   &#loginCover {
     display: none;
+    &.on {
+      display: block;
+    }
   }
   .userBox {
     overflow: hidden;
@@ -113,8 +158,63 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
-    &#loginBox {
-      display: none;
+    border-radius: 20px;
+    .top {
+      padding: 10px;
+      border-bottom: 1px solid #aaa;
+    }
+    .center {
+      padding: 20px;
+      .idBox {
+        display: flex;
+        justify-content: space-between;
+        button {
+          background-color: #ddd;
+          margin-bottom: 10px;
+          padding: 7px;
+          span {
+            font-weight: 700;
+          }
+        }
+      }
+      .inputBox {
+        padding-bottom: 10px;
+        input {
+          padding: 5px;
+        }
+      }
+    }
+    .bottom {
+      border-top: 1px solid #aaa;
+      padding: 10px;
+      text-align: right;
+      .btns {
+        button {
+          background-color: #333;
+          padding: 7px;
+          span {
+            color: #fff;
+            letter-spacing: 1px;
+          }
+        }
+      }
     }
   }
+}
+input[type="text"],
+input[type="password"] {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #aaa;
+  &:focus {
+    border-radius: 3px;
+    border-bottom: none;
+    outline: 2px solid #333;
+  }
+}
+button {
+  outline: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
 }
