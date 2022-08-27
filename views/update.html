@@ -1,0 +1,30 @@
+{% include "include/header.html" %}
+<section id="update" class="subSection">
+  <div class="title">
+    <h1>Edit Post</h1>
+  </div>
+  <form action="" method="POST">
+    <div class="imgBox">
+      <img src="" alt="" />
+    </div>
+    <div class="inputBox">
+      <label><span>파일찾기</span><input type="file" name="updateImage" id="updateImage" /> <input name="updateFileName" id="updateFileName" value="" readonly /></label>
+    </div>
+    <div class="inputBox dateBox">
+      <label><input type="text" name="updateDate" id="updateDate" readonly value="" /><span>📅</span></label>
+    </div>
+    <div class="inputBox">
+      <label><span>제목</span><input type="text" name="updateTitle" id="updateTitle" /></label>
+    </div>
+    <div class="inputBox">
+      <label><span>여행지</span><input type="text" name="updateLocation" id="updateLocation" /></label>
+    </div>
+    <div class="inputBox"><textarea name="updateDesc" id="updateDesc" cols="30" rows="10" value=""></textarea></div>
+    <div class="btns">
+      <button id="createBtn"><span>수정</span></button>
+      <button type="reset" id="updateResetBtn"><span>취소</span></button>
+    </div>
+  </form>
+</section>
+
+{% include "include/footer.html" %}

@@ -9,6 +9,8 @@ const session = require("express-session");
 const nunjucks = require("nunjucks");
 
 const indexRouter = require("./routes");
+const createRouter = require("./routes/create.js");
+const updateRouter = require("./routes/update.js");
 
 nunjucks.configure("views", {
   express: app,
@@ -30,7 +32,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.set("port", process.env.PORT || 8099);
 const PORT = app.get("port");
+
 app.use("/", indexRouter);
+app.use("/create", createRouter);
+app.use("/update", updateRouter);
+
 app.listen(PORT, () => {
   console.log(PORT + "포트");
 });

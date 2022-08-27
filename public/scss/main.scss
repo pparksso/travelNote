@@ -99,18 +99,29 @@
             .top {
               display: flex;
               justify-content: space-between;
+              margin-bottom: 10px;
+              .titleBox {
+                span {
+                  font-size: 12px;
+                }
+                h1 {
+                  max-width: 180px;
+                  text-overflow: ellipsis;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  display: inline-block;
+                  margin-left: 10px;
+                  font-weight: 700;
+                }
+              }
               button {
+                background: none;
                 .material-icons-outlined {
                   color: rgb(228, 9, 9);
                   font-size: 18px;
                 }
               }
-              h1 {
-                font-weight: 700;
-                margin-bottom: 10px;
-              }
             }
-
             p {
               font-size: 15px;
               font-weight: 400;
@@ -120,7 +131,17 @@
               -webkit-box-orient: vertical;
               display: -webkit-box;
               -webkit-line-clamp: 2;
+              font-family: "GangwonEdu_OTFBoldA";
             }
+          }
+        }
+        .mytourBox {
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .material-icons {
+            font-size: 48px;
           }
         }
       }
@@ -162,6 +183,17 @@
     .top {
       padding: 10px;
       border-bottom: 1px solid #aaa;
+      display: flex;
+      justify-content: space-between;
+      .title {
+        line-height: 1.5;
+      }
+      button {
+        background: none;
+        .material-icons {
+          color: #333;
+        }
+      }
     }
     .center {
       padding: 20px;
@@ -201,6 +233,72 @@
     }
   }
 }
+#contentsPopup {
+  display: none;
+  &.on {
+    display: block;
+  }
+  #popupItem {
+    width: 40%;
+    .top {
+      .title {
+        h1 {
+          font-size: 20px;
+          font-weight: 700;
+        }
+      }
+    }
+    .center {
+      .imgBox {
+        margin-bottom: 20px;
+        img {
+          width: 100%;
+        }
+      }
+      .infoBox {
+        display: flex;
+        justify-content: space-between;
+        .info {
+          .location {
+            font-weight: 900;
+            display: inline-block;
+            margin-right: 10px;
+          }
+          .date,
+          .nickname {
+            font-size: 13px;
+            margin-right: 10px;
+          }
+        }
+        .heart {
+          display: flex;
+          align-items: center;
+          .heartNum {
+            display: inline-block;
+            margin-bottom: 3px;
+            font-size: 12px;
+          }
+          button {
+            background: none;
+            .material-icons-outlined,
+            .material-icons-outlined {
+              color: rgb(228, 9, 9);
+            }
+          }
+        }
+      }
+      .txtBox {
+        p {
+          line-height: 1.5;
+          font-size: 16px;
+          font-weight: 400;
+          font-family: "GangwonEdu_OTFBoldA";
+        }
+      }
+    }
+  }
+}
+
 input[type="text"],
 input[type="password"] {
   border: none;

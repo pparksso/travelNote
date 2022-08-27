@@ -1,0 +1,30 @@
+{% include "include/header.html" %}
+<section id="create" class="subSection">
+  <div class="title">
+    <h1>Create Post</h1>
+  </div>
+  <form action="" method="POST">
+    <div class="imgBox">
+      <img alt="" />
+    </div>
+    <div class="inputBox">
+      <label><span>파일찾기</span><input type="file" name="image" id="image" /> <input name="fileName" id="fileName" value="첨부파일" readonly /></label>
+    </div>
+    <div class="inputBox dateBox">
+      <label><input type="text" name="date" id="date" readonly value="년도. 월. 일" /><span>📅</span></label>
+    </div>
+    <div class="inputBox">
+      <label><span>제목</span><input type="text" name="title" id="title" /></label>
+    </div>
+    <div class="inputBox">
+      <label><span>여행지</span><input type="text" name="location" id="location" /></label>
+    </div>
+    <div class="inputBox"><textarea name="desc" id="desc" cols="30" rows="10" placeholder="내용을 입력하세요"></textarea></div>
+    <div class="btns">
+      <button id="createBtn"><span>추가</span></button>
+      <button type="reset" id="resetBtn"><span>취소</span></button>
+    </div>
+  </form>
+</section>
+
+{% include "include/footer.html" %}
