@@ -1,0 +1,23 @@
+{% include "include/header.html" %}
+<section id="mypage" class="subSection">
+  <div class="title">
+    <h1>My Page</h1>
+  </div>
+  <form action="" method="POST">
+    <div class="inputBox">
+      <label><span>ID</span><input type="text" name="updateId" id="updateId" value="" readonly /></label>
+    </div>
+    <div class="inputBox">
+      <label><span>Password</span><input type="password" name="updatePassword" id="updatePassword" /></label>
+    </div>
+    <div class="inputBox">
+      <label><span>Nickname</span><input type="text" name="updateNickname" id="updateNickname" /></label>
+    </div>
+    <div class="btns">
+      <button id="signoutBtn"><span>탈퇴</span></button>
+      <button id="mypageUpdateBtn"><span>수정</span></button>
+      <button type="reset" id="myPageResetBtn"><span>취소</span></button>
+    </div>
+  </form>
+</section>
+{% include "include/footer.html" %}
