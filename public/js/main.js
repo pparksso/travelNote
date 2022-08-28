@@ -1,8 +1,9 @@
 const loginBtn = document.querySelector("#loginBtn");
 const loginPage = document.querySelector("#loginCover");
 const loginCloseBtn = document.querySelector("#loginCloseBtn");
-const loginPageInLoginBtn = document.querySelector("#loginPage .loginBtn");
-const loginPageInJoinBtn = document.querySelector("#loginCover .joinBtn");
+const loginPageInLoginBtn = document.querySelector("#loginCover .loginBtn");
+const loginId = document.querySelector("#loginId");
+const loginPw = document.querySelector("#loginPw");
 const joinBtn = document.querySelector("#joinBtn");
 const joinCloseBtn = document.querySelector("#joinCloseBtn");
 const joinPage = document.querySelector("#joinCover");
@@ -24,6 +25,7 @@ const popupClostBtn = document.querySelector("#popupCloseBtn");
 loginBtn.addEventListener("click", (e) => {
   e.preventDefault();
   loginPage.classList.add("on");
+  loginId.focus();
 });
 loginCloseBtn.addEventListener("click", () => {
   loginPage.classList.remove("on");
@@ -33,6 +35,7 @@ loginCloseBtn.addEventListener("click", () => {
 joinBtn.addEventListener("click", (e) => {
   e.preventDefault();
   joinPage.classList.add("on");
+  joinId.focus();
 });
 joinCloseBtn.addEventListener("click", () => {
   joinPage.classList.remove("on");

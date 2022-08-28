@@ -1,8 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
 const MongoClient = require("mongodb").MongoClient;
+const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const session = require("express-session");
+const cors = require("cors");
+const flash = require("connect-flash");
 
 let db = null;
 MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, client) => {
@@ -11,6 +16,56 @@ MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, c
     console.log(err, "db connecting err");
   }
   db = client.db("travelApp");
+});
+
+router.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.COOKIE_SECRET,
+    cookie: {
+      maxAge: 1000 * 60 * 60,
+      httpOnly: true,
+      secure: false,
+    },
+  })
+);
+router.use(flash());
+router.use(passport.initialize());
+router.use(passport.session());
+passport.use(
+  new LocalStrategy(
+    {
+      usernameField: "loginId",
+      passwordField: "loginPw",
+      session: true,
+      passReqToCallback: false,
+    },
+    (loginId, loginPw, done) => {
+      db.collection("user").findOne({ id: loginId }, (err, result) => {
+        if (err) return done(err);
+        if (!result) return done(null, false, { message: "존재하지 않는 아이디입니다." });
+        if (result) {
+          bcrypt.compare(loginPw, result.pw, (err, same) => {
+            if (same) {
+              return done(null, result, { message: "로그인되었습니다." });
+            } else {
+              return done(null, false, { message: "비밀번호를 확인해주세요" });
+            }
+          });
+        }
+      });
+    }
+  )
+);
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+passport.deserializeUser((id, done) => {
+  console.log(done);
+  db.collection("user").findOne({ id: id }, (err, result) => {
+    done(null, result);
+  });
 });
 
 router.post("/join", (req, res) => {
@@ -88,8 +143,17 @@ router.post("/nicknamecheck", (req, res) => {
     }
   });
 });
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    failureFlash: true,
+    failureRedirect: "/",
+    successRedirect: "/",
+  })
+);
 router.get("/mypage", (req, res) => {
-  res.render("mypage");
+  console.log(req.user);
+  res.render("mypage", { userInfo: req.user, title: "My page" });
 });
 
 module.exports = router;

@@ -27,6 +27,15 @@
     </ul>
   </div>
 </section>
+{% if idError %}
+<script>
+  alert("존재하지 않는 아이디입니다.");
+</script>
+{% endif %} {% if pwError %}
+<script>
+  alert("비밀번호를 확인해주세요.");
+</script>
+{% endif %}
 <div id="loginCover" class="cover">
   <div id="loginBox" class="userBox">
     <div class="top">
@@ -35,7 +44,7 @@
       </div>
       <button id="loginCloseBtn"><span class="material-icons"> close </span></button>
     </div>
-    <form action="" method="POST">
+    <form action="/user/login" method="POST">
       <div class="center">
         <div class="inputBox"><input type="text" placeholder="ID" id="loginId" name="loginId" /></div>
         <div class="inputBox"><input type="password" placeholder="PASSWORD" id="loginPw" name="loginPw" /></div>
@@ -43,7 +52,6 @@
       <div class="bottom">
         <div class="btns">
           <button class="loginBtn"><span>LOGIN</span></button>
-          <button class="joinBtn"><span>JOIN</span></button>
         </div>
       </div>
     </form>

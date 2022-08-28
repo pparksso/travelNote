@@ -2,10 +2,18 @@ const express = require("express");
 const app = express();
 const dotenv = require("dotenv").config();
 const path = require("path");
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const session = require("express-session");
 const nunjucks = require("nunjucks");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+const MongoClient = require("mongodb").MongoClient;
+let db = null;
+MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, client) => {
+  // console.log("db connect");
+  if (err) {
+    console.log(err, "db connecting err");
+  }
+  db = client.db("travelApp");
+});
 
 const indexRouter = require("./routes");
 const createRouter = require("./routes/create.js");
