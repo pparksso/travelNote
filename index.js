@@ -3,15 +3,18 @@ const app = express();
 const dotenv = require("dotenv").config();
 const path = require("path");
 const nunjucks = require("nunjucks");
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
+const session = require("express-session");
+const passport = require("./config/passport")(app);
+// const db = require("./config/mongodb");
+const cloudinary = require("./config/cloudinary");
+
 const MongoClient = require("mongodb").MongoClient;
 let db = null;
 MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, client) => {
-  // console.log("db connect");
   if (err) {
     console.log(err, "db connecting err");
   }
+  console.log("db connect");
   db = client.db("travelApp");
 });
 
@@ -25,6 +28,20 @@ nunjucks.configure("views", {
   watch: true,
 });
 
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.COOKIE_SECRET,
+    cookie: {
+      maxAge: 1000 * 60 * 60,
+      httpOnly: true,
+      secure: false,
+    },
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 app.set("view engine", "html");
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.json());

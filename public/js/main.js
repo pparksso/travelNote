@@ -1,3 +1,5 @@
+const myTourBtn = document.querySelector("#myTourBtn");
+const contentsList = document.querySelector("#contents .container ul");
 const loginBtn = document.querySelector("#loginBtn");
 const loginPage = document.querySelector("#loginCover");
 const loginCloseBtn = document.querySelector("#loginCloseBtn");
@@ -22,21 +24,11 @@ const contentsPopup = document.querySelector("#contentsPopup");
 const popupClostBtn = document.querySelector("#popupCloseBtn");
 
 //로그인 팝업
-loginBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  loginPage.classList.add("on");
-  loginId.focus();
-});
 loginCloseBtn.addEventListener("click", () => {
   loginPage.classList.remove("on");
 });
 
 //회원가입 팝업
-joinBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  joinPage.classList.add("on");
-  joinId.focus();
-});
 joinCloseBtn.addEventListener("click", () => {
   joinPage.classList.remove("on");
   joinIdOk.classList.remove("on");
@@ -172,3 +164,23 @@ contents.forEach((item) => {
 popupClostBtn.addEventListener("click", () => {
   contentsPopup.classList.remove("on");
 });
+
+//마이투어 버튼
+// myTourBtn.addEventListener("click", (e) => {
+//   e.preventDefault();
+//   axios({
+//     url: "/user",
+//   }).then((res) => {
+//     console.log(res);
+//     const data = res.data;
+//     let tempHtml = "";
+//     if (!res.data) {
+//       tempHtml = ` <!-- <li>
+//       <div class="contentsBox mytourBox" id="mytourUpdate">
+//         <span class="material-icons"> add </span>
+//       </div>
+//     </li> -->`;
+//     }
+//     contentsList.innerHTML = tempHtml;
+//   });
+// });
