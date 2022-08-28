@@ -61,15 +61,20 @@
       <div class="center">
         <div class="idBox">
           <div class="inputBox">
-            <input type="text" placeholder="ID" id="joinId" name="joinId" />
-            <p>사용할 수 있는 아이디입니다.</p>
+            <input type="text" placeholder="ID (6자 이상)" id="joinId" name="joinId" />
+            <p class="idOk">사용할 수 있는 아이디입니다.</p>
+            <p class="idNo">사용할 수 없는 아이디입니다.</p>
           </div>
         </div>
-        <div class="inputBox"><input type="text" name="joinNickname" id="joinNickname" placeholder="NICKNAME" /></div>
-        <div class="inputBox"><input type="password" placeholder="PASSWORD" id="joinPw" name="joinPw" /></div>
+        <div class="inputBox">
+          <input type="text" name="joinNickname" id="joinNickname" placeholder="NICKNAME (2자 이상)" />
+          <p class="nickNameOk">사용할 수 있는 닉네임입니다.</p>
+          <p class="nickNameNo">사용할 수 없는 닉네임입니다.</p>
+        </div>
+        <div class="inputBox"><input type="password" placeholder="PASSWORD (8자 이상)" id="joinPw" name="joinPw" /></div>
         <div class="inputBox">
           <input type="password" placeholder="PASSWORD CHECK" id="joinPwCheck" name="joinPwCheck" />
-          <p>비밀번호를 다시 한번 확인해 주세요.</p>
+          <p class="pwNotSame">비밀번호를 다시 한번 확인해 주세요.</p>
         </div>
       </div>
       <div class="bottom">

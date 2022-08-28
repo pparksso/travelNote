@@ -223,7 +223,34 @@
           font-weight: 300;
           margin-top: 5px;
           padding-left: 5px;
-          visibility: hidden;
+          display: none;
+          &.idOk {
+            &.on {
+              display: block;
+              color: rgb(4, 0, 255);
+            }
+          }
+          &.idNo {
+            &.on {
+              display: block;
+            }
+          }
+          &.nickNameOk {
+            &.on {
+              display: block;
+              color: rgb(4, 0, 255);
+            }
+          }
+          &.nickNameNo {
+            &.on {
+              display: block;
+            }
+          }
+          &.pwNotSame {
+            &.on {
+              display: block;
+            }
+          }
         }
       }
     }
