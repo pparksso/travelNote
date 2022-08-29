@@ -1,4 +1,17 @@
 {% include "include/header.html" %}
+<div id="utilBox">
+  <div class="txtBox"><p>{{ title }}</p></div>
+  <div class="utilMenu">
+    {% if userInfo %}
+    <a href="/user/logout" id="logoutBtn"><span>Logout</span></a>
+    <a href="/user/mypage" id="mypageBtn"><span>My Page</span></a>
+    {% else %}
+    <!-- 로그인이 자꾸 풀려서 체크용으로 -->
+    <a href="" id="loginBtn"><span>Login</span></a>
+    <a href="" id="joinBtn"><span>Join</span></a>
+    {% endif %}
+  </div>
+</div>
 <section id="update" class="subSection">
   <div class="title">
     <h1>Edit Post</h1>

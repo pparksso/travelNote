@@ -1,11 +1,16 @@
 const fileNameBox = document.querySelector("#fileName");
 const inputFile = document.querySelector("#image");
+const mytourUpdateBtn = document.querySelector("#mytourUpdate");
+mytourUpdateBtn.addEventListener("click", () => {
+  location.href = "/create";
+});
 
 inputFile.addEventListener("change", () => {
+  const img = document.querySelector("#image");
   const fileName = inputFile.value;
   fileNameBox.value = fileName;
   const sendImgData = new FormData();
-  sendImgData.append("image");
+  sendImgData.append("image", img.value);
   axios({
     method: "POST",
     url: "/create/sendimg",
@@ -14,6 +19,6 @@ inputFile.addEventListener("change", () => {
     data: sendImgData,
     enctype: "multipart/form-data",
   }).then((res) => {
-    console.log(res.data);
+    console.log(res.data.cloudinaryImgSrc);
   });
 });

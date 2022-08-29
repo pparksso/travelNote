@@ -1,0 +1,26 @@
+{% include "include/header.html" %}
+<div id="utilBox">
+  <div class="txtBox"><p>{{ title }}</p></div>
+  <div class="utilMenu">
+    {% if userInfo %}
+    <a href="/user/logout" id="logoutBtn"><span>Logout</span></a>
+    <a href="/user/mypage" id="mypageBtn"><span>My Page</span></a>
+    {% else %}
+    <!-- 로그인이 자꾸 풀려서 체크용으로 -->
+    <a href="" id="loginBtn"><span>Login</span></a>
+    <a href="" id="joinBtn"><span>Join</span></a>
+    {% endif %}
+  </div>
+</div>
+<section id="contents" class="section">
+  <div class="container">
+    <ul>
+      <li>
+        <div class="contentsBox mytourBox" id="mytourUpdate">
+          <span class="material-icons"> add </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+{% include "include/footer.html" %}

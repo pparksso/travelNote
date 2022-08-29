@@ -104,16 +104,12 @@ router.get("/logout", (req, res) => {
     res.send(`<script>alert("로그아웃 되었습니다"); location.href= "/"</script>`);
   }
 });
+
 router.get("/mytour", (req, res) => {
-  db.collection("contents")
-    .find({ userNum: req.user.userNum })
-    .toArray((err, result) => {
-      res.json({ result });
-    });
+  res.render("mytour", { userInfo: req.user, title: "My tour" });
 });
 router.get("/mypage", (req, res) => {
   res.render("mypage", { userInfo: req.user, title: "My page" });
 });
-
 router.post("/sendimg", (req, res) => {});
 module.exports = router;

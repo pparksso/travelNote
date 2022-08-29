@@ -1,4 +1,28 @@
 {% include "include/header.html" %}
+<div id="utilBox">
+  <div class="txtBox"><p>{{ title }}</p></div>
+  <div class="utilMenu">
+    {% if userInfo %}
+    <a href="/user/logout" id="logoutBtn"><span>Logout</span></a>
+    <a href="/user/mytour" id="myTourBtn"><span>My tour</span></a>
+    {% else %}
+    <a href="" id="loginBtn"><span>Login</span></a>
+    <a href="" id="joinBtn"><span>Join</span></a>
+    <script>
+      loginBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        loginPage.classList.add("on");
+        loginId.focus();
+      });
+      joinBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        joinPage.classList.add("on");
+        joinId.focus();
+      });
+    </script>
+    {% endif %}
+  </div>
+</div>
 <section id="contents" class="section">
   <div class="container">
     <ul></ul>
