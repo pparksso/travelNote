@@ -1,8 +1,19 @@
 const express = require("express");
 const router = express.Router();
+const flash = require("connect-flash");
 const passport = require("../config/passport")(router);
-const mongodb = require("../config/mongodb");
 const cloudinary = require("../config/cloudinary");
+// const db = require("../config/mongodb");
+
+const MongoClient = require("mongodb").MongoClient;
+let db = null;
+MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, client) => {
+  if (err) {
+    console.log(err, "db connecting err");
+  }
+  console.log("====db connect");
+  db = client.db("travelApp");
+});
 
 router.get("/", (req, res) => {
   const fMsg = req.flash();

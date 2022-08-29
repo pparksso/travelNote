@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-// const mongodb = require("../config/mongodb");
 // const db = require("../config/mongodb");
 const passport = require("../config/passport")(router);
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 const MongoClient = require("mongodb").MongoClient;
 let db = null;
@@ -10,9 +11,8 @@ MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, c
   if (err) {
     console.log(err, "db connecting err");
   }
-  console.log("db connect");
+  console.log("====db connect");
   db = client.db("travelApp");
-  return db;
 });
 
 router.post("/join", (req, res) => {

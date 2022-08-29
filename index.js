@@ -5,18 +5,7 @@ const path = require("path");
 const nunjucks = require("nunjucks");
 const session = require("express-session");
 const passport = require("./config/passport")(app);
-// const db = require("./config/mongodb");
 const cloudinary = require("./config/cloudinary");
-
-const MongoClient = require("mongodb").MongoClient;
-let db = null;
-MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, client) => {
-  if (err) {
-    console.log(err, "db connecting err");
-  }
-  console.log("db connect");
-  db = client.db("travelApp");
-});
 
 const indexRouter = require("./routes");
 const createRouter = require("./routes/create.js");

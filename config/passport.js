@@ -2,13 +2,10 @@ module.exports = function (router) {
   // const db = require("./mongodb");
   const bcrypt = require("bcrypt");
   const saltRounds = 10;
+  const flash = require("connect-flash");
   const passport = require("passport");
   const LocalStrategy = require("passport-local").Strategy;
-  // const session = require("express-session");
-  const flash = require("connect-flash");
   router.use(flash());
-  // router.use(passport.initialize());
-  // router.use(passport.session());
 
   const MongoClient = require("mongodb").MongoClient;
   let db = null;
@@ -16,7 +13,7 @@ module.exports = function (router) {
     if (err) {
       console.log(err, "db connecting err");
     }
-    console.log("db connect");
+    console.log("====db connect");
     db = client.db("travelApp");
   });
 

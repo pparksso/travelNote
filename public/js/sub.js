@@ -8,7 +8,7 @@ inputFile.addEventListener("change", () => {
   sendImgData.append("image");
   axios({
     method: "POST",
-    url: "/user/sendimg",
+    url: "/create/sendimg",
     contentType: false,
     processData: false,
     data: sendImgData,
