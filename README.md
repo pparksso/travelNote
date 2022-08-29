@@ -14,3 +14,4 @@
 - db, passport 라우터 분리 어려움..
 - mongodb 라우터분리 해결 못함... 리팩토링 시 다시 시도(async, await로 해야함 db를 불러오기 전에 exports된 db들이 먼저 실행되어서 null값만 나감)
 - express-session이 왜 possport 모듈 안에 들어가면 에러가 나는지 이해 못함,일단 index.js에 session관련 코드들을 옮기면 정상적으로 작동함
+- js 파일만 수정하면 로그인이 자꾸 풀림.. 이유가..?
