@@ -16,7 +16,7 @@
   <div class="title">
     <h1>Create Post</h1>
   </div>
-  <form action="/create" method="POST" enctype="multipart/form-data">
+  <form action="/create/new" method="POST" enctype="multipart/form-data">
     <div class="imgBox">
       <img alt="" />
     </div>
@@ -24,7 +24,7 @@
       <label class="file"><span>파일찾기</span><input type="file" name="image" id="image" /> <input name="fileName" id="fileName" value="첨부파일" readonly /></label>
     </div>
     <div class="inputBox dateBox">
-      <label><input type="text" name="date" id="date" readonly value="년도. 월. 일" /><span>📅</span></label>
+      <label><input type="text" name="date" id="date" placeholder="년도. 월. 일" readonly /><span>📅</span></label>
     </div>
     <div class="inputBox">
       <label><span>제목</span><input type="text" name="title" id="title" /></label>
@@ -39,5 +39,34 @@
     </div>
   </form>
 </section>
+<script>
+  const fileNameBox = document.querySelector("#fileName");
+  const inputFile = document.querySelector("#image");
+  const imgBox = document.querySelector("#create .imgBox img");
+  const date = document.querySelector("#date");
 
+  //파일 첨부 후 바로 이미지 띄우기
+  inputFile.addEventListener("change", () => {
+    const img = document.querySelector("#image");
+    const fileName = inputFile.value;
+    fileNameBox.value = fileName;
+    const sendImgData = new FormData();
+    sendImgData.append("image", img.files[0]);
+    axios({
+      method: "POST",
+      url: "/create/sendimg",
+      data: sendImgData,
+      Headers: {
+        enctype: "multipart/form-data",
+        contentType: false,
+        processData: false,
+      },
+    }).then((res) => {
+      const src = res.data.cloudinaryImgSrc;
+      imgBox.setAttribute("src", src);
+    });
+  });
+
+  const picker = new Lightpick({ field: date, format: "YYYY. MM. DD" });
+</script>
 {% include "include/footer.html" %}
