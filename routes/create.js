@@ -19,7 +19,11 @@ MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, c
 });
 
 router.get("/", (req, res) => {
-  res.render("create", { userInfo: req.user, title: "New" });
+  if (req.user) {
+    res.render("create", { title: "New" });
+  } else {
+    res.send(`<script>alert("시간이 지나 로그인이 해제되었습니다. 다시 로그인 해주세요."); location.href = "/"</script>`);
+  }
 });
 
 router.post("/sendimg", fileUpload.single("image"), (req, res) => {
@@ -31,50 +35,54 @@ router.post("/sendimg", fileUpload.single("image"), (req, res) => {
 });
 
 router.post("/new", fileUpload.single("image"), (req, res) => {
-  const title = req.body.title;
-  const date = req.body.date;
-  const location = req.body.location;
-  const desc = req.body.desc;
-  const imgUrl = req.body.imgUrl;
-  const userNum = req.user.userNum;
-  const nickname = req.user.nickname;
-  db.collection("count").findOne({ name: "total" }, (err, result) => {
-    const no = result.count + 1;
-    if (err) {
-      res.send(`<script>alret("회원가입에 실패하였습니다. 다시한번 시도해주세요.")</script>`); //500페이지 전송
-    }
-    db.collection("contents").insertOne(
-      {
-        no: no,
-        userNum: userNum,
-        title: title,
-        date: date,
-        location: location,
-        desc: desc,
-        imgUrl: imgUrl,
-        heart: 0,
-        nickname: nickname,
-      },
-      (err, result) => {
-        if (err) {
-          //500띄움
-        }
-        db.collection("count").updateOne(
-          { name: "total" },
-          {
-            $inc: {
-              count: 1,
-            },
-          },
-          (err, result) => {
-            if (err) {
-              //500
-            }
-          }
-        );
+  if (req.user) {
+    const title = req.body.title;
+    const date = req.body.date;
+    const location = req.body.location;
+    const desc = req.body.desc;
+    const imgUrl = req.body.imgUrl;
+    const userNum = req.user.userNum;
+    const nickname = req.user.nickname;
+    db.collection("count").findOne({ name: "total" }, (err, result) => {
+      const no = result.count + 1;
+      if (err) {
+        res.send(`<script>alret("회원가입에 실패하였습니다. 다시한번 시도해주세요.")</script>`); //500페이지 전송
       }
-    );
-    res.json({ isCreate: true });
-  });
+      db.collection("contents").insertOne(
+        {
+          no: no,
+          userNum: userNum,
+          title: title,
+          date: date,
+          location: location,
+          desc: desc,
+          imgUrl: imgUrl,
+          heart: 0,
+          nickname: nickname,
+        },
+        (err, result) => {
+          if (err) {
+            //500띄움
+          }
+          db.collection("count").updateOne(
+            { name: "total" },
+            {
+              $inc: {
+                count: 1,
+              },
+            },
+            (err, result) => {
+              if (err) {
+                //500
+              }
+            }
+          );
+        }
+      );
+      res.json({ isCreate: true });
+    });
+  } else {
+    res.send(`<script>alert("시간이 지나 로그인이 해제되었습니다. 다시 로그인 해주세요."); location.href = "/"</script>`);
+  }
 });
 module.exports = router;

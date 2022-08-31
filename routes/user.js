@@ -106,14 +106,22 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/mytour", (req, res) => {
-  db.collection("contents")
-    .find({ userNum: req.user.userNum })
-    .toArray((err, result) => {
-      res.render("mytour", { userInfo: req.user, title: "My tour", list: result });
-    });
+  if (req.user) {
+    db.collection("contents")
+      .find({ userNum: req.user.userNum })
+      .toArray((err, result) => {
+        res.render("mytour", { title: "My tour", list: result });
+      });
+  } else {
+    res.send(`<script>alert("시간이 지나 로그인이 해제되었습니다. 다시 로그인 해주세요."); location.href = "/"</script>`);
+  }
 });
 router.get("/mypage", (req, res) => {
-  res.render("mypage", { userInfo: req.user, title: "My page" });
+  if (req.user) {
+    res.render("mypage", { title: "My page", list: req.user });
+  } else {
+    res.send(`<script>alert("시간이 지나 로그인이 해제되었습니다. 다시 로그인 해주세요."); location.href = "/"</script>`);
+  }
 });
 
 module.exports = router;

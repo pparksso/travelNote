@@ -36,12 +36,15 @@
         display: flex;
         justify-content: space-between;
         position: relative;
+        &.myPageLabel::before {
+          left: 12%;
+        }
         &::before {
           content: "";
           display: block;
           position: absolute;
           top: -10px;
-          left: 9%;
+          left: 10%;
           height: calc(100% + 20px);
           width: 1px;
           z-index: 1;
@@ -51,7 +54,7 @@
           font-size: 20px;
         }
         input {
-          width: 88%;
+          width: 86%;
           vertical-align: bottom;
           outline: none;
           border: none;

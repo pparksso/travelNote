@@ -70,11 +70,11 @@
     ul {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
       li {
         cursor: pointer;
         width: calc(33.33% - 20px);
         padding: 20px 0;
+        margin: 0 10px;
         .contentsBox {
           border-radius: 10px;
           overflow: hidden;
@@ -272,6 +272,7 @@
   }
 }
 #contentsPopup {
+  overflow-y: scroll;
   display: none;
   &.on {
     display: block;

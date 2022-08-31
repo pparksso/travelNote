@@ -4,7 +4,7 @@
   <div class="utilMenu">
     {% if userInfo %}
     <a href="/user/logout" id="logoutBtn"><span>Logout</span></a>
-    <a href="/user/mypage" id="mypageBtn"><span>My Page</span></a>
+    <a href="/user/mytour" id="mypageBtn"><span>My tour</span></a>
     {% else %}
     <!-- 로그인이 자꾸 풀려서 체크용으로 -->
     <a href="" id="loginBtn"><span>Login</span></a>
@@ -18,13 +18,13 @@
   </div>
   <form action="" method="POST">
     <div class="inputBox">
-      <label><span>ID</span><input type="text" name="updateId" id="updateId" value="" readonly /></label>
+      <label class="myPageLabel"><span>ID</span><input type="text" name="updateId" id="updateId" value="{{list.id}}" readonly /></label>
     </div>
     <div class="inputBox">
-      <label><span>Password</span><input type="password" name="updatePassword" id="updatePassword" /></label>
+      <label class="myPageLabel"><span>Password</span><input type="password" name="updatePassword" id="updatePassword" /></label>
     </div>
     <div class="inputBox">
-      <label><span>Nickname</span><input type="text" name="updateNickname" id="updateNickname" /></label>
+      <label class="myPageLabel"><span>Nickname</span><input type="text" name="updateNickname" id="updateNickname" /></label>
     </div>
     <div class="btns">
       <button id="signoutBtn"><span>탈퇴</span></button>

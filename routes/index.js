@@ -18,10 +18,20 @@ MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, c
 router.get("/", (req, res) => {
   const fMsg = req.flash();
   if (fMsg.error == "존재하지 않는 아이디입니다.") {
-    return res.render("index", { idError: true, userInfo: req.user, title: "Welcome" });
+    return db
+      .collection("contents")
+      .find()
+      .toArray((err, result) => {
+        res.render("index", { idError: true, userInfo: req.user, title: "Welcome", list: result });
+      });
   }
   if (fMsg.error == "비밀번호를 확인해주세요") {
-    return res.render("index", { pwError: true, userInfo: req.user, title: "Welcome" });
+    return db
+      .collection("contents")
+      .find()
+      .toArray((err, result) => {
+        res.render("index", { pwError: true, userInfo: req.user, title: "Welcome", list: result });
+      });
   }
   db.collection("contents")
     .find()

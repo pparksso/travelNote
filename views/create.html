@@ -70,7 +70,7 @@
 
   const picker = new Lightpick({ field: date, format: "YYYY. MM. DD" });
 
-  // 파일 이미지 주소 같이 보내기
+  // 전체 정보에 파일 이미지 주소 같이 보내기
   createBtn.addEventListener("click", (e) => {
     e.preventDefault();
     const imgUrl = imgBox.getAttribute("src");
@@ -78,6 +78,10 @@
     const title = document.querySelector("#title").value;
     const location = document.querySelector("#location").value;
     const desc = document.querySelector("#desc").value;
+    if (imgUrl === "" || date === "" || title === "" || location === "" || desc === "") {
+      alert("모든 정보를 입력해주세요.");
+      return false;
+    }
     axios({
       url: "/create/new",
       method: "POST",

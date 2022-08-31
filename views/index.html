@@ -27,7 +27,7 @@
   <div class="container">
     <ul>
       {% for item in list %}
-      <li data-index={{loop.index}}>
+      <li>
         <div class="contentsBox">
           <div class="img">
             <img src="{{item.imgUrl}}" alt="" />
@@ -116,7 +116,7 @@
   </div>
 </div>
 {% for item in list %}
-<div id="contentsPopup" class="cover" data-index={{loop.index}}>
+<div id="contentsPopup" class="cover">
   <div id="popupItem" class="userBox">
     <div class="top">
       <div class="title">
@@ -126,7 +126,7 @@
     </div>
     <div class="center">
       <div class="imgBox">
-        <img src="/images/main/mainVisual.jpg" alt="" />
+        <img src="{{item.imgUrl}}" alt="" />
       </div>
       <div class="infoBox">
         <div class="info"><span class="location">{{item.location}}</span> <span class="date">{{item.date}}</span> <span class="nickname">{{item.nickname}}</span></div>
@@ -134,20 +134,14 @@
           <span class="heartNum">{{item.heart}}</span><button><span class="material-icons-outlined"> favorite_border </span></button>
           <!-- <button><span class="material-icons"> favorite </span></button> -->
         </div>
-        </div>
       </div>
       <div class="txtBox">
         <p>{{item.desc}}</p>
       </div>
     </div>
-    <div class="bottom">
-      <div class="btns">
-        <button class="loginBtn"><span>수정</span></button>
-        <button class="joinBtn"><span>삭제</span></button>
-      </div>
-    </div>
   </div>
 </div>
+
 {% endfor %}
 <script>
   const contentsList = document.querySelector("#contents .container ul");
@@ -171,8 +165,8 @@
   const joinNicknameNo = document.querySelector("#joinCover .nickNameNo");
   const joinPwNotSame = document.querySelector("#joinCover .pwNotSame");
   const contents = document.querySelectorAll("#contents ul li");
-  const contentsPopup = document.querySelector("#contentsPopup");
-  const popupClostBtn = document.querySelector("#popupCloseBtn");
+  const contentsPopups = document.querySelectorAll("#contentsPopup");
+  const popupClostBtns = document.querySelectorAll("#popupCloseBtn");
 
   //로그인 팝업
   loginCloseBtn.addEventListener("click", () => {
@@ -306,13 +300,21 @@
   });
 
   //콘텐츠 팝업
-  contents.forEach((item) => {
+  contents.forEach((item, idx) => {
     item.addEventListener("click", () => {
-      contentsPopup.classList.add("on");
+      contentsPopups.forEach((item2, idx2) => {
+        idx === idx2 ? item2.classList.add("on") : item.classList.remove("on");
+      });
     });
   });
-  popupClostBtn.addEventListener("click", () => {
-    contentsPopup.classList.remove("on");
+  popupClostBtns.forEach((item, idx2) => {
+    item.addEventListener("click", () => {
+      contentsPopups.forEach((item2, idx) => {
+        if (idx === idx2) {
+          item2.classList.remove("on");
+        }
+      });
+    });
   });
 </script>
 {% include "include/footer.html" %}
