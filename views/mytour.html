@@ -15,6 +15,26 @@
 <section id="contents" class="section">
   <div class="container">
     <ul>
+      {% for item in list %}
+      <li>
+        <div class="contentsBox">
+          <div class="img">
+            <img src="{{item.imgUrl}}" alt="" />
+          </div>
+          <div class="txtBox">
+            <div class="top">
+              <div class="titleBox">
+                <span class="location">{{item.location}}</span>
+                <h1>{{item.title}}</h1>
+              </div>
+              <!-- <button><span class="material-icons-outlined"> favorite_border </span></button> -->
+              <button><span class="material-icons"> favorite </span></button>
+            </div>
+            <p>{{item.desc}}</p>
+          </div>
+        </div>
+      </li>
+      {% endfor %}
       <li>
         <div class="contentsBox mytourBox" id="mytourUpdate">
           <span class="material-icons"> add </span>

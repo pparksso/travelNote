@@ -16,23 +16,23 @@
   <div class="title">
     <h1>Create Post</h1>
   </div>
-  <form action="/create/new" method="POST" enctype="multipart/form-data">
+  <form action="" method="POST" enctype="multipart/form-data">
     <div class="imgBox">
       <img alt="" />
     </div>
     <div class="inputBox">
-      <label class="file"><span>파일찾기</span><input type="file" name="image" id="image" /> <input name="fileName" id="fileName" value="첨부파일" readonly /></label>
+      <label class="file"><span>사진찾기</span><input type="file" name="image" id="image" /> <input name="fileName" id="fileName" value="첨부 사진" readonly required /></label>
     </div>
     <div class="inputBox dateBox">
-      <label><input type="text" name="date" id="date" placeholder="년도. 월. 일" readonly /><span>📅</span></label>
+      <label><input type="text" name="date" id="date" placeholder="년도. 월. 일" readonly required /><span>📅</span></label>
     </div>
     <div class="inputBox">
-      <label><span>제목</span><input type="text" name="title" id="title" /></label>
+      <label><span>제목</span><input type="text" name="title" id="title" required /></label>
     </div>
     <div class="inputBox">
-      <label><span>여행지</span><input type="text" name="location" id="location" /></label>
+      <label><span>여행지</span><input type="text" name="location" id="location" required /></label>
     </div>
-    <div class="inputBox"><textarea name="desc" id="desc" cols="30" rows="10" placeholder="내용을 입력하세요"></textarea></div>
+    <div class="inputBox"><textarea name="desc" id="desc" cols="30" rows="10" placeholder="내용을 입력하세요" required></textarea></div>
     <div class="btns">
       <button id="createBtn"><span>추가</span></button>
       <button type="reset" id="resetBtn"><span>취소</span></button>
@@ -44,6 +44,7 @@
   const inputFile = document.querySelector("#image");
   const imgBox = document.querySelector("#create .imgBox img");
   const date = document.querySelector("#date");
+  const createBtn = document.querySelector("#createBtn");
 
   //파일 첨부 후 바로 이미지 띄우기
   inputFile.addEventListener("change", () => {
@@ -68,5 +69,35 @@
   });
 
   const picker = new Lightpick({ field: date, format: "YYYY. MM. DD" });
+
+  // 파일 이미지 주소 같이 보내기
+  createBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const imgUrl = imgBox.getAttribute("src");
+    const date = document.querySelector("#date").value;
+    const title = document.querySelector("#title").value;
+    const location = document.querySelector("#location").value;
+    const desc = document.querySelector("#desc").value;
+    axios({
+      url: "/create/new",
+      method: "POST",
+      data: {
+        title: title,
+        date: date,
+        location: location,
+        desc: desc,
+        imgUrl: imgUrl,
+      },
+    })
+      .then((res) => {
+        console.log(res.data.isCreate);
+        if (res.data.isCreate) {
+          window.location.href = "/user/mytour";
+        }
+      })
+      .catch((err) => {
+        //500페이지 전송
+      });
+  });
 </script>
 {% include "include/footer.html" %}

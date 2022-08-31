@@ -25,7 +25,28 @@
 </div>
 <section id="contents" class="section">
   <div class="container">
-    <ul></ul>
+    <ul>
+      {% for item in list %}
+      <li data-index={{loop.index}}>
+        <div class="contentsBox">
+          <div class="img">
+            <img src="{{item.imgUrl}}" alt="" />
+          </div>
+          <div class="txtBox">
+            <div class="top">
+              <div class="titleBox">
+                <span class="location">{{item.location}}</span>
+                <h1>{{item.title}}</h1>
+              </div>
+              <!-- <button><span class="material-icons-outlined"> favorite_border </span></button> -->
+              <button><span class="material-icons"> favorite </span></button>
+            </div>
+            <p>{{item.desc}}</p>
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
   </div>
 </section>
 {% if idError %}
@@ -94,11 +115,12 @@
     </form>
   </div>
 </div>
-<div id="contentsPopup" class="cover">
+{% for item in list %}
+<div id="contentsPopup" class="cover" data-index={{loop.index}}>
   <div id="popupItem" class="userBox">
     <div class="top">
       <div class="title">
-        <h1>뉴질랜드</h1>
+        <h1>{{item.title}}</h1>
       </div>
       <button id="popupCloseBtn"><span class="material-icons"> close </span></button>
     </div>
@@ -107,13 +129,15 @@
         <img src="/images/main/mainVisual.jpg" alt="" />
       </div>
       <div class="infoBox">
-        <div class="info"><span class="location">NewZealand</span> <span class="date">19.12.30</span> <span class="nickname">쏘히님</span></div>
+        <div class="info"><span class="location">{{item.location}}</span> <span class="date">{{item.date}}</span> <span class="nickname">{{item.nickname}}</span></div>
         <div class="heart">
-          <span class="heartNum">9</span><button><span class="material-icons-outlined"> favorite_border </span></button>
+          <span class="heartNum">{{item.heart}}</span><button><span class="material-icons-outlined"> favorite_border </span></button>
+          <!-- <button><span class="material-icons"> favorite </span></button> -->
+        </div>
         </div>
       </div>
       <div class="txtBox">
-        <p>뉴질랜드 퉁가리로국립공원 좋아용 뉴질랜드 가고싶다 뉴질랜드~~ 이거 언제 다 만들지 일주일 안에 할 수 있을까 엄청 많네 하 돌아버린다 진짜 ㅠㅠ 언제 다해 ㅠㅠ</p>
+        <p>{{item.desc}}</p>
       </div>
     </div>
     <div class="bottom">
@@ -124,6 +148,7 @@
     </div>
   </div>
 </div>
+{% endfor %}
 <script>
   const contentsList = document.querySelector("#contents .container ul");
   const loginBtn = document.querySelector("#loginBtn");

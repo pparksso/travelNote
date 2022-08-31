@@ -106,10 +106,14 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/mytour", (req, res) => {
-  res.render("mytour", { userInfo: req.user, title: "My tour" });
+  db.collection("contents")
+    .find({ userNum: req.user.userNum })
+    .toArray((err, result) => {
+      res.render("mytour", { userInfo: req.user, title: "My tour", list: result });
+    });
 });
 router.get("/mypage", (req, res) => {
   res.render("mypage", { userInfo: req.user, title: "My page" });
 });
-router.post("/sendimg", (req, res) => {});
+
 module.exports = router;

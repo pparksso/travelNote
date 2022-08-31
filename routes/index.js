@@ -23,7 +23,11 @@ router.get("/", (req, res) => {
   if (fMsg.error == "비밀번호를 확인해주세요") {
     return res.render("index", { pwError: true, userInfo: req.user, title: "Welcome" });
   }
-  res.render("index", { userInfo: req.user, title: "Welcome" });
+  db.collection("contents")
+    .find()
+    .toArray((err, result) => {
+      res.render("index", { userInfo: req.user, title: "Welcome", list: result });
+    });
 });
 
 module.exports = router;
