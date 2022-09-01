@@ -1,5 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const cloudinary = require("../config/cloudinary");
+const multer = require("multer");
+
+const storage = multer.diskStorage({});
+const fileUpload = multer({ storage: storage });
 
 const MongoClient = require("mongodb").MongoClient;
 let db = null;
@@ -78,5 +83,32 @@ router.post("/done", (req, res) => {
     }
   );
   res.json({ update: true });
+});
+
+router.post("/sendimg", fileUpload.single("updateImage"), (req, res) => {
+  cloudinary.uploader.upload(req.file.path, (result) => {
+    res.json({
+      cloudinaryImgSrc: result.url,
+    });
+  });
+});
+
+router.get("/cancle", (req, res) => {
+  db.collection("contents").updateOne({ update: true }, { $unset: { update: true } }, (err, result) => {
+    if (err) {
+      console.log("500띄울거임");
+    }
+    res.json({ cancle: true });
+  });
+});
+
+router.post("/delete", (req, res) => {
+  const no = parseInt(req.body.no);
+  db.collection("contents").deleteOne({ no: no }, (err, result) => {
+    if (err) {
+      console.log("500띄울거임");
+    }
+    res.json({ delete: true });
+  });
 });
 module.exports = router;

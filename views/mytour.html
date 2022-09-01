@@ -64,7 +64,7 @@
     <div class="bottom">
       <div class="btns">
         <button id="updateBtn" data-no="{{item.no}}"><span>수정</span></button>
-        <button id="delBtn"><span>삭제</span></button>
+        <button id="delBtn" data-no="{{item.no}}"><span>삭제</span></button>
       </div>
     </div>
   </div>
@@ -77,6 +77,7 @@
   const contentsPopups = document.querySelectorAll("#contentsPopup");
   const popupClostBtns = document.querySelectorAll("#popupCloseBtn");
   const updateBtn = document.querySelectorAll("#updateBtn");
+  const deleteBtn = document.querySelectorAll("#delBtn");
 
   mytourUpdateBtn.addEventListener("click", () => {
     location.href = "/create";
@@ -115,6 +116,27 @@
           location.href = "/update";
         } else {
           console.log("500띄울꺼임");
+        }
+      });
+    });
+  });
+
+  // 글 삭제
+  deleteBtn.forEach((item, idx) => {
+    item.addEventListener("click", () => {
+      const no = item.dataset.no;
+      axios({
+        method: "POST",
+        url: "/update/delete",
+        data: {
+          no: no,
+        },
+      }).then((res) => {
+        if (res.data.delete) {
+          alert("글이 삭제되었습니다.");
+          window.location.href = "/user/mytour";
+        } else {
+          console.log("500띄울거임");
         }
       });
     });

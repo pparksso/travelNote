@@ -42,11 +42,10 @@
 
   //파일 첨부 후 바로 이미지 띄우기
   inputFile.addEventListener("change", () => {
-    const img = document.querySelector("#image");
     const fileName = inputFile.value;
     fileNameBox.value = fileName;
     const sendImgData = new FormData();
-    sendImgData.append("image", img.files[0]);
+    sendImgData.append("image", inputFile.files[0]);
     axios({
       method: "POST",
       url: "/create/sendimg",

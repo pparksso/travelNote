@@ -38,8 +38,12 @@
                 <span class="location">{{item.location}}</span>
                 <h1>{{item.title}}</h1>
               </div>
-              <!-- <button><span class="material-icons-outlined"> favorite_border </span></button> -->
-              <button><span class="material-icons"> favorite </span></button>
+              {% if userInfo %}
+              <div class="heart">
+                <button id="emptyHeart" class="" data-no="{{item.no}}"><span class="material-icons-outlined"> favorite_border </span></button>
+                <button id="fullHeart" class="on" data-no="{{item.no}}"><span class="material-icons"> favorite </span></button>
+              </div>
+              {% endif %}
             </div>
             <p>{{item.desc}}</p>
           </div>
@@ -130,10 +134,17 @@
       </div>
       <div class="infoBox">
         <div class="info"><span class="location">{{item.location}}</span> <span class="date">{{item.date}}</span> <span class="nickname">{{item.nickname}}</span></div>
+        {% if userInfo %}
         <div class="heart">
           <span class="heartNum">{{item.heart}}</span><button><span class="material-icons-outlined"> favorite_border </span></button>
           <!-- <button><span class="material-icons"> favorite </span></button> -->
         </div>
+        {% else %}
+        <div class="heart">
+          <span class="heartNum">{{item.heart}}</span><button><span class="material-icons-outlined"> favorite_border </span></button>
+          <!-- <button><span class="material-icons"> favorite </span></button> -->
+        </div>
+        {% endif %}
       </div>
       <div class="txtBox">
         <p>{{item.desc}}</p>
@@ -167,6 +178,8 @@
   const contents = document.querySelectorAll("#contents ul li");
   const contentsPopups = document.querySelectorAll("#contentsPopup");
   const popupClostBtns = document.querySelectorAll("#popupCloseBtn");
+  const emptyHeart = document.querySelectorAll("#emptyHeart");
+  const fullHeart = document.querySelectorAll("#fullHeart");
 
   //로그인 팝업
   loginCloseBtn.addEventListener("click", () => {
@@ -316,5 +329,7 @@
       });
     });
   });
+
+  // 메인리스트 하트작업(emptyHeart -> fullHeart)
 </script>
 {% include "include/footer.html" %}

@@ -10,7 +10,7 @@
   <div class="title">
     <h1>Edit Post</h1>
   </div>
-  <form action="" method="POST">
+  <form action="" method="POST" enctype="multipart/form-data">
     <div class="imgBox">
       <img src="{{list.imgUrl}}" alt="" />
     </div>
@@ -35,6 +35,34 @@
 </section>
 <script>
   const sendBtn = document.querySelector("#sendBtn");
+  const updateDate = document.querySelector("#updateDate");
+  const updateImage = document.querySelector("#updateImage");
+  const updateFileName = document.querySelector("#updateFileName");
+  const imgBox = document.querySelector("#update .imgBox img");
+  const updateResetBtn = document.querySelector("#updateResetBtn");
+  const picker = new Lightpick({ field: updateDate, format: "YYYY. MM. DD" });
+
+  //이미지 수정 시 바로 이미지 띄우기
+  updateImage.addEventListener("change", () => {
+    const fileName = updateImage.value;
+    updateFileName.value = fileName;
+    const sendImgData = new FormData();
+    sendImgData.append("updateImage", updateImage.files[0]);
+    axios({
+      method: "POST",
+      url: "/update/sendimg",
+      data: sendImgData,
+      Headers: {
+        enctype: "multipart/form-data",
+        contentType: false,
+        processData: false,
+      },
+    }).then((res) => {
+      const src = res.data.cloudinaryImgSrc;
+      imgBox.removeAttribute("src");
+      imgBox.setAttribute("src", src);
+    });
+  });
 
   //글 수정하기
   sendBtn.addEventListener("click", (e) => {
@@ -61,7 +89,26 @@
       .then((res) => {
         if (res.data.update) {
           alert("글이 수정되었습니다.");
-          location.href = "/";
+          window.location.href = "/";
+        } else {
+          console.log("500띄울거임");
+        }
+      })
+      .catch((err) => {
+        console.log("500띄울거임");
+      });
+  });
+
+  //수정 취소하기
+  updateResetBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    axios({
+      url: "/update/cancle",
+    })
+      .then((res) => {
+        if (res.data.cancle) {
+          alert("수정이 취소되었습니다.");
+          window.location.href = "/";
         } else {
           console.log("500띄울거임");
         }
