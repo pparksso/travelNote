@@ -124,4 +124,39 @@ router.get("/mypage", (req, res) => {
   }
 });
 
+router.post("/mypageupdate", (req, res) => {
+  const id = req.body.id;
+  const pw = req.body.pw;
+  const nickname = req.body.nickname;
+  bcrypt.hash(pw, saltRounds, (err, hash) => {
+    db.collection("user").updateOne({ id: id }, { $set: { id: id, pw: hash, nickname: nickname } }, (err, result) => {
+      res.json({ infoChange: true });
+      if (err) {
+        console.log("500띄울꺼임");
+      }
+    });
+  });
+});
+
+router.post("/signout", (req, res) => {
+  const id = req.body.id;
+  const pw = req.body.pw;
+  bcrypt.compare(pw, req.user.pw, (err, same) => {
+    if (same) {
+      db.collection("contents").deleteMany({ userNum: req.user.userNum }, (err, result) => {
+        if (err) {
+          console.log("500띄울거임");
+        }
+        db.collection("user").deleteOne({ id: id }, (err, result) => {
+          if (err) {
+            console.log("500띄울거임");
+          }
+          return res.json({ delete: true });
+        });
+      });
+    } else {
+      return res.json({ isPw: true });
+    }
+  });
+});
 module.exports = router;

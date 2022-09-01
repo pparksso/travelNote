@@ -2,14 +2,8 @@
 <div id="utilBox">
   <div class="txtBox"><p>{{ title }}</p></div>
   <div class="utilMenu">
-    {% if userInfo %}
     <a href="/user/logout" id="logoutBtn"><span>Logout</span></a>
     <a href="/user/mypage" id="mypageBtn"><span>My Page</span></a>
-    {% else %}
-    <!-- 로그인이 자꾸 풀려서 체크용으로 -->
-    <a href="" id="loginBtn"><span>Login</span></a>
-    <a href="" id="joinBtn"><span>Join</span></a>
-    {% endif %}
   </div>
 </div>
 <section id="update" class="subSection">
@@ -18,25 +12,63 @@
   </div>
   <form action="" method="POST">
     <div class="imgBox">
-      <img src="" alt="" />
+      <img src="{{list.imgUrl}}" alt="" />
     </div>
     <div class="inputBox">
       <label><span>파일찾기</span><input type="file" name="updateImage" id="updateImage" /> <input name="updateFileName" id="updateFileName" value="" readonly /></label>
     </div>
     <div class="inputBox dateBox">
-      <label><input type="text" name="updateDate" id="updateDate" readonly value="" /><span>📅</span></label>
+      <label><input type="text" name="updateDate" id="updateDate" readonly value="{{list.date}}" /><span>📅</span></label>
     </div>
     <div class="inputBox">
-      <label><span>제목</span><input type="text" name="updateTitle" id="updateTitle" /></label>
+      <label><span>제목</span><input type="text" name="updateTitle" id="updateTitle" value="{{list.title}}" /></label>
     </div>
     <div class="inputBox">
-      <label><span>여행지</span><input type="text" name="updateLocation" id="updateLocation" /></label>
+      <label><span>여행지</span><input type="text" name="updateLocation" id="updateLocation" value="{{list.location}}" /></label>
     </div>
-    <div class="inputBox"><textarea name="updateDesc" id="updateDesc" cols="30" rows="10" value=""></textarea></div>
+    <div class="inputBox"><textarea name="updateDesc" id="updateDesc" cols="30" rows="10" value="">{{list.desc}}</textarea></div>
     <div class="btns">
-      <button id="createBtn"><span>수정</span></button>
+      <button id="sendBtn"><span>수정</span></button>
       <button type="reset" id="updateResetBtn"><span>취소</span></button>
     </div>
   </form>
 </section>
+<script>
+  const sendBtn = document.querySelector("#sendBtn");
+
+  //글 수정하기
+  sendBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const imgUrl = document.querySelector("#update .imgBox img").getAttribute("src");
+    const date = document.querySelector("#updateDate").value;
+    const title = document.querySelector("#updateTitle").value;
+    const location = document.querySelector("#updateLocation").value;
+    const desc = document.querySelector("#updateDesc").value;
+    if (imgUrl === "" || date === "" || title === "" || location === "" || desc === "") {
+      return alert("모든 정보를 기입해 주세요.");
+    }
+    axios({
+      method: "POST",
+      url: "/update/done",
+      data: {
+        imgUrl: imgUrl,
+        date: date,
+        title: title,
+        location: location,
+        desc: desc,
+      },
+    })
+      .then((res) => {
+        if (res.data.update) {
+          alert("글이 수정되었습니다.");
+          location.href = "/";
+        } else {
+          console.log("500띄울거임");
+        }
+      })
+      .catch((err) => {
+        console.log("500띄울거임");
+      });
+  });
+</script>
 {% include "include/footer.html" %}

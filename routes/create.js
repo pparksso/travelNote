@@ -46,7 +46,7 @@ router.post("/new", fileUpload.single("image"), (req, res) => {
     db.collection("count").findOne({ name: "total" }, (err, result) => {
       const no = result.count + 1;
       if (err) {
-        res.send(`<script>alret("회원가입에 실패하였습니다. 다시한번 시도해주세요.")</script>`); //500페이지 전송
+        console.log("500띄울꺼임");
       }
       db.collection("contents").insertOne(
         {

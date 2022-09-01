@@ -2,14 +2,8 @@
 <div id="utilBox">
   <div class="txtBox"><p>{{ title }}</p></div>
   <div class="utilMenu">
-    {% if userInfo %}
     <a href="/user/logout" id="logoutBtn"><span>Logout</span></a>
     <a href="/user/mytour" id="mypageBtn"><span>My tour</span></a>
-    {% else %}
-    <!-- 로그인이 자꾸 풀려서 체크용으로 -->
-    <a href="" id="loginBtn"><span>Login</span></a>
-    <a href="" id="joinBtn"><span>Join</span></a>
-    {% endif %}
   </div>
 </div>
 <section id="mypage" class="subSection">
@@ -21,10 +15,13 @@
       <label class="myPageLabel"><span>ID</span><input type="text" name="updateId" id="updateId" value="{{list.id}}" readonly /></label>
     </div>
     <div class="inputBox">
-      <label class="myPageLabel"><span>Password</span><input type="password" name="updatePassword" id="updatePassword" /></label>
+      <label class="myPageLabel"><span>Password</span><input type="password" name="updatePw" id="updatePw" /></label>
     </div>
     <div class="inputBox">
-      <label class="myPageLabel"><span>Nickname</span><input type="text" name="updateNickname" id="updateNickname" /></label>
+      <label class="myPageLabel"><span>PW Check</span><input type="password" name="updatePwCheck" id="updatePwCheck" /></label>
+    </div>
+    <div class="inputBox">
+      <label class="myPageLabel"><span>Nickname</span><input type="text" name="updateNickname" id="updateNickname" value="{{list.nickname}}" /></label>
     </div>
     <div class="btns">
       <button id="signoutBtn"><span>탈퇴</span></button>
@@ -33,4 +30,76 @@
     </div>
   </form>
 </section>
+<script>
+  const updateBtn = document.querySelector("#mypageUpdateBtn");
+  const deleteBtn = document.querySelector("#signoutBtn");
+
+  // 수정하기
+  updateBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const id = document.querySelector("#updateId").value;
+    const pw = document.querySelector("#updatePw").value;
+    const pwCheck = document.querySelector("#updatePwCheck").value;
+    const nickname = document.querySelector("#updateNickname").value;
+    if (pw === pwCheck) {
+      if (pw.length < 8) {
+        return alert("비밀번호는 8자 이상입니다.");
+      }
+      if (nickname.length < 3) {
+        return alert("닉네임은 2글자 이상입니다.");
+      }
+      axios({
+        method: "POST",
+        url: "/user/mypageupdate",
+        data: {
+          id: id,
+          pw: pw,
+          nickname: nickname,
+        },
+      })
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.infoChange) {
+            alert("회원정보가 변경되었습니다.");
+            location.href = "/";
+          }
+        })
+        .catch((err) => {
+          //500에러
+          console.log("500띄울거임");
+        });
+    } else {
+      alert("비밀번호가 일치하지 않습니다.");
+    }
+  });
+
+  // 삭제하기
+  deleteBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const id = document.querySelector("#updateId").value;
+    const pw = document.querySelector("#updatePw").value;
+    const pwCheck = document.querySelector("#updatePwCheck").value;
+    if (pw === pwCheck) {
+      axios({
+        method: "POST",
+        url: "/user/signout",
+        data: {
+          id: id,
+          pw: pw,
+        },
+      }).then((res) => {
+        console.log(res.data);
+        if (res.data.isPw) {
+          return alert("가입하신 비밀번호와 일치하지 않습니다.");
+        }
+        if (res.data.delete) {
+          alert("모든 글과 정보가 삭제되었습니다.");
+          location.href = "/";
+        }
+      });
+    } else {
+      alert("비밀번호가 일치하지 않습니다.");
+    }
+  });
+</script>
 {% include "include/footer.html" %}

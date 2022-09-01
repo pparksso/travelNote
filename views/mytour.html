@@ -2,21 +2,15 @@
 <div id="utilBox">
   <div class="txtBox"><p>{{ title }}</p></div>
   <div class="utilMenu">
-    {% if userInfo %}
     <a href="/user/logout" id="logoutBtn"><span>Logout</span></a>
     <a href="/user/mypage" id="mypageBtn"><span>My Page</span></a>
-    {% else %}
-    <!-- 로그인이 자꾸 풀려서 체크용으로 -->
-    <a href="" id="loginBtn"><span>Login</span></a>
-    <a href="" id="joinBtn"><span>Join</span></a>
-    {% endif %}
   </div>
 </div>
 <section id="contents" class="section">
   <div class="container">
     <ul>
-      <li>
-        <div class="contentsBox mytourBox" id="mytourUpdate">
+      <li id="mytourUpdate">
+        <div class="contentsBox mytourBox">
           <span class="material-icons"> add </span>
         </div>
       </li>
@@ -69,19 +63,20 @@
     </div>
     <div class="bottom">
       <div class="btns">
-        <button id="updateBtn"><span>수정</span></button>
+        <button id="updateBtn" data-no="{{item.no}}"><span>수정</span></button>
         <button id="delBtn"><span>삭제</span></button>
       </div>
     </div>
   </div>
 </div>
-
 {% endfor %}
+
 <script>
   const mytourUpdateBtn = document.querySelector("#mytourUpdate");
   const contents = document.querySelectorAll("#contents ul .myContents");
   const contentsPopups = document.querySelectorAll("#contentsPopup");
   const popupClostBtns = document.querySelectorAll("#popupCloseBtn");
+  const updateBtn = document.querySelectorAll("#updateBtn");
 
   mytourUpdateBtn.addEventListener("click", () => {
     location.href = "/create";
@@ -100,6 +95,26 @@
       contentsPopups.forEach((item2, idx) => {
         if (idx === idx2) {
           item2.classList.remove("on");
+        }
+      });
+    });
+  });
+
+  // 글 수정페이지로 이동
+  updateBtn.forEach((item, idx) => {
+    item.addEventListener("click", () => {
+      const no = item.dataset.no;
+      axios({
+        method: "POST",
+        url: "/update",
+        data: {
+          no: no,
+        },
+      }).then((res) => {
+        if (res.data.isUpdate) {
+          location.href = "/update";
+        } else {
+          console.log("500띄울꺼임");
         }
       });
     });
