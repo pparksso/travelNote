@@ -1,127 +1,173 @@
-{% include "include/header.html" %}
-<div id="utilBox">
-  <div class="txtBox"><p>{{ title }}</p></div>
-  <div class="utilMenu">
-    <a href="/user/logout" id="logoutBtn"><span>Logout</span></a>
-    <a href="/user/mypage" id="mypageBtn"><span>My Page</span></a>
-  </div>
-</div>
-<section id="update" class="subSection">
-  <div class="title">
-    <h1>Edit Post</h1>
-  </div>
-  <form action="" method="POST" enctype="multipart/form-data">
-    <div class="imgBox">
-      <img src="{{list.imgUrl}}" alt="" data-file="{{list.fileName}}" />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel diary</title>
+    <link rel="shortcut icon" href="/images/layout/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/reset.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/lightpick.css" />
+    <link rel="stylesheet" href="/css/layout.min.css" />
+    <link rel="stylesheet" href="/css/main.min.css" />
+    <link rel="stylesheet" href="/css/sub.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="/js/lightpick.js"></script>
+  </head>
+  <body>
+    <main id="mainVisualBox">
+      <div class="top">
+        <div class="mainImgBox">
+          <div class="titleBox">
+            <h1><a href="" id="updateCancle">Travel diary</a></h1>
+          </div>
+        </div>
+      </div>
+    </main>
+    <div id="utilBox">
+      <div class="txtBox"><p>{{ title }}</p></div>
+      <div class="utilMenu">
+        <a href="/user/logout" id="logoutBtn"><span>Logout</span></a>
+        <a href="/user/mypage" id="mypageBtn"><span>My Page</span></a>
+      </div>
     </div>
-    <div class="inputBox">
-      <label><span>파일찾기</span><input type="file" name="updateImage" id="updateImage" /> <input name="updateFileName" id="updateFileName" value="" readonly /></label>
-    </div>
-    <div class="inputBox dateBox">
-      <label><input type="text" name="updateDate" id="updateDate" readonly value="{{list.date}}" /><span>📅</span></label>
-    </div>
-    <div class="inputBox">
-      <label><span>제목</span><input type="text" name="updateTitle" id="updateTitle" value="{{list.title}}" /></label>
-    </div>
-    <div class="inputBox">
-      <label><span>여행지</span><input type="text" name="updateLocation" id="updateLocation" value="{{list.location}}" /></label>
-    </div>
-    <div class="inputBox"><textarea name="updateDesc" id="updateDesc" cols="30" rows="10" value="">{{list.desc}}</textarea></div>
-    <div class="btns">
-      <button id="sendBtn"><span>수정</span></button>
-      <button type="reset" id="updateResetBtn"><span>취소</span></button>
-    </div>
-  </form>
-</section>
-<script>
-  const sendBtn = document.querySelector("#sendBtn");
-  const updateDate = document.querySelector("#updateDate");
-  const updateImage = document.querySelector("#updateImage");
-  const updateFileName = document.querySelector("#updateFileName");
-  const imgBox = document.querySelector("#update .imgBox img");
-  const updateResetBtn = document.querySelector("#updateResetBtn");
-  const picker = new Lightpick({ field: updateDate, format: "YYYY. MM. DD" });
+    <section id="update" class="subSection">
+      <div class="title">
+        <h1>Edit Post</h1>
+      </div>
+      <form action="" method="POST" enctype="multipart/form-data">
+        <div class="imgBox">
+          <img src="{{list.imgUrl}}" alt="" data-file="{{list.fileName}}" />
+        </div>
+        <div class="inputBox">
+          <label><span>파일찾기</span><input type="file" name="updateImage" id="updateImage" /> <input name="updateFileName" id="updateFileName" value="" readonly /></label>
+        </div>
+        <div class="inputBox dateBox">
+          <label><input type="text" name="updateDate" id="updateDate" readonly value="{{list.date}}" /><span>📅</span></label>
+        </div>
+        <div class="inputBox">
+          <label><span>제목</span><input type="text" name="updateTitle" id="updateTitle" value="{{list.title}}" /></label>
+        </div>
+        <div class="inputBox">
+          <label><span>여행지</span><input type="text" name="updateLocation" id="updateLocation" value="{{list.location}}" /></label>
+        </div>
+        <div class="inputBox"><textarea name="updateDesc" id="updateDesc" cols="30" rows="10" value="">{{list.desc}}</textarea></div>
+        <div class="btns">
+          <button id="sendBtn"><span>수정</span></button>
+          <button type="reset" id="updateResetBtn"><span>취소</span></button>
+        </div>
+      </form>
+    </section>
+    <script>
+      const sendBtn = document.querySelector("#sendBtn");
+      const updateDate = document.querySelector("#updateDate");
+      const updateImage = document.querySelector("#updateImage");
+      const updateFileName = document.querySelector("#updateFileName");
+      const imgBox = document.querySelector("#update .imgBox img");
+      const updateResetBtn = document.querySelector("#updateResetBtn");
+      const updateCancleBtn = document.querySelector("#updateCancle");
+      const picker = new Lightpick({ field: updateDate, format: "YYYY. MM. DD" });
 
-  //이미지 수정 시 바로 이미지 띄우기
-  updateImage.addEventListener("change", () => {
-    const fileName = updateImage.value;
-    updateFileName.value = fileName;
-    const sendImgData = new FormData();
-    sendImgData.append("updateImage", updateImage.files[0]);
-    // sendImgData.append("deleteFileName", imgBox.dataset.file);
-    console.log(sendImgData);
-    axios({
-      method: "POST",
-      url: "/update/sendimg",
-      data: sendImgData,
-      Headers: {
-        enctype: "multipart/form-data",
-        contentType: false,
-        processData: false,
-      },
-    }).then((res) => {
-      const src = res.data.cloudinaryImgSrc;
-      const cloudinaryFileName = res.data.cloudinaryFileName;
-      imgBox.removeAttribute("src");
-      imgBox.setAttribute("src", src);
-      imgBox.dataset.file = cloudinaryFileName;
-    });
-  });
-
-  //글 수정하기
-  sendBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    const imgUrl = document.querySelector("#update .imgBox img").getAttribute("src");
-    const fileName = imgBox.dataset.file;
-    const date = document.querySelector("#updateDate").value;
-    const title = document.querySelector("#updateTitle").value;
-    const location = document.querySelector("#updateLocation").value;
-    const desc = document.querySelector("#updateDesc").value;
-    if (imgUrl === "" || date === "" || title === "" || location === "" || desc === "") {
-      return alert("모든 정보를 기입해 주세요.");
-    }
-    axios({
-      method: "POST",
-      url: "/update/done",
-      data: {
-        imgUrl: imgUrl,
-        date: date,
-        title: title,
-        location: location,
-        desc: desc,
-        fileName: fileName,
-      },
-    })
-      .then((res) => {
-        if (res.data.update) {
-          alert("글이 수정되었습니다.");
-          window.location.href = "/";
-        } else {
-          console.log("500띄울거임");
-        }
-      })
-      .catch((err) => {
-        console.log("500띄울거임");
+      //이미지 수정 시 바로 이미지 띄우기
+      updateImage.addEventListener("change", () => {
+        const fileName = updateImage.value;
+        updateFileName.value = fileName;
+        const sendImgData = new FormData();
+        sendImgData.append("updateImage", updateImage.files[0]);
+        // sendImgData.append("deleteFileName", imgBox.dataset.file);
+        console.log(sendImgData);
+        axios({
+          method: "POST",
+          url: "/update/sendimg",
+          data: sendImgData,
+          Headers: {
+            enctype: "multipart/form-data",
+            contentType: false,
+            processData: false,
+          },
+        }).then((res) => {
+          const src = res.data.cloudinaryImgSrc;
+          const cloudinaryFileName = res.data.cloudinaryFileName;
+          imgBox.removeAttribute("src");
+          imgBox.setAttribute("src", src);
+          imgBox.dataset.file = cloudinaryFileName;
+        });
       });
-  });
 
-  //수정 취소하기
-  updateResetBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    axios({
-      url: "/update/cancle",
-    })
-      .then((res) => {
-        if (res.data.cancle) {
-          alert("수정이 취소되었습니다.");
-          window.location.href = "/";
-        } else {
-          console.log("500띄울거임");
+      //글 수정하기
+      sendBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const imgUrl = document.querySelector("#update .imgBox img").getAttribute("src");
+        const fileName = imgBox.dataset.file;
+        const date = document.querySelector("#updateDate").value;
+        const title = document.querySelector("#updateTitle").value;
+        const location = document.querySelector("#updateLocation").value;
+        const desc = document.querySelector("#updateDesc").value;
+        if (imgUrl === "" || date === "" || title === "" || location === "" || desc === "") {
+          return alert("모든 정보를 기입해 주세요.");
         }
-      })
-      .catch((err) => {
-        console.log("500띄울거임");
+        axios({
+          method: "POST",
+          url: "/update/done",
+          data: {
+            imgUrl: imgUrl,
+            date: date,
+            title: title,
+            location: location,
+            desc: desc,
+            fileName: fileName,
+          },
+        })
+          .then((res) => {
+            if (res.data.update) {
+              alert("글이 수정되었습니다.");
+              window.location.href = "/";
+            } else {
+              console.log("500띄울거임");
+            }
+          })
+          .catch((err) => {
+            console.log("500띄울거임");
+          });
       });
-  });
-</script>
-{% include "include/footer.html" %}
+
+      //수정 취소하기
+
+      const cancleFunc = () => {
+        axios({
+          url: "/update/cancle",
+        })
+          .then((res) => {
+            if (res.data.cancle) {
+              alert("수정이 취소되었습니다.");
+              window.location.href = "/";
+            } else {
+              console.log("500띄울거임");
+            }
+          })
+          .catch((err) => {
+            console.log("500띄울거임");
+          });
+      };
+      updateResetBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        cancleFunc();
+      });
+      updateCancleBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        cancleFunc();
+      });
+    </script>
+    {% include "include/footer.html" %}
+  </body>
+</html>
