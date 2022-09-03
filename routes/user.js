@@ -37,6 +37,7 @@ router.post("/join", (req, res) => {
             id: id,
             pw: hash,
             nickname: nickname,
+            heart: [],
           },
           (err, result) => {
             if (err) {

@@ -39,6 +39,7 @@
   const imgBox = document.querySelector("#create .imgBox img");
   const date = document.querySelector("#date");
   const createBtn = document.querySelector("#createBtn");
+  const picker = new Lightpick({ field: date, format: "YYYY. MM. DD" });
 
   //파일 첨부 후 바로 이미지 띄우기
   inputFile.addEventListener("change", () => {
@@ -57,16 +58,17 @@
       },
     }).then((res) => {
       const src = res.data.cloudinaryImgSrc;
+      const cloudinaryFileName = res.data.cloudinaryFileName;
+      imgBox.dataset.file = cloudinaryFileName;
       imgBox.setAttribute("src", src);
     });
   });
-
-  const picker = new Lightpick({ field: date, format: "YYYY. MM. DD" });
 
   // 전체 정보에 파일 이미지 주소 같이 보내기
   createBtn.addEventListener("click", (e) => {
     e.preventDefault();
     const imgUrl = imgBox.getAttribute("src");
+    const fileName = imgBox.dataset.file;
     const date = document.querySelector("#date").value;
     const title = document.querySelector("#title").value;
     const location = document.querySelector("#location").value;
@@ -84,6 +86,7 @@
         location: location,
         desc: desc,
         imgUrl: imgUrl,
+        fileName: fileName,
       },
     })
       .then((res) => {

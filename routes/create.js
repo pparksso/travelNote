@@ -4,8 +4,15 @@ const passport = require("../config/passport")(router);
 const path = require("path");
 const cloudinary = require("../config/cloudinary");
 const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
-const storage = multer.diskStorage({});
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "travelApp",
+    format: (req, file) => "jpeg",
+  },
+});
 const fileUpload = multer({ storage: storage });
 
 const MongoClient = require("mongodb").MongoClient;
@@ -27,10 +34,9 @@ router.get("/", (req, res) => {
 });
 
 router.post("/sendimg", fileUpload.single("image"), (req, res) => {
-  cloudinary.uploader.upload(req.file.path, (result) => {
-    res.json({
-      cloudinaryImgSrc: result.url,
-    });
+  res.json({
+    cloudinaryImgSrc: req.file.path,
+    cloudinaryFileName: req.file.filename,
   });
 });
 
@@ -43,6 +49,7 @@ router.post("/new", fileUpload.single("image"), (req, res) => {
     const imgUrl = req.body.imgUrl;
     const userNum = req.user.userNum;
     const nickname = req.user.nickname;
+    const fileName = req.body.fileName;
     db.collection("count").findOne({ name: "total" }, (err, result) => {
       const no = result.count + 1;
       if (err) {
@@ -57,8 +64,9 @@ router.post("/new", fileUpload.single("image"), (req, res) => {
           location: location,
           desc: desc,
           imgUrl: imgUrl,
-          heart: 0,
+          heartNum: 0,
           nickname: nickname,
+          fileName: fileName,
         },
         (err, result) => {
           if (err) {

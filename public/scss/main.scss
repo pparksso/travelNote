@@ -300,6 +300,15 @@
       }
     }
     .center {
+      max-height: 80vh;
+      overflow-y: auto;
+      &::-webkit-scrollbar {
+        width: 10px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #4ab8c5;
+        border-radius: 10px;
+      }
       .imgBox {
         margin-bottom: 20px;
         img {

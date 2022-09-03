@@ -3,7 +3,15 @@ const router = express.Router();
 const cloudinary = require("../config/cloudinary");
 const multer = require("multer");
 
-const storage = multer.diskStorage({});
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "travelApp",
+    format: (req, file) => "jpeg",
+  },
+});
 const fileUpload = multer({ storage: storage });
 
 const MongoClient = require("mongodb").MongoClient;
@@ -52,6 +60,7 @@ router.post("/done", (req, res) => {
   const title = req.body.title;
   const location = req.body.location;
   const desc = req.body.desc;
+  const fileName = req.body.fileName;
   db.collection("contents").updateOne(
     { update: true },
     {
@@ -61,6 +70,7 @@ router.post("/done", (req, res) => {
         title: title,
         location: location,
         desc: desc,
+        fileName: fileName,
       },
     },
     (err, result) => {
@@ -86,10 +96,10 @@ router.post("/done", (req, res) => {
 });
 
 router.post("/sendimg", fileUpload.single("updateImage"), (req, res) => {
-  cloudinary.uploader.upload(req.file.path, (result) => {
-    res.json({
-      cloudinaryImgSrc: result.url,
-    });
+  // cloudinary.uploader.destroy(req.deleteFileName);
+  res.json({
+    cloudinaryImgSrc: req.file.path,
+    cloudinaryFileName: req.file.filename,
   });
 });
 
@@ -102,9 +112,15 @@ router.get("/cancle", (req, res) => {
   });
 });
 
-router.post("/delete", (req, res) => {
+router.post("/delete", async (req, res) => {
   const no = parseInt(req.body.no);
-  db.collection("contents").deleteOne({ no: no }, (err, result) => {
+  await db.collection("contents").findOne({ no: no }, (err, result) => {
+    if (err) {
+      console.log("500");
+    }
+    cloudinary.uploader.destroy(result.fileName);
+  });
+  await db.collection("contents").deleteOne({ no: no }, (err, result) => {
     if (err) {
       console.log("500띄울거임");
     }

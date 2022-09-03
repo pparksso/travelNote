@@ -12,7 +12,7 @@
   </div>
   <form action="" method="POST" enctype="multipart/form-data">
     <div class="imgBox">
-      <img src="{{list.imgUrl}}" alt="" />
+      <img src="{{list.imgUrl}}" alt="" data-file="{{list.fileName}}" />
     </div>
     <div class="inputBox">
       <label><span>파일찾기</span><input type="file" name="updateImage" id="updateImage" /> <input name="updateFileName" id="updateFileName" value="" readonly /></label>
@@ -48,6 +48,8 @@
     updateFileName.value = fileName;
     const sendImgData = new FormData();
     sendImgData.append("updateImage", updateImage.files[0]);
+    // sendImgData.append("deleteFileName", imgBox.dataset.file);
+    console.log(sendImgData);
     axios({
       method: "POST",
       url: "/update/sendimg",
@@ -59,8 +61,10 @@
       },
     }).then((res) => {
       const src = res.data.cloudinaryImgSrc;
+      const cloudinaryFileName = res.data.cloudinaryFileName;
       imgBox.removeAttribute("src");
       imgBox.setAttribute("src", src);
+      imgBox.dataset.file = cloudinaryFileName;
     });
   });
 
@@ -68,6 +72,7 @@
   sendBtn.addEventListener("click", (e) => {
     e.preventDefault();
     const imgUrl = document.querySelector("#update .imgBox img").getAttribute("src");
+    const fileName = imgBox.dataset.file;
     const date = document.querySelector("#updateDate").value;
     const title = document.querySelector("#updateTitle").value;
     const location = document.querySelector("#updateLocation").value;
@@ -84,6 +89,7 @@
         title: title,
         location: location,
         desc: desc,
+        fileName: fileName,
       },
     })
       .then((res) => {

@@ -3,7 +3,15 @@ const router = express.Router();
 const flash = require("connect-flash");
 const passport = require("../config/passport")(router);
 const cloudinary = require("../config/cloudinary");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 // const db = require("../config/mongodb");
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "travelDiary",
+  },
+});
 
 const MongoClient = require("mongodb").MongoClient;
 let db = null;
