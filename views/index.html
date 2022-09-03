@@ -47,6 +47,34 @@
             <button id="emptyHeart" class="on" data-no={{item.no}}><span class="material-icons-outlined"> favorite_border </span></button>
             <button id="fullHeart" class="" data-no={{item.no}}><span class="material-icons"> favorite </span></button>
           </div>
+          <script>
+          //유저의 클릭한 하트 글이 들어있는 배열 받아오기
+          axios({
+            url:"/heart/arr"
+          }).then(res=> {
+          const heartArr = res.data.heartArr;
+          heartArr.forEach((heart, heartIdx)=> {
+          fullHearts.forEach((item, idx)=> {
+          const no = item.dataset.no;
+          heart==no?item.classList.add("on"):item.classList.remove("on")
+          })
+          emptyHearts.forEach((item2, idx2)=> {
+            const no = item2.dataset.no;
+            heart==no?item2.classList.remove("on"):item.classList.add("on")
+          })
+          popupFullHearts.forEach((item3, idx2)=> {
+          const no = item3.dataset.no;
+          heart==no?item3.classList.add("on"):item3.classList.remove("on")
+          })
+          popupEmptyHearts.forEach((item4, idx4)=> {
+            const no = item4.dataset.no;
+            heart==no?item4.classList.remove("on"):item4.classList.add("on")
+          })
+           })
+          }).catch(err=> {
+          console.log("500띄울꺼임")
+           })
+          </script>
           {% endif %}
         </li>
         {% endfor %}
@@ -136,7 +164,8 @@
           <div class="info"><span class="location">{{item.location}}</span> <span class="date">{{item.date}}</span> <span class="nickname">{{item.nickname}}</span></div>
           {% if userInfo %}
           <div class="heart">
-            <span id="userHeartNum" class="heartNum" data-no={{item.no}}>{{item.heartNum}}</span><button id="popupEmptyHeart" class="on" data-no={{item.no}}><span class="material-icons-outlined"> favorite_border </span></button>
+            <span id="userHeartNum" class="heartNum" data-no={{item.no}}>{{item.heartNum}}</span>
+            <button id="popupEmptyHeart" class="on" data-no={{item.no}}><span class="material-icons-outlined"> favorite_border </span></button>
             <button id="popupFullHeart" class="" data-no={{item.no}}><span class="material-icons"> favorite </span></button>
           </div>
           {% else %}

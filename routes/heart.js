@@ -11,6 +11,15 @@ MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, c
   db = client.db("travelApp");
 });
 
+router.get("/arr", (req, res) => {
+  db.collection("user").findOne({ userNum: req.user.userNum }, (err, result) => {
+    if (err) {
+      console.log("500띄울거임");
+    }
+    res.json({ heartArr: result.heart });
+  });
+});
+
 router.post("/plus", async (req, res) => {
   const no = parseInt(req.body.no);
   await db.collection("user").updateOne(
@@ -66,4 +75,5 @@ router.post("/minus", async (req, res) => {
     });
   });
 });
+
 module.exports = router;

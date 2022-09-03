@@ -346,6 +346,9 @@
           button {
             background: none;
             display: none;
+            &#noUserHeart {
+              display: block;
+            }
             .material-icons-outlined,
             .material-icons {
               color: rgb(228, 9, 9);

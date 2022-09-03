@@ -26,11 +26,13 @@
                 <span class="location">{{item.location}}</span>
                 <h1>{{item.title}}</h1>
               </div>
-              <!-- <button><span class="material-icons-outlined"> favorite_border </span></button> -->
-              <button><span class="material-icons"> favorite </span></button>
             </div>
             <p>{{item.desc}}</p>
           </div>
+        </div>
+        <div class="heart">
+          <button id="myEmptyHeart" class="on" data-no="{{item.no}}"><span class="material-icons-outlined"> favorite_border </span></button>
+          <button id="myFullHeart" class="" data-no="{{item.no}}"><span class="material-icons"> favorite </span></button>
         </div>
       </li>
       {% endfor %}
@@ -53,8 +55,9 @@
       <div class="infoBox">
         <div class="info"><span class="location">{{item.location}}</span> <span class="date">{{item.date}}</span> <span class="nickname">{{item.nickname}}</span></div>
         <div class="heart">
-          <span class="heartNum">{{item.heart}}</span><button><span class="material-icons-outlined"> favorite_border </span></button>
-          <!-- <button><span class="material-icons"> favorite </span></button> -->
+          <span class="heartNum" id="myHeartNum" data-no="{{item.no}}">{{item.heartNum}}</span>
+          <button id="myPopupEmptyHeart" class="on" data-no="{{item.no}}"><span class="material-icons-outlined"> favorite_border </span></button>
+          <button id="myPopupFullHeart" class="" data-no="{{item.no}}"><span class="material-icons"> favorite </span></button>
         </div>
       </div>
       <div class="txtBox">
@@ -73,11 +76,115 @@
 
 <script>
   const mytourUpdateBtn = document.querySelector("#mytourUpdate");
-  const contents = document.querySelectorAll("#contents ul .myContents");
+  const contents = document.querySelectorAll("#contents ul .myContents .contentsBox");
   const contentsPopups = document.querySelectorAll("#contentsPopup");
   const popupClostBtns = document.querySelectorAll("#popupCloseBtn");
   const updateBtn = document.querySelectorAll("#updateBtn");
   const deleteBtn = document.querySelectorAll("#delBtn");
+  const myEmptyHearts = document.querySelectorAll("#myEmptyHeart");
+  const myFullHearts = document.querySelectorAll("#myFullHeart");
+  const myHeartNum = document.querySelectorAll("#myHeartNum");
+  const myPopupEmptyHearts = document.querySelectorAll("#myPopupEmptyHeart");
+  const myPopupFullHearts = document.querySelectorAll("#myPopupFullHeart");
+
+  //유저의 클릭한 하트 글이 들어있는 배열 받아오기
+  axios({
+    url: "/heart/arr",
+  })
+    .then((res) => {
+      const heartArr = res.data.heartArr;
+      heartArr.forEach((heart, heartIdx) => {
+        myFullHearts.forEach((item, idx) => {
+          const no = item.dataset.no;
+          heart == no ? item.classList.add("on") : item.classList.remove("on");
+        });
+        myEmptyHearts.forEach((item2, idx2) => {
+          const no = item2.dataset.no;
+          heart == no ? item2.classList.remove("on") : item.classList.add("on");
+        });
+        myPopupFullHearts.forEach((item3, idx2) => {
+          const no = item3.dataset.no;
+          heart == no ? item3.classList.add("on") : item3.classList.remove("on");
+        });
+        myPopupEmptyHearts.forEach((item4, idx4) => {
+          const no = item4.dataset.no;
+          heart == no ? item4.classList.remove("on") : item4.classList.add("on");
+        });
+      });
+    })
+    .catch((err) => {
+      console.log("500띄울거임");
+    });
+
+  // 하트 수 계산하고, 하트 바꾸는 함수
+  //(생길 하트1 , 생길 하트2, 없어질 하트, 변경될 하트수, 이벤트 객체의 idx, 이벤트객체의 no)
+  const heartCalc = (outHearts, inHearts, removeInHears, heartNum, idx, no) => {
+    outHearts.forEach((item2, idx2) => {
+      idx === idx2 ? item2.classList.add("on") : item2.classList.remove("on");
+    });
+    inHearts.forEach((item3, idx3) => {
+      idx === idx3 ? item3.classList.add("on") : item3.classList.remove("on");
+    });
+    removeInHears.forEach((item4, idx4) => {
+      idx === idx4 ? item4.classList.remove("on") : item4.classList.add("on");
+    });
+    myHeartNum.forEach((h1, hIdx1) => {
+      const h1Num = h1.dataset.no;
+      if (no === h1Num) {
+        h1.textContent = heartNum;
+      }
+    });
+  };
+
+  // 메인리스트 하트작업(emptyHeart -> fullHeart)
+  myEmptyHearts.forEach((item, idx) => {
+    item.addEventListener("click", () => {
+      const no = item.dataset.no;
+      axios({
+        method: "POST",
+        url: "/heart/plus",
+        data: {
+          no: no,
+        },
+      })
+        .then((res) => {
+          const heartNum = res.data.heartNum;
+          if (heartNum) {
+            item.classList.remove("on");
+            heartCalc(myFullHearts, myPopupFullHearts, myPopupEmptyHearts, heartNum, idx, no);
+          }
+        })
+        .catch((err) => {
+          console.log("500띄울거임");
+        });
+    });
+  });
+
+  // 메인리스트 하트작업(fullHeart -> emptyHeart)
+  myFullHearts.forEach((item, idx) => {
+    item.addEventListener("click", () => {
+      const no = item.dataset.no;
+      axios({
+        method: "POST",
+        url: "/heart/minus",
+        data: {
+          no: no,
+        },
+      })
+        .then((res) => {
+          const heartNum = res.data.heartNum;
+          if (heartNum) {
+            item.classList.remove("on");
+            heartCalc(myEmptyHearts, myPopupEmptyHearts, myPopupFullHearts, heartNum, idx, no);
+          } else {
+            console.log("500");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  });
 
   mytourUpdateBtn.addEventListener("click", () => {
     location.href = "/create";
@@ -98,6 +205,56 @@
           item2.classList.remove("on");
         }
       });
+    });
+  });
+
+  //팝업창 하트 작업(emptyHeart -> fullHeart)
+  myPopupEmptyHearts.forEach((item, idx) => {
+    item.addEventListener("click", () => {
+      const no = item.dataset.no;
+      axios({
+        method: "POST",
+        url: "/heart/plus",
+        data: {
+          no: no,
+        },
+      })
+        .then((res) => {
+          const heartNum = res.data.heartNum;
+          if (heartNum) {
+            item.classList.remove("on");
+            heartCalc(myFullHearts, myPopupFullHearts, myEmptyHearts, heartNum, idx, no);
+          }
+        })
+        .catch((err) => {
+          console.log("500띄울거임");
+        });
+    });
+  });
+
+  //팝업창 하트 작업(fullHeart -> emptyHeart)
+  myPopupFullHearts.forEach((item, idx) => {
+    item.addEventListener("click", () => {
+      const no = item.dataset.no;
+      axios({
+        method: "POST",
+        url: "/heart/minus",
+        data: {
+          no: no,
+        },
+      })
+        .then((res) => {
+          const heartNum = res.data.heartNum;
+          if (heartNum) {
+            item.classList.remove("on");
+            heartCalc(myEmptyHearts, myPopupEmptyHearts, myFullHearts, heartNum, idx, no);
+          } else {
+            console.log("500띄울거임");
+          }
+        })
+        .catch((err) => {
+          console.log("500띄울거임");
+        });
     });
   });
 
