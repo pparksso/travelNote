@@ -44,8 +44,8 @@
           </div>
           {% if userInfo %}
           <div class="heart">
-            <button id="emptyHeart" class="on" data-no="{{item.no}}"><span class="material-icons-outlined"> favorite_border </span></button>
-            <button id="fullHeart" class="" data-no="{{item.no}}"><span class="material-icons"> favorite </span></button>
+            <button id="emptyHeart" class="on" data-no={{item.no}}><span class="material-icons-outlined"> favorite_border </span></button>
+            <button id="fullHeart" class="" data-no={{item.no}}><span class="material-icons"> favorite </span></button>
           </div>
           {% endif %}
         </li>
@@ -136,12 +136,12 @@
           <div class="info"><span class="location">{{item.location}}</span> <span class="date">{{item.date}}</span> <span class="nickname">{{item.nickname}}</span></div>
           {% if userInfo %}
           <div class="heart">
-            <span id="userHeartNum" class="heartNum" data-no={{item.no}}>{{item.heartNum}}</span><button id="popupEmptyHeart"><span class="material-icons-outlined"> favorite_border </span></button>
-            <!-- <button id="popupFullHeart"><span class="material-icons"> favorite </span></button> -->
+            <span id="userHeartNum" class="heartNum" data-no={{item.no}}>{{item.heartNum}}</span><button id="popupEmptyHeart" class="on" data-no={{item.no}}><span class="material-icons-outlined"> favorite_border </span></button>
+            <button id="popupFullHeart" class="" data-no={{item.no}}><span class="material-icons"> favorite </span></button>
           </div>
           {% else %}
           <div class="heart">
-            <span id="noUserHeartNum" class="heartNum" data-no={{item.no}}>{{item.heartNum}}</span><button id="noUserHeart"><span class="material-icons-outlined"> favorite_border </span></button>
+            <span id="noUserHeartNum" class="heartNum" data-no={{item.no}}>{{item.heartNum}}</span><button id="noUserHeart" data-no={{item.no}}><span class="material-icons-outlined"> favorite_border </span></button>
           </div>
           {% endif %}
         </div>
@@ -181,7 +181,9 @@
     const fullHearts = document.querySelectorAll("#fullHeart");
     const noUserHearts = document.querySelectorAll("#noUserHeart");
     const userHeartNums = document.querySelectorAll("#userHeartNum");
-    const noUserHeartNums = document.querySelectorAll("#noUserHeartNum")
+    const noUserHeartNums = document.querySelectorAll("#noUserHeartNum");
+    const popupEmptyHearts = document.querySelectorAll("#popupEmptyHeart");
+    const popupFullHearts = document.querySelectorAll("#popupFullHeart");
 
     //로그인 팝업
     loginCloseBtn.addEventListener("click", () => {
@@ -313,6 +315,29 @@
         joinNicknameNo.classList.remove("on");
       }
     });
+    // 하트 수 계산하고, 하트 바꾸는 함수
+    //(생길 하트1 , 생길 하트2, 없어질 하트, 변경될 하트수, 이벤트 객체의 idx, 이벤트객체의 no)
+const heartCalc = (outHearts, inHearts,removeInHears, heartNum, idx, no) => {
+ outHearts.forEach((item2, idx2)=> {
+   idx===idx2?item2.classList.add("on"):item2.classList.remove("on")
+    });
+  inHearts.forEach((item3, idx3)=> {
+    idx===idx3?item3.classList.add("on"):item3.classList.remove("on")
+  })
+  removeInHears.forEach((item4,idx4)=> {
+    idx===idx4?item4.classList.remove("on"):item4.classList.add("on")
+  })
+  userHeartNums.forEach((h1, hIdx1)=> {
+    const h1Num = h1.dataset.no;
+      if(no===h1Num) {
+        h1.textContent=heartNum
+      } 
+  });
+  noUserHeartNums.forEach((h2, hIdx2)=> {
+    const h2Num = h2.dataset.no;
+      if(no===h2Num){
+        h2.textContent=heartNum
+  }})}
 
     // 메인리스트 하트작업(emptyHeart -> fullHeart)
     emptyHearts.forEach((item, idx)=> {
@@ -322,31 +347,16 @@
           method:"POST",
           url:"/heart/plus",
           data: {
-            no:no,
+            no:no
           }
         }).then(res=> {
-          if(res.data.heartNum) {
+          const heartNum = res.data.heartNum;
+          if(heartNum) {
             item.classList.remove("on");
-            fullHearts.forEach((item2, idx2)=> {
-              idx===idx2?item2.classList.add("on"):item2.classList.remove("on")
-            });
-            userHeartNums.forEach((h1, hIdx1)=> {
-              const h1Num = h1.dataset.no;
-              if(no===h1Num) {
-               h1.textContent=res.data.heartNum
-              } 
-            });
-            noUserHeartNums.forEach((h2, hIdx2)=> {
-              const h2Num = h2.dataset.no;
-              if(no===h2Num){
-                h2.textContent=res.data.heartNum
-              }
-            });
-          } else {
-            console.log("500")
+            heartCalc(fullHearts, popupFullHearts,popupEmptyHearts,heartNum, idx, no);
           }
         }).catch(err=> {
-          console.log("500")
+          console.log("500띄울거임")
         })
       })
     })
@@ -361,27 +371,16 @@
           data:{
             no:no
           }
-        }).then( async res=>  {
-          if (res.data.heartNum) {
+        }).then(res=>  {
+          const heartNum = res.data.heartNum;
+          if (heartNum) {
             item.classList.remove("on");
-            emptyHearts.forEach((item2, idx2)=> {
-              idx===idx2?item2.classList.add("on"):item2.classList.remove("on")
-            });
-            userHeartNums.forEach((h1, hIdx1)=> {
-              const h1Num = h1.dataset.no;
-              if(no===h1Num) {
-               h1.textContent=res.data.heartNum
-              } 
-            });
-            noUserHeartNums.forEach((h2, hIdx2)=> {
-              const h2Num = h2.dataset.no;
-              if(no===h2Num){
-                h2.textContent=res.data.heartNum
-              }
-            });
+            heartCalc(emptyHearts, popupEmptyHearts,popupFullHearts,heartNum, idx, no);
           } else {
             console.log("500")
           }
+        }).catch(err=> {
+          console.log(err)
         })
       })
     })
@@ -403,7 +402,53 @@
         });
       });
     });
- 
+    
+    //팝업창 하트 작업(emptyHeart -> fullHeart)
+    popupEmptyHearts.forEach((item, idx)=> {
+      item.addEventListener("click",()=> {
+        const no = item.dataset.no;
+        axios({
+          method:"POST",
+          url:"/heart/plus",
+          data:{
+            no:no
+          }
+        }).then(res=> {
+          const heartNum = res.data.heartNum;
+          if(heartNum) {
+            item.classList.remove("on");
+            heartCalc(fullHearts, popupFullHearts,emptyHearts,heartNum, idx, no);
+          }
+        }).catch(err=> {
+          console.log("500띄울거임")
+        })
+      })
+    })
+
+    //팝업창 하트 작업(fullHeart -> emptyHeart)
+    popupFullHearts.forEach((item, idx)=> {
+      item.addEventListener("click",()=> {
+        const no = item.dataset.no;
+        axios({
+          method:"POST",
+          url:"/heart/minus",
+          data:{
+            no:no
+          }
+        }).then(res=> {
+          const heartNum=res.data.heartNum;
+          if(heartNum) {
+            item.classList.remove("on");
+            heartCalc(emptyHearts, popupEmptyHearts,fullHearts,heartNum, idx, no);
+          } else {
+            console.log("500띄울거임")
+          }
+        }).catch(err=> {
+          console.log("500띄울거임")
+        })
+      })
+    })
+
     //로그인 전 팝업 하트버튼 누르면 경고창뜨는 함수
     noUserHearts.forEach((item, idx)=> {
       item.addEventListener("click",()=> {

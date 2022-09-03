@@ -345,9 +345,14 @@
           }
           button {
             background: none;
+            display: none;
             .material-icons-outlined,
-            .material-icons-outlined {
+            .material-icons {
               color: rgb(228, 9, 9);
+              font-size: 18px;
+            }
+            &.on {
+              display: block;
             }
           }
         }

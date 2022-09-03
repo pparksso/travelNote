@@ -30,12 +30,12 @@ router.post("/plus", async (req, res) => {
     if (err) {
       console.log("500");
     }
-  });
-  await db.collection("contents").findOne({ no: no }, (err, result) => {
-    if (err) {
-      console.log("500");
-    }
-    res.json({ heartNum: result.heartNum });
+    db.collection("contents").findOne({ no: no }, (err, result) => {
+      if (err) {
+        console.log("500");
+      }
+      res.json({ heartNum: result.heartNum });
+    });
   });
 });
 
@@ -58,12 +58,12 @@ router.post("/minus", async (req, res) => {
     if (err) {
       console.log("500띄울거임");
     }
-  });
-  await db.collection("contents").findOne({ no: no }, (err, result) => {
-    if (err) {
-      console.log("500띄울거임");
-    }
-    res.json({ heartNum: result.heartNum });
+    db.collection("contents").findOne({ no: no }, (err, result) => {
+      if (err) {
+        console.log("500띄울거임");
+      }
+      res.json({ heartNum: result.heartNum });
+    });
   });
 });
 module.exports = router;
