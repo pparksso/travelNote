@@ -11,8 +11,59 @@ MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, c
   db = client.db("travelApp");
 });
 
-router.post("/plus", (req, res) => {
-  const no = req.body.no;
-  console.log(no);
-  res.json({ heart: "ok" });
+router.post("/plus", async (req, res) => {
+  const no = parseInt(req.body.no);
+  await db.collection("user").updateOne(
+    { userNum: req.user.userNum },
+    {
+      $addToSet: {
+        heart: no,
+      },
+    },
+    (err, result) => {
+      if (err) {
+        console.log("500");
+      }
+    }
+  );
+  await db.collection("contents").updateOne({ no: no }, { $inc: { heartNum: 1 } }, (err, result) => {
+    if (err) {
+      console.log("500");
+    }
+  });
+  await db.collection("contents").findOne({ no: no }, (err, result) => {
+    if (err) {
+      console.log("500");
+    }
+    res.json({ heartNum: result.heartNum });
+  });
 });
+
+router.post("/minus", async (req, res) => {
+  const no = parseInt(req.body.no);
+  await db.collection("user").updateOne(
+    { userNum: req.user.userNum },
+    {
+      $pull: {
+        heart: no,
+      },
+    },
+    (err, result) => {
+      if (err) {
+        console.log("500");
+      }
+    }
+  );
+  await db.collection("contents").updateOne({ no: no }, { $inc: { heartNum: -1 } }, (err, result) => {
+    if (err) {
+      console.log("500띄울거임");
+    }
+  });
+  await db.collection("contents").findOne({ no: no }, (err, result) => {
+    if (err) {
+      console.log("500띄울거임");
+    }
+    res.json({ heartNum: result.heartNum });
+  });
+});
+module.exports = router;

@@ -38,16 +38,16 @@
                   <span class="location">{{item.location}}</span>
                   <h1>{{item.title}}</h1>
                 </div>
-                {% if userInfo %}
-                <div class="heart">
-                  <button id="emptyHeart" class="on" data-no="{{item.no}}"><span class="material-icons-outlined"> favorite_border </span></button>
-                  <button id="fullHeart" class="" data-no="{{item.no}}"><span class="material-icons"> favorite </span></button>
-                </div>
-                {% endif %}
               </div>
               <p>{{item.desc}}</p>
             </div>
           </div>
+          {% if userInfo %}
+          <div class="heart">
+            <button id="emptyHeart" class="on" data-no="{{item.no}}"><span class="material-icons-outlined"> favorite_border </span></button>
+            <button id="fullHeart" class="" data-no="{{item.no}}"><span class="material-icons"> favorite </span></button>
+          </div>
+          {% endif %}
         </li>
         {% endfor %}
       </ul>
@@ -136,12 +136,12 @@
           <div class="info"><span class="location">{{item.location}}</span> <span class="date">{{item.date}}</span> <span class="nickname">{{item.nickname}}</span></div>
           {% if userInfo %}
           <div class="heart">
-            <span class="heartNum">{{item.heartNum}}</span><button id="popupEmptyHeart"><span class="material-icons-outlined"> favorite_border </span></button>
+            <span id="userHeartNum" class="heartNum" data-no={{item.no}}>{{item.heartNum}}</span><button id="popupEmptyHeart"><span class="material-icons-outlined"> favorite_border </span></button>
             <!-- <button id="popupFullHeart"><span class="material-icons"> favorite </span></button> -->
           </div>
           {% else %}
           <div class="heart">
-            <span class="heartNum">{{item.heartNum}}</span><button id="noUserHeart"><span class="material-icons-outlined"> favorite_border </span></button>
+            <span id="noUserHeartNum" class="heartNum" data-no={{item.no}}>{{item.heartNum}}</span><button id="noUserHeart"><span class="material-icons-outlined"> favorite_border </span></button>
           </div>
           {% endif %}
         </div>
@@ -174,12 +174,14 @@
     const joinNicknameOk = document.querySelector("#joinCover .nickNameOk");
     const joinNicknameNo = document.querySelector("#joinCover .nickNameNo");
     const joinPwNotSame = document.querySelector("#joinCover .pwNotSame");
-    const contents = document.querySelectorAll("#contents ul li");
+    const contents = document.querySelectorAll("#contents ul li .contentsBox");
     const contentsPopups = document.querySelectorAll("#contentsPopup");
     const popupClostBtns = document.querySelectorAll("#popupCloseBtn");
     const emptyHearts = document.querySelectorAll("#emptyHeart");
     const fullHearts = document.querySelectorAll("#fullHeart");
-    const noUserHearts = document.querySelectorAll("#noUserHeart")
+    const noUserHearts = document.querySelectorAll("#noUserHeart");
+    const userHeartNums = document.querySelectorAll("#userHeartNum");
+    const noUserHeartNums = document.querySelectorAll("#noUserHeartNum")
 
     //로그인 팝업
     loginCloseBtn.addEventListener("click", () => {
@@ -312,6 +314,78 @@
       }
     });
 
+    // 메인리스트 하트작업(emptyHeart -> fullHeart)
+    emptyHearts.forEach((item, idx)=> {
+      item.addEventListener("click",()=> {
+        const no = item.dataset.no;
+        axios({
+          method:"POST",
+          url:"/heart/plus",
+          data: {
+            no:no,
+          }
+        }).then(res=> {
+          if(res.data.heartNum) {
+            item.classList.remove("on");
+            fullHearts.forEach((item2, idx2)=> {
+              idx===idx2?item2.classList.add("on"):item2.classList.remove("on")
+            });
+            userHeartNums.forEach((h1, hIdx1)=> {
+              const h1Num = h1.dataset.no;
+              if(no===h1Num) {
+               h1.textContent=res.data.heartNum
+              } 
+            });
+            noUserHeartNums.forEach((h2, hIdx2)=> {
+              const h2Num = h2.dataset.no;
+              if(no===h2Num){
+                h2.textContent=res.data.heartNum
+              }
+            });
+          } else {
+            console.log("500")
+          }
+        }).catch(err=> {
+          console.log("500")
+        })
+      })
+    })
+
+    // 메인리스트 하트작업(fullHeart -> emptyHeart)
+    fullHearts.forEach((item, idx)=> {
+      item.addEventListener("click",()=> {
+        const no = item.dataset.no;
+        axios({
+          method:"POST",
+          url:"/heart/minus",
+          data:{
+            no:no
+          }
+        }).then( async res=>  {
+          if (res.data.heartNum) {
+            item.classList.remove("on");
+            emptyHearts.forEach((item2, idx2)=> {
+              idx===idx2?item2.classList.add("on"):item2.classList.remove("on")
+            });
+            userHeartNums.forEach((h1, hIdx1)=> {
+              const h1Num = h1.dataset.no;
+              if(no===h1Num) {
+               h1.textContent=res.data.heartNum
+              } 
+            });
+            noUserHeartNums.forEach((h2, hIdx2)=> {
+              const h2Num = h2.dataset.no;
+              if(no===h2Num){
+                h2.textContent=res.data.heartNum
+              }
+            });
+          } else {
+            console.log("500")
+          }
+        })
+      })
+    })
+
     //콘텐츠 팝업
     contents.forEach((item, idx) => {
       item.addEventListener("click", () => {
@@ -329,22 +403,6 @@
         });
       });
     });
-
-    // 메인리스트 하트작업(emptyHeart -> fullHeart)
-    emptyHearts.forEach((item, idx)=> {
-      item.addEventListener("click",()=> {
-        const no = item.dataset.no;
-        axios({
-          method:"POST",
-          url:"/heart/plus",
-          data: {
-            no:no,
-          }
-        }).then(res=> {
-          console.log(res.data)
-        })
-      })
-    })
  
     //로그인 전 팝업 하트버튼 누르면 경고창뜨는 함수
     noUserHearts.forEach((item, idx)=> {

@@ -11,6 +11,7 @@ const indexRouter = require("./routes");
 const createRouter = require("./routes/create.js");
 const updateRouter = require("./routes/update.js");
 const userRouter = require("./routes/user.js");
+const heartRouter = require("./routes/heart.js");
 
 nunjucks.configure("views", {
   express: app,
@@ -42,6 +43,7 @@ app.use("/", indexRouter);
 app.use("/create", createRouter);
 app.use("/update", updateRouter);
 app.use("/user", userRouter);
+app.use("/heart", heartRouter);
 
 app.listen(PORT, () => {
   console.log(PORT + "포트");

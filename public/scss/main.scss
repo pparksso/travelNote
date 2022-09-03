@@ -71,6 +71,7 @@
       display: flex;
       flex-wrap: wrap;
       li {
+        position: relative;
         cursor: pointer;
         width: calc(33.33% - 20px);
         padding: 20px 0;
@@ -117,25 +118,6 @@
                   font-weight: 700;
                 }
               }
-              .heart {
-                button {
-                  position: absolute;
-                  top: 0;
-                  right: 0;
-                  z-index: 1;
-                  padding: 0;
-                  background: none;
-                  display: none;
-                  &.on {
-                    display: block;
-                  }
-                  .material-icons-outlined,
-                  .material-icons {
-                    color: rgb(228, 9, 9);
-                    font-size: 18px;
-                  }
-                }
-              }
             }
             p {
               font-size: 15px;
@@ -147,6 +129,29 @@
               display: -webkit-box;
               -webkit-line-clamp: 2;
               font-family: "GangwonEdu_OTFBoldA";
+            }
+          }
+        }
+        .heart {
+          position: absolute;
+          bottom: 28%;
+          right: 5%;
+          z-index: 1;
+          button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+            padding: 0;
+            background: none;
+            display: none;
+            &.on {
+              display: block;
+            }
+            .material-icons-outlined,
+            .material-icons {
+              color: rgb(228, 9, 9);
+              font-size: 18px;
             }
           }
         }
