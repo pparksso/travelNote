@@ -10,3 +10,9 @@ MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, c
   console.log("====db connect");
   db = client.db("travelApp");
 });
+
+router.post("/plus", (req, res) => {
+  const no = req.body.no;
+  console.log(no);
+  res.json({ heart: "ok" });
+});
