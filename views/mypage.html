@@ -58,15 +58,13 @@
         },
       })
         .then((res) => {
-          console.log(res.data);
           if (res.data.infoChange) {
             alert("회원정보가 변경되었습니다.");
             location.href = "/";
           }
         })
         .catch((err) => {
-          //500에러
-          console.log("500띄울거임");
+          location.href = "/500";
         });
     } else {
       alert("비밀번호가 일치하지 않습니다.");
@@ -87,15 +85,19 @@
           id: id,
           pw: pw,
         },
-      }).then((res) => {
-        if (res.data.isPw) {
-          return alert("가입하신 비밀번호와 일치하지 않습니다.");
-        }
-        if (res.data.delete) {
-          alert("모든 글과 회원 정보가 삭제되었습니다.");
-          location.href = "/";
-        }
-      });
+      })
+        .then((res) => {
+          if (res.data.isPw) {
+            return alert("가입하신 비밀번호와 일치하지 않습니다.");
+          }
+          if (res.data.delete) {
+            alert("모든 글과 회원 정보가 삭제되었습니다.");
+            location.href = "/";
+          }
+        })
+        .catch((err) => {
+          location.href = "/500";
+        });
     } else {
       alert("비밀번호가 일치하지 않습니다.");
     }

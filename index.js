@@ -45,6 +45,18 @@ app.use("/update", updateRouter);
 app.use("/user", userRouter);
 app.use("/heart", heartRouter);
 
+// 에러처리 미들웨어
+app.use((req, res, next) => {
+  const error = new Error(`Not Found`);
+  error.status = 404;
+  next(error);
+});
+app.use((err, req, res, next) => {
+  res.locals.error = process.env.NODE_ENV !== "prodection" ? err : {};
+  res.status(err.status || 404);
+  res.render("404");
+});
+
 app.listen(PORT, () => {
   console.log(PORT + "포트");
 });

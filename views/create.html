@@ -61,7 +61,9 @@
         const cloudinaryFileName = res.data.cloudinaryFileName;
         imgBox.dataset.file = cloudinaryFileName;
         imgBox.setAttribute("src", src);
-      });
+      }).catch((err)=> {
+        location.href = "/500";
+      })
     });
 
     // 전체 정보에 파일 이미지 주소 같이 보내기
@@ -96,7 +98,7 @@
           }
         })
         .catch((err) => {
-          //500페이지 전송
+          location.href = "/500";
         });
     });
   </script>

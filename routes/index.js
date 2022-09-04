@@ -28,8 +28,12 @@ router.get("/", async (req, res) => {
     }
     res.render("index", { page: page, totalPage: totalPage, userInfo: req.user, title: "Welcome", list: contents });
   } catch (err) {
-    console.log(err);
+    res.redirect("500");
   }
+});
+
+router.get("/500", (req, res) => {
+  res.status(500).render("500");
 });
 
 module.exports = router;

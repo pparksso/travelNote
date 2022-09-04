@@ -154,6 +154,11 @@
   </div>
   {% endfor %}
   <div id="pagination" class="pagination">
+    <button id="preBtn" class="btn">
+      <span class="material-icons">
+        chevron_left
+        </span>
+    </button>
     <ul class="list">
     {% if totalPage -%}
       {% for i in range(1, totalPage + 1) %}
@@ -165,6 +170,9 @@
       {%- endfor %}
     {% endif %}
     </ul>
+    <button id="nextBtn" class="btn"><span class="material-icons">
+      chevron_right
+      </span></button>
   </div>
   {% if userInfo %}
   <script>
@@ -200,7 +208,7 @@
     })
      })
     }).catch(err=> {
-    console.log(err)
+      location.href = "/500";
      })
     </script>
       {% endif %}
@@ -300,7 +308,7 @@
             }
           })
           .catch((err) => {
-            alert("회원가입에 실패하였습니다. 다시 한번 시도해주세요");
+            location.href = "/500";
           });
       } else {
         if (id.length <= 5) {
@@ -334,7 +342,7 @@
             }
           })
           .catch((err) => {
-            alert("ID체크에 실패했습니다. 다시 한 번 시도해주세요");
+            location.href = "/500";
           });
       }
       if (id === "" || id.length <= 5) {
@@ -363,7 +371,7 @@
             }
           })
           .catch((err) => {
-            alert("닉네임 체크에 실패했습니다. 다시 한 번 시도해주세요");
+            location.href = "/500";
           });
       }
       if (nickname === "" || nickname.length <= 1) {
@@ -416,7 +424,7 @@ const heartCalc = (outHearts, inHearts,removeInHears, heartNum, idx, no) => {
           item.classList.remove("on");
           heartCalc(fullHearts, popupFullHearts,popupEmptyHearts,heartNum, idx, no);
         }).catch(err=> {
-          console.log(err)
+          location.href = "/500";
         })
       })
     })
@@ -436,7 +444,7 @@ const heartCalc = (outHearts, inHearts,removeInHears, heartNum, idx, no) => {
           item.classList.remove("on");
           heartCalc(emptyHearts, popupEmptyHearts,popupFullHearts,heartNum, idx, no);
         }).catch(err=> {
-          console.log(err)
+          location.href = "/500";
         })
       })
     })
@@ -474,7 +482,7 @@ const heartCalc = (outHearts, inHearts,removeInHears, heartNum, idx, no) => {
           item.classList.remove("on");
           heartCalc(fullHearts, popupFullHearts,emptyHearts,heartNum, idx, no);
         }).catch(err=> {
-          console.log("500띄울거임")
+          location.href = "/500";
         })
       })
     })
@@ -494,7 +502,7 @@ const heartCalc = (outHearts, inHearts,removeInHears, heartNum, idx, no) => {
           item.classList.remove("on");
           heartCalc(emptyHearts, popupEmptyHearts,fullHearts,heartNum, idx, no);
         }).catch(err=> {
-          console.log(err)
+          location.href = "/500";
         })
       })
     })
@@ -517,11 +525,12 @@ const heartCalc = (outHearts, inHearts,removeInHears, heartNum, idx, no) => {
           console.log("ok")
           location.href = `/?page=${num}`
         }).catch(err=> {
-          console.log("500띄울거임")
+          location.href = "/500";
         })
       })
     })
-    
+ 
+    // 페이지네이션 화살표
 
     
   </script>

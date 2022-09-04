@@ -21,8 +21,8 @@ router.post("/join", (req, res) => {
       countDb.findOne({ name: "user" }, (err, result) => {
         const userNum = result.count + 1;
         if (err) {
-          console.log(err, "user count find err");
-          res.send(`<script>alret("회원가입에 실패하였습니다. 다시한번 시도해주세요.")</script>`);
+          // res.send(`<script>alret("회원가입에 실패하였습니다. 다시한번 시도해주세요.")</script>`);
+          res.redirect("500");
         }
         userDb.create(
           {
@@ -34,8 +34,8 @@ router.post("/join", (req, res) => {
           },
           (err, result) => {
             if (err) {
-              console.log(err, "user info insert err");
-              res.send(`<script>alret("회원가입에 실패하였습니다. 다시한번 시도해주세요.")</script>`);
+              // res.send(`<script>alret("회원가입에 실패하였습니다. 다시한번 시도해주세요.")</script>`);
+              res.redirect("500");
             }
             countDb.updateOne(
               { name: "user" },
@@ -46,8 +46,8 @@ router.post("/join", (req, res) => {
               },
               (err, result) => {
                 if (err) {
-                  console.log(err, "user count update err");
-                  res.send(`<script>alret("회원가입에 실패하였습니다. 다시한번 시도해주세요.")</script>`);
+                  // res.send(`<script>alret("회원가입에 실패하였습니다. 다시한번 시도해주세요.")</script>`);
+                  res.redirect("500");
                 }
               }
             );
@@ -63,7 +63,8 @@ router.post("/idcheck", (req, res) => {
   const id = req.body.id;
   userDb.findOne({ id: id }, (err, result) => {
     if (err) {
-      res.send(`<script>alret("id체크에 실패했습니다. 다시 한번 시도해주세요.")</script>`);
+      // res.send(`<script>alret("id체크에 실패했습니다. 다시 한번 시도해주세요.")</script>`);
+      res.redirect("500");
     }
     if (!result) {
       res.json({ idCheck: true });
@@ -76,7 +77,8 @@ router.post("/nicknamecheck", (req, res) => {
   const nickname = req.body.nickname;
   userDb.findOne({ nickname: nickname }, (err, result) => {
     if (err) {
-      res.send(`<script>alret("닉네임체크에 실패했습니다. 다시 한번 시도해주세요.")</script>`);
+      // res.send(`<script>alret("닉네임체크에 실패했습니다. 다시 한번 시도해주세요.")</script>`);
+      res.redirect("500");
     }
     if (!result) {
       res.json({ isNicknameCheck: true });
@@ -117,7 +119,7 @@ router.get("/mytour", async (req, res) => {
       res.send(`<script>alert("시간이 지나 로그인이 해제되었습니다. 다시 로그인 해주세요."); location.href = "/"</script>`);
     }
   } catch (err) {
-    console.log(err);
+    res.redirect("500");
   }
 });
 router.get("/mypage", (req, res) => {
@@ -136,7 +138,7 @@ router.post("/mypageupdate", (req, res) => {
     userDb.updateOne({ id: id }, { $set: { id: id, pw: hash, nickname: nickname } }, (err, result) => {
       res.json({ infoChange: true });
       if (err) {
-        console.log("500띄울꺼임");
+        res.redirect("500");
       }
     });
   });
@@ -155,7 +157,7 @@ router.post("/signout", (req, res) => {
           });
         })
         .catch((err) => {
-          console.log(err);
+          res.redirect("500");
         });
     } else {
       res.json({ isPw: true });

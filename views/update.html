@@ -76,7 +76,9 @@
           imgBox.removeAttribute("src");
           imgBox.setAttribute("src", src);
           imgBox.dataset.file = cloudinaryFileName;
-        });
+        }).catch(err=> {
+          location.href = "/500";
+        })
       });
 
       //글 수정하기
@@ -114,7 +116,7 @@
             }
           })
           .catch((err) => {
-            console.log("500띄울거임");
+            location.href = "/500";
           });
       });
 

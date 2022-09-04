@@ -40,7 +40,7 @@ router.post("/new", fileUpload.single("image"), async (req, res) => {
     countDb.findOne({ name: "total" }, (err, result) => {
       const no = result.count + 1;
       if (err) {
-        console.log("500띄울꺼임");
+        res.redirect("500");
       }
       contentsDb.create(
         {
@@ -57,7 +57,7 @@ router.post("/new", fileUpload.single("image"), async (req, res) => {
         },
         (err, result) => {
           if (err) {
-            //500띄움
+            res.redirect("500");
           }
           countDb.updateOne(
             { name: "total" },
@@ -68,7 +68,7 @@ router.post("/new", fileUpload.single("image"), async (req, res) => {
             },
             (err, result) => {
               if (err) {
-                //500
+                res.redirect("500");
               }
             }
           );

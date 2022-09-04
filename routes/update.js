@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
   if (req.user) {
     contentsDb.findOne({ no: editNum }, (err, result) => {
       if (err) {
-        console.log("500던질거임");
+        res.redirect("500");
       }
       res.render("update", { title: "Update", list: result });
     });
@@ -49,7 +49,7 @@ router.post("/done", async (req, res) => {
     );
     res.json({ update: true });
   } catch (err) {
-    console.log(err);
+    res.redirect("500");
   }
 });
 
@@ -69,7 +69,7 @@ router.post("/delete", async (req, res) => {
     await contentsDb.deleteOne({ no: no });
     res.json({ delete: true });
   } catch (err) {
-    console.log(err);
+    res.redirect("500");
   }
 });
 module.exports = router;

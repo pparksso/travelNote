@@ -131,7 +131,7 @@
       });
     })
     .catch((err) => {
-      console.log("500띄울거임");
+      location.href = "/500";
     });
 
   // 하트 수 계산하고, 하트 바꾸는 함수
@@ -177,7 +177,7 @@
           heartCalc(myFullHearts, myPopupFullHearts, myPopupEmptyHearts, heartNum, idx, no);
         })
         .catch((err) => {
-          console.log("500띄울거임");
+          location.href = "/500";
         });
     });
   });
@@ -200,7 +200,7 @@
           heartCalc(myEmptyHearts, myPopupEmptyHearts, myPopupFullHearts, heartNum, idx, no);
         })
         .catch((err) => {
-          console.log(err);
+          location.href = "/500";
         });
     });
   });
@@ -245,7 +245,7 @@
           heartCalc(myFullHearts, myPopupFullHearts, myEmptyHearts, heartNum, idx, no);
         })
         .catch((err) => {
-          console.log(err);
+          location.href = "/500";
         });
     });
   });
@@ -268,7 +268,7 @@
           heartCalc(myEmptyHearts, myPopupEmptyHearts, myFullHearts, heartNum, idx, no);
         })
         .catch((err) => {
-          console.log("500띄울거임");
+          location.href = "/500";
         });
     });
   });
@@ -279,9 +279,13 @@
       const no = item.dataset.no;
       axios({
         url: `/update/?edit=${no}`,
-      }).then((res) => {
-        location.href = `/update/?edit=${no}`;
-      });
+      })
+        .then((res) => {
+          location.href = `/update/?edit=${no}`;
+        })
+        .catch((err) => {
+          location.href = "/500";
+        });
     });
   });
 
@@ -295,14 +299,18 @@
         data: {
           no: no,
         },
-      }).then((res) => {
-        if (res.data.delete) {
-          alert("글이 삭제되었습니다.");
-          window.location.href = "/user/mytour";
-        } else {
-          console.log("500띄울거임");
-        }
-      });
+      })
+        .then((res) => {
+          if (res.data.delete) {
+            alert("글이 삭제되었습니다.");
+            window.location.href = "/user/mytour";
+          } else {
+            console.log("500띄울거임");
+          }
+        })
+        .catch((err) => {
+          location.href = "/500";
+        });
     });
   });
 
@@ -319,7 +327,7 @@
           location.href = `/?page=${num}`;
         })
         .catch((err) => {
-          console.log("500띄울거임");
+          location.href = "/500";
         });
     });
   });

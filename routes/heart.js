@@ -8,7 +8,7 @@ const contentsDb = require("../db/contents");
 router.get("/arr", (req, res) => {
   userDb.findOne({ userNum: req.user.userNum }, (err, result) => {
     if (err) {
-      console.log("500띄울거임");
+      res.redirect("500");
     }
     res.json({ heartArr: result.heart });
   });
@@ -29,7 +29,7 @@ router.post("/plus", async (req, res) => {
     const result = await contentsDb.findOne({ no: no });
     res.json({ heartNum: result.heartNum });
   } catch (err) {
-    console.log(err);
+    res.redirect("500");
   }
 });
 
@@ -48,7 +48,7 @@ router.post("/minus", async (req, res) => {
     const result = await contentsDb.findOne({ no: no });
     res.json({ heartNum: result.heartNum });
   } catch (err) {
-    console.log(err);
+    res.redirect("500");
   }
 });
 

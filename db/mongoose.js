@@ -6,7 +6,7 @@ const dbConnect = mongoose
     console.log("mongoose connected");
   })
   .catch((err) => {
-    console.log(err);
+    res.redirect("500");
   });
 
 module.exports = dbConnect;
