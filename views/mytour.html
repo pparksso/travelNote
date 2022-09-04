@@ -96,19 +96,27 @@
       heartArr.forEach((heart, heartIdx) => {
         myFullHearts.forEach((item, idx) => {
           const no = item.dataset.no;
-          heart == no ? item.classList.add("on") : item.classList.remove("on");
+          if (heart == no) {
+            item.classList.add("on");
+          }
         });
         myEmptyHearts.forEach((item2, idx2) => {
           const no = item2.dataset.no;
-          heart == no ? item2.classList.remove("on") : item.classList.add("on");
+          if (heart == no) {
+            item2.classList.remove("on");
+          }
         });
         myPopupFullHearts.forEach((item3, idx2) => {
           const no = item3.dataset.no;
-          heart == no ? item3.classList.add("on") : item3.classList.remove("on");
+          if (heart == no) {
+            item3.classList.add("on");
+          }
         });
         myPopupEmptyHearts.forEach((item4, idx4) => {
           const no = item4.dataset.no;
-          heart == no ? item4.classList.remove("on") : item4.classList.add("on");
+          if (heart == no) {
+            item4.classList.remove("on");
+          }
         });
       });
     })
@@ -120,13 +128,19 @@
   //(생길 하트1 , 생길 하트2, 없어질 하트, 변경될 하트수, 이벤트 객체의 idx, 이벤트객체의 no)
   const heartCalc = (outHearts, inHearts, removeInHears, heartNum, idx, no) => {
     outHearts.forEach((item2, idx2) => {
-      idx === idx2 ? item2.classList.add("on") : item2.classList.remove("on");
+      if (idx === idx2) {
+        item2.classList.add("on");
+      }
     });
     inHearts.forEach((item3, idx3) => {
-      idx === idx3 ? item3.classList.add("on") : item3.classList.remove("on");
+      if (idx === idx3) {
+        item3.classList.add("on");
+      }
     });
     removeInHears.forEach((item4, idx4) => {
-      idx === idx4 ? item4.classList.remove("on") : item4.classList.add("on");
+      if (idx === idx4) {
+        item4.classList.remove("on");
+      }
     });
     myHeartNum.forEach((h1, hIdx1) => {
       const h1Num = h1.dataset.no;
