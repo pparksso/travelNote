@@ -73,7 +73,15 @@
   </div>
 </div>
 {% endfor %}
-
+<div id="myPagenation" class="pagination">
+  <ul class="list">
+    {% if totalPage -%} {% for i in range(1, totalPage + 1) %} {% if page == i %}
+    <li class="page"><a href="" class="on" data-num="{{i}}">{{i}}</a></li>
+    {% else %}
+    <li class="page"><a href="" data-num="{{i}}">{{i}}</a></li>
+    {% endif %} {%- endfor %} {% endif %}
+  </ul>
+</div>
 <script>
   const mytourUpdateBtn = document.querySelector("#mytourUpdate");
   const contents = document.querySelectorAll("#contents ul .myContents .contentsBox");
@@ -86,6 +94,8 @@
   const myHeartNum = document.querySelectorAll("#myHeartNum");
   const myPopupEmptyHearts = document.querySelectorAll("#myPopupEmptyHeart");
   const myPopupFullHearts = document.querySelectorAll("#myPopupFullHeart");
+  const myPageList = document.querySelectorAll("#mypagination .list .page");
+  const myPageBtns = document.querySelectorAll("#mypagination .list .page a");
 
   //유저의 클릭한 하트 글이 들어있는 배열 받아오기
   axios({
@@ -163,10 +173,8 @@
       })
         .then((res) => {
           const heartNum = res.data.heartNum;
-          if (heartNum) {
-            item.classList.remove("on");
-            heartCalc(myFullHearts, myPopupFullHearts, myPopupEmptyHearts, heartNum, idx, no);
-          }
+          item.classList.remove("on");
+          heartCalc(myFullHearts, myPopupFullHearts, myPopupEmptyHearts, heartNum, idx, no);
         })
         .catch((err) => {
           console.log("500띄울거임");
@@ -187,12 +195,9 @@
       })
         .then((res) => {
           const heartNum = res.data.heartNum;
-          if (heartNum) {
-            item.classList.remove("on");
-            heartCalc(myEmptyHearts, myPopupEmptyHearts, myPopupFullHearts, heartNum, idx, no);
-          } else {
-            console.log("500");
-          }
+          console.log(heartNum);
+          item.classList.remove("on");
+          heartCalc(myEmptyHearts, myPopupEmptyHearts, myPopupFullHearts, heartNum, idx, no);
         })
         .catch((err) => {
           console.log(err);
@@ -235,13 +240,12 @@
       })
         .then((res) => {
           const heartNum = res.data.heartNum;
-          if (heartNum) {
-            item.classList.remove("on");
-            heartCalc(myFullHearts, myPopupFullHearts, myEmptyHearts, heartNum, idx, no);
-          }
+          console.log(heartNum);
+          item.classList.remove("on");
+          heartCalc(myFullHearts, myPopupFullHearts, myEmptyHearts, heartNum, idx, no);
         })
         .catch((err) => {
-          console.log("500띄울거임");
+          console.log(err);
         });
     });
   });
@@ -259,12 +263,9 @@
       })
         .then((res) => {
           const heartNum = res.data.heartNum;
-          if (heartNum) {
-            item.classList.remove("on");
-            heartCalc(myEmptyHearts, myPopupEmptyHearts, myFullHearts, heartNum, idx, no);
-          } else {
-            console.log("500띄울거임");
-          }
+          console.log(heartNum);
+          item.classList.remove("on");
+          heartCalc(myEmptyHearts, myPopupEmptyHearts, myFullHearts, heartNum, idx, no);
         })
         .catch((err) => {
           console.log("500띄울거임");
@@ -277,17 +278,9 @@
     item.addEventListener("click", () => {
       const no = item.dataset.no;
       axios({
-        method: "POST",
-        url: "/update",
-        data: {
-          no: no,
-        },
+        url: `/update/?edit=${no}`,
       }).then((res) => {
-        if (res.data.isUpdate) {
-          location.href = "/update";
-        } else {
-          console.log("500띄울꺼임");
-        }
+        location.href = `/update/?edit=${no}`;
       });
     });
   });
@@ -310,6 +303,24 @@
           console.log("500띄울거임");
         }
       });
+    });
+  });
+
+  //페이지네이션
+  myPageBtns.forEach((item, idx) => {
+    item.addEventListener("click", (e) => {
+      e.preventDefault();
+      const num = item.dataset.num;
+      axios({
+        url: `/?page=${num}`,
+      })
+        .then((res) => {
+          console.log("ok");
+          location.href = `/?page=${num}`;
+        })
+        .catch((err) => {
+          console.log("500띄울거임");
+        });
     });
   });
 </script>

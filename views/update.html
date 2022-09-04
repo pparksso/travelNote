@@ -38,7 +38,7 @@
         </div>
         <div class="inputBox"><textarea name="updateDesc" id="updateDesc" cols="30" rows="10" value="">{{list.desc}}</textarea></div>
         <div class="btns">
-          <button id="sendBtn"><span>수정</span></button>
+          <button id="sendBtn" data-no={{list.no}}><span>수정</span></button>
           <button type="reset" id="updateResetBtn"><span>취소</span></button>
         </div>
       </form>
@@ -80,7 +80,7 @@
       });
 
       //글 수정하기
-      sendBtn.addEventListener("click", (e) => {
+      sendBtn.addEventListener("click", function (e) {
         e.preventDefault();
         const imgUrl = document.querySelector("#update .imgBox img").getAttribute("src");
         const fileName = imgBox.dataset.file;
@@ -88,6 +88,7 @@
         const title = document.querySelector("#updateTitle").value;
         const location = document.querySelector("#updateLocation").value;
         const desc = document.querySelector("#updateDesc").value;
+        const no = this.dataset.no;
         if (imgUrl === "" || date === "" || title === "" || location === "" || desc === "") {
           return alert("모든 정보를 기입해 주세요.");
         }
@@ -101,6 +102,7 @@
             location: location,
             desc: desc,
             fileName: fileName,
+            no:no
           },
         })
           .then((res) => {
@@ -117,30 +119,13 @@
       });
 
       //수정 취소하기
-
-      const cancleFunc = () => {
-        axios({
-          url: "/update/cancle",
-        })
-          .then((res) => {
-            if (res.data.cancle) {
-              alert("수정이 취소되었습니다.");
-              window.location.href = "/";
-            } else {
-              console.log("500띄울거임");
-            }
-          })
-          .catch((err) => {
-            console.log("500띄울거임");
-          });
-      };
       updateResetBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        cancleFunc();
+        window.location.href = "/user/mytour";
       });
       updateCancleBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        cancleFunc();
+        window.location.href = "/user/mytour";
       });
     </script>
     {% include "include/footer.html" %}

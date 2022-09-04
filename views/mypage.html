@@ -88,12 +88,11 @@
           pw: pw,
         },
       }).then((res) => {
-        console.log(res.data);
         if (res.data.isPw) {
           return alert("가입하신 비밀번호와 일치하지 않습니다.");
         }
         if (res.data.delete) {
-          alert("모든 글과 정보가 삭제되었습니다.");
+          alert("모든 글과 회원 정보가 삭제되었습니다.");
           location.href = "/";
         }
       });

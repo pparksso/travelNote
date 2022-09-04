@@ -2,21 +2,14 @@ const express = require("express");
 const router = express.Router();
 const passport = require("../config/passport")(router);
 const path = require("path");
-const cloudinary = require("../config/cloudinary");
+const { cloudinary } = require("../config/cloudinary");
 const multer = require("multer");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const { storage } = require("../config/cloudinary");
 const mongoose = require("../db/mongoose");
 const userDb = require("../db/user");
 const countDb = require("../db/count");
 const contentsDb = require("../db/contents");
 
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "travelApp",
-    format: (req, file) => "jpeg",
-  },
-});
 const fileUpload = multer({ storage: storage });
 
 router.get("/", (req, res) => {
@@ -49,7 +42,7 @@ router.post("/new", fileUpload.single("image"), async (req, res) => {
       if (err) {
         console.log("500띄울꺼임");
       }
-      contentsDb.insertOne(
+      contentsDb.create(
         {
           no: no,
           userNum: userNum,

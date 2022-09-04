@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-// const db = require("../config/mongodb");
 const passport = require("../config/passport")(router);
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -25,7 +24,7 @@ router.post("/join", (req, res) => {
           console.log(err, "user count find err");
           res.send(`<script>alret("회원가입에 실패하였습니다. 다시한번 시도해주세요.")</script>`);
         }
-        userDb.insertOne(
+        userDb.create(
           {
             userNum: userNum,
             id: id,
@@ -97,17 +96,28 @@ router.post(
 router.get("/logout", (req, res) => {
   if (req.user) {
     req.session.destroy();
-    res.send(`<script>alert("로그아웃 되었습니다"); location.href= "/"</script>`);
+    res.send(`<script>alert("로그아웃 되었습니다."); location.href= "/"</script>`);
   }
 });
 
-router.get("/mytour", (req, res) => {
-  if (req.user) {
-    contentsDb.find({ userNum: req.user.userNum }).toArray((err, result) => {
-      res.render("mytour", { title: "My tour", list: result });
-    });
-  } else {
-    res.send(`<script>alert("시간이 지나 로그인이 해제되었습니다. 다시 로그인 해주세요."); location.href = "/"</script>`);
+router.get("/mytour", async (req, res) => {
+  try {
+    if (req.user) {
+      let page = parseInt(req.query.page);
+      const size = 8;
+      if (!page) {
+        page = 1;
+      }
+      const skip = (page - 1) * size;
+      const contents = await contentsDb.find({ userNum: req.user.userNum }).sort({ no: -1 }).limit(size).skip(skip);
+      const totalContents = await contentsDb.countDocuments({ userNum: req.user.userNum });
+      const totalPage = await Math.ceil(totalContents / size);
+      await res.render("mytour", { page: page, totalPage: totalPage, userInfo: req.user, title: "My tour", list: contents });
+    } else {
+      res.send(`<script>alert("시간이 지나 로그인이 해제되었습니다. 다시 로그인 해주세요."); location.href = "/"</script>`);
+    }
+  } catch (err) {
+    console.log(err);
   }
 });
 router.get("/mypage", (req, res) => {
@@ -137,19 +147,18 @@ router.post("/signout", (req, res) => {
   const pw = req.body.pw;
   bcrypt.compare(pw, req.user.pw, (err, same) => {
     if (same) {
-      contentsDb.deleteMany({ userNum: req.user.userNum }, (err, result) => {
-        if (err) {
-          console.log("500띄울거임");
-        }
-        userDb.deleteOne({ id: id }, (err, result) => {
-          if (err) {
-            console.log("500띄울거임");
-          }
-          return res.json({ delete: true });
+      contentsDb
+        .deleteMany({ userNum: req.user.userNum })
+        .then(() => {
+          userDb.deleteOne({ id: id }).then(() => {
+            res.json({ delete: true });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      });
     } else {
-      return res.json({ isPw: true });
+      res.json({ isPw: true });
     }
   });
 });
