@@ -61,10 +61,10 @@
 }
 .section {
   &#contents {
-    min-height: 650px;
+    min-height: 600px;
   }
   .container {
-    padding: 80px 0 150px 0;
+    padding: 80px 0 100px 0;
     width: 80vw;
     margin: 0 auto;
     ul {
@@ -168,7 +168,26 @@
     }
   }
 }
-
+#pagination {
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .list {
+    display: flex;
+    li {
+      a {
+        padding: 3px 9px;
+        font-size: 16px;
+        &.on {
+          background-color: #333;
+          color: #fff;
+          border-radius: 100%;
+        }
+      }
+    }
+  }
+}
 .cover {
   // display: none;
   position: fixed;

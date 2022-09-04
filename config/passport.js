@@ -1,21 +1,14 @@
 module.exports = function (router) {
-  // const db = require("./mongodb");
   const bcrypt = require("bcrypt");
   const saltRounds = 10;
   const flash = require("connect-flash");
   const passport = require("passport");
   const LocalStrategy = require("passport-local").Strategy;
+  const mongoose = require("../db/mongoose");
+  const userDb = require("../db/user");
+  const countDb = require("../db/count");
+  const contentsDb = require("../db/contents");
   router.use(flash());
-
-  const MongoClient = require("mongodb").MongoClient;
-  let db = null;
-  MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, client) => {
-    if (err) {
-      console.log(err, "db connecting err");
-    }
-    console.log("====db connect");
-    db = client.db("travelApp");
-  });
 
   passport.use(
     new LocalStrategy(
@@ -26,7 +19,7 @@ module.exports = function (router) {
         passReqToCallback: false,
       },
       (loginId, loginPw, done) => {
-        db.collection("user").findOne({ id: loginId }, (err, result) => {
+        userDb.findOne({ id: loginId }, (err, result) => {
           if (err) return done(err);
           if (!result) return done(null, false, { message: "존재하지 않는 아이디입니다." });
           if (result) {
@@ -47,7 +40,7 @@ module.exports = function (router) {
     done(null, user.id);
   });
   passport.deserializeUser((id, done) => {
-    db.collection("user").findOne({ id: id }, (err, result) => {
+    userDb.findOne({ id: id }, (err, result) => {
       done(null, result);
     });
   });

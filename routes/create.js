@@ -5,6 +5,10 @@ const path = require("path");
 const cloudinary = require("../config/cloudinary");
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const mongoose = require("../db/mongoose");
+const userDb = require("../db/user");
+const countDb = require("../db/count");
+const contentsDb = require("../db/contents");
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
@@ -14,16 +18,6 @@ const storage = new CloudinaryStorage({
   },
 });
 const fileUpload = multer({ storage: storage });
-
-const MongoClient = require("mongodb").MongoClient;
-let db = null;
-MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, client) => {
-  if (err) {
-    console.log(err, "db connecting err");
-  }
-  console.log("====db connect");
-  db = client.db("travelApp");
-});
 
 router.get("/", (req, res) => {
   if (req.user) {
@@ -40,7 +34,7 @@ router.post("/sendimg", fileUpload.single("image"), (req, res) => {
   });
 });
 
-router.post("/new", fileUpload.single("image"), (req, res) => {
+router.post("/new", fileUpload.single("image"), async (req, res) => {
   if (req.user) {
     const title = req.body.title;
     const date = req.body.date;
@@ -50,12 +44,12 @@ router.post("/new", fileUpload.single("image"), (req, res) => {
     const userNum = req.user.userNum;
     const nickname = req.user.nickname;
     const fileName = req.body.fileName;
-    db.collection("count").findOne({ name: "total" }, (err, result) => {
+    countDb.findOne({ name: "total" }, (err, result) => {
       const no = result.count + 1;
       if (err) {
         console.log("500띄울꺼임");
       }
-      db.collection("contents").insertOne(
+      contentsDb.insertOne(
         {
           no: no,
           userNum: userNum,
@@ -72,7 +66,7 @@ router.post("/new", fileUpload.single("image"), (req, res) => {
           if (err) {
             //500띄움
           }
-          db.collection("count").updateOne(
+          countDb.updateOne(
             { name: "total" },
             {
               $inc: {

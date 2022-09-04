@@ -153,6 +153,19 @@
     </div>
   </div>
   {% endfor %}
+  <div id="pagination">
+    <ul class="list">
+    {% if totalPage -%}
+      {% for i in range(1, totalPage + 1) %}
+        {% if page == i %}
+      <li class="page"><a href=""  class="on" data-num={{i}}>{{i}}</a></li>
+          {% else %}
+      <li class="page"><a href="" data-num={{i}}>{{i}}</a></li>
+        {% endif %}
+      {%- endfor %}
+    {% endif %}
+    </ul>
+  </div>
   {% if userInfo %}
   <script>
     //유저의 클릭한 하트 글이 들어있는 배열 받아오기
@@ -222,6 +235,11 @@
     const noUserHeartNums = document.querySelectorAll("#noUserHeartNum");
     const popupEmptyHearts = document.querySelectorAll("#popupEmptyHeart");
     const popupFullHearts = document.querySelectorAll("#popupFullHeart");
+    const pageList = document.querySelectorAll("#pagination .list .page");
+    const pageBtns = document.querySelectorAll("#pagination .list .page a");
+
+    
+
 
     //로그인 팝업
     loginCloseBtn.addEventListener("click", () => {
@@ -499,6 +517,25 @@ const heartCalc = (outHearts, inHearts,removeInHears, heartNum, idx, no) => {
         alert("로그인 후 이용해주세요.")
       })
     })
+
+    //페이지네이션
+    pageBtns.forEach((item, idx)=> {
+      item.addEventListener("click",(e)=>{
+        e.preventDefault();
+        const num = item.dataset.num;
+        axios({
+          url:`/?page=${num}`,
+        }).then(res=> {
+          console.log("ok")
+          location.href = `/?page=${num}`
+        }).catch(err=> {
+          console.log("500띄울거임")
+        })
+      })
+    })
+    
+
+    
   </script>
   {% include "include/footer.html" %}
 </body>

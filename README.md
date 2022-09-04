@@ -7,6 +7,8 @@
 - express.routes
 - 비밀번호 암호화 : bcrypt
 - flash
+- 페이지네이션
+- mongoose
 
 ### error
 
@@ -19,7 +21,7 @@
 
 ### 진행
 
-- 남은 진행사항 : 페이지네이션, 에러페이지, 반응형, 팝업창 높이 수정
+- 남은 진행사항 : 페이지네이션 화살표, 스토리지 분할, 에러페이지, 반응형, 팝업창 높이 수정
 - cloudinary 수정 시 이미지 변경 할 때 전 이미지 삭제해야됨, 탈퇴할 때 모든 사진 삭제해야됨
 
 ### 로직
@@ -40,3 +42,35 @@
 ### 리팩토링
 
 - 콜백지옥에 빠진애들 async await 사용하여 구원하기
+- 유저 리팩토링 중 오류발생으로 백업
+
+```
+  try {
+    const id = req.body.id;
+    const pw = req.body.pw;
+    const nickname = req.body.nickname;
+    const pwCheck = req.body.pwCheck;
+    if (pw !== pwCheck) {
+      res.json({ pwCheck: false, });
+    }
+    if (pw === pwCheck) {
+      bcrypt.hash(pw, saltRounds, (err, hash) => {
+        await countDb.findOne({ name: "user" },);
+        await userDb.insertOne(
+          {
+            userNum: userNum,
+            id: id,
+            pw: hash,
+            nickname: nickname,
+            heart: [],
+          },);
+        await countDb.updateOne( { name: "user" },
+          {$inc: { count: 1,}})
+        res.json({ isjoin: true, });
+      }
+    }
+  }
+  catch(err) {
+    console.log(err)
+  }
+```

@@ -2,8 +2,11 @@ const express = require("express");
 const router = express.Router();
 const cloudinary = require("../config/cloudinary");
 const multer = require("multer");
-
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const mongoose = require("../db/mongoose");
+const userDb = require("../db/user");
+const countDb = require("../db/count");
+const contentsDb = require("../db/contents");
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
@@ -14,21 +17,11 @@ const storage = new CloudinaryStorage({
 });
 const fileUpload = multer({ storage: storage });
 
-const MongoClient = require("mongodb").MongoClient;
-let db = null;
-MongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, (err, client) => {
-  if (err) {
-    console.log(err, "db connecting err");
-  }
-  console.log("====db connect");
-  db = client.db("travelApp");
-});
-
 router
   .route("/")
   .get((req, res) => {
     if (req.user) {
-      db.collection("contents").findOne({ update: true }, (err, result) => {
+      contentsDb.findOne({ update: true }, (err, result) => {
         if (err) {
           console.log("500던질거임");
         }
@@ -40,7 +33,7 @@ router
   })
   .post((req, res) => {
     const no = parseInt(req.body.no);
-    db.collection("contents").updateOne(
+    contentsDb.updateOne(
       { no: no },
       {
         $set: { update: true },
@@ -54,45 +47,39 @@ router
     );
   });
 
-router.post("/done", (req, res) => {
-  const imgUrl = req.body.imgUrl;
-  const date = req.body.date;
-  const title = req.body.title;
-  const location = req.body.location;
-  const desc = req.body.desc;
-  const fileName = req.body.fileName;
-  db.collection("contents").updateOne(
-    { update: true },
-    {
-      $set: {
-        imgUrl: imgUrl,
-        date: date,
-        title: title,
-        location: location,
-        desc: desc,
-        fileName: fileName,
-      },
-    },
-    (err, result) => {
-      if (err) {
-        console.log("500띄울거임");
-      }
-      db.collection("contents").updateOne(
-        { update: true },
-        {
-          $unset: {
-            update: true,
-          },
+router.post("/done", async (req, res) => {
+  try {
+    const imgUrl = req.body.imgUrl;
+    const date = req.body.date;
+    const title = req.body.title;
+    const location = req.body.location;
+    const desc = req.body.desc;
+    const fileName = req.body.fileName;
+    await contentsDb.updateOne(
+      { update: true },
+      {
+        $set: {
+          imgUrl: imgUrl,
+          date: date,
+          title: title,
+          location: location,
+          desc: desc,
+          fileName: fileName,
         },
-        (err, result) => {
-          if (err) {
-            console.log("500띄울거임");
-          }
-        }
-      );
-    }
-  );
-  res.json({ update: true });
+      }
+    );
+    await contentsDb.updateOne(
+      { update: true },
+      {
+        $unset: {
+          update: true,
+        },
+      }
+    );
+    res.json({ update: true });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 router.post("/sendimg", fileUpload.single("updateImage"), (req, res) => {
@@ -104,7 +91,7 @@ router.post("/sendimg", fileUpload.single("updateImage"), (req, res) => {
 });
 
 router.get("/cancle", (req, res) => {
-  db.collection("contents").updateOne({ update: true }, { $unset: { update: true } }, (err, result) => {
+  contentsDb.updateOne({ update: true }, { $unset: { update: true } }, (err, result) => {
     if (err) {
       console.log("500띄울거임");
     }
@@ -113,18 +100,16 @@ router.get("/cancle", (req, res) => {
 });
 
 router.post("/delete", async (req, res) => {
-  const no = parseInt(req.body.no);
-  await db.collection("contents").findOne({ no: no }, (err, result) => {
-    if (err) {
-      console.log("500");
-    }
-    cloudinary.uploader.destroy(result.fileName);
-  });
-  await db.collection("contents").deleteOne({ no: no }, (err, result) => {
-    if (err) {
-      console.log("500띄울거임");
-    }
-    res.json({ delete: true });
-  });
+  try {
+    const no = parseInt(req.body.no);
+    await contentsDb.findOne({ no: no }, (err, result) => {
+      cloudinary.uploader.destroy(result.fileName);
+    });
+    await contentsDb.deleteOne({ no: no }, (err, result) => {
+      res.json({ delete: true });
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
 module.exports = router;
