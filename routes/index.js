@@ -13,7 +13,6 @@ router.get("/", async (req, res) => {
     // 페이지네이션
     let page = parseInt(req.query.page);
     const size = 1;
-    // 페이지네이션 화살표 작업 후 사이즈 9로 수정
     const pageGroupSize = 5;
     if (!page) {
       page = 1;
@@ -22,13 +21,19 @@ router.get("/", async (req, res) => {
     const contents = await contentsDb.find().sort({ no: -1 }).limit(size).skip(skip);
     const totalContents = await contentsDb.countDocuments({});
     const totalPage = await Math.ceil(totalContents / size);
+    const startPage = page - ((page - 1) % pageGroupSize);
+    const lastPage = startPage + (pageGroupSize - 1);
+    const minPage = totalPage <= lastPage ? totalPage : lastPage;
     if (fMsg.error == "존재하지 않는 아이디입니다.") {
       return res.render("index", { idError: true, page: page, totalPage: totalPage, userInfo: req.user, title: "Welcome back!", list: contents });
     }
     if (fMsg.error == "비밀번호를 확인해주세요") {
       return res.render("index", { pwError: true, page: page, totalPage: totalPage, userInfo: req.user, title: "Welcome back!", list: contents });
     }
-    res.render("index", { page: page, totalPage: totalPage, userInfo: req.user, title: "Welcome back!", list: contents });
+    if (page > totalPage) {
+      return res.redirect("/");
+    }
+    res.render("index", { startPage: startPage, minPage: minPage, totalPage: totalPage, page: page, userInfo: req.user, title: "Welcome back!", list: contents });
   } catch (err) {
     res.redirect("500");
   }

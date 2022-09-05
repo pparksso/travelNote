@@ -155,17 +155,21 @@
 </div>
 {% endfor %}
 <div id="pagination" class="pagination">
-  <a href="" id="preBtn" class="btn">
+  {% if startPage > 5 -%}
+  <a href="/?page={{startPage-1}}" id="preBtn" class="btn on">
     <span class="material-icons"> chevron_left </span>
   </a>
+  {% endif %}
   <ul class="list">
-    {% if totalPage -%} {% for i in range(1, totalPage + 1) %} {% if page == i %}
+    {% if totalPage -%} {% for i in range(startPage, minPage+1) %} {% if page == i %}
     <li class="page"><a href="/?page={{i}}" class="on">{{i}}</a></li>
     {% else %}
     <li class="page"><a href="/?page={{i}}">{{i}}</a></li>
     {% endif %} {%- endfor %} {% endif %}
   </ul>
-  <a href id="nextBtn" class="btn"><span class="material-icons"> chevron_right </span></a>
+  {% if totalPage > 5 and totalPage > minPage -%}
+  <a href="/?page={{minPage+1}}" id="nextBtn" class="btn on"><span class="material-icons"> chevron_right </span></a>
+  {% endif -%}
 </div>
 {% if userInfo %}
 <script>

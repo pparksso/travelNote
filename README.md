@@ -23,7 +23,7 @@
 
 ### 진행
 
-- 남은 진행사항 : 페이지네이션 화살표,페이지네이션 배경 수정, 반응형
+- 남은 진행사항 : 반응형
 - cloudinary 수정 시 이미지 변경 할 때 전 이미지 삭제해야됨, 탈퇴할 때 모든 사진 삭제해야됨
 - 마지막페이지수, 첫페이지수, 화살표 링크 2개
 
@@ -71,4 +71,5 @@
 4. skip = (page - 1) \* size
 5. totalContents = 총 db 게시물 수
 6. totalPage = 총 페이지 수/ Math.ceil(totalContents / pageGroupSize)
-7. startPage = ((page - 1) / pageGroupSize) \* pageGroupsize + 1
+7. startPage = 현재 페이지 - (현재페이지-1)%한 페이지에 보이는 페이지 수
+8. lastPage = startPage + (한 페이지에 보이는 페이지 수 - 1)
