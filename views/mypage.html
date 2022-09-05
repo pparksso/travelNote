@@ -1,6 +1,8 @@
 {% include "include/head.html" %} {% include "include/header.html" %}
 <div id="utilBox">
-  <div class="txtBox"><p>{{ title }}</p></div>
+  <div class="txtBox">
+    <p>{{ title }}</p>
+  </div>
   <div class="utilMenu">
     <a href="/user/logout" id="logoutBtn"><span>Logout</span></a>
     <a href="/user/mytour" id="mypageBtn"><span>My tour</span></a>
@@ -12,7 +14,7 @@
   </div>
   <form action="" method="POST">
     <div class="inputBox">
-      <label class="myPageLabel"><span>ID</span><input type="text" name="updateId" id="updateId" value="{{list.id}}" readonly /></label>
+      <label class="myPageLabel"><span>ID</span><input type="text" name="updateId" id="updateId" value="{{ list.id }}" readonly /></label>
     </div>
     <div class="inputBox">
       <label class="myPageLabel"><span>Password</span><input type="password" name="updatePw" id="updatePw" /></label>
@@ -21,7 +23,7 @@
       <label class="myPageLabel"><span>PW Check</span><input type="password" name="updatePwCheck" id="updatePwCheck" /></label>
     </div>
     <div class="inputBox">
-      <label class="myPageLabel"><span>Nickname</span><input type="text" name="updateNickname" id="updateNickname" value="{{list.nickname}}" /></label>
+      <label class="myPageLabel"><span>Nickname</span><input type="text" name="updateNickname" id="updateNickname" value="{{ list.nickname }}" /></label>
     </div>
     <div class="btns">
       <button id="signoutBtn"><span>탈퇴</span></button>

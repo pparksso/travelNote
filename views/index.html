@@ -1,538 +1,521 @@
 {% include "include/head.html" %} {% include "include/header.html" %}
-  <div id="utilBox">
-    <div class="txtBox"><p>{{ title }}</p></div>
-    <div class="utilMenu">
-      {% if userInfo %}
-      <a href="/user/logout" id="logoutBtn"><span>Logout</span></a>
-      <a href="/user/mytour" id="myTourBtn"><span>My tour</span></a>
-      {% else %}
-      <a href="" id="loginBtn"><span>Login</span></a>
-      <a href="" id="joinBtn"><span>Join</span></a>
-      <script>
-        loginBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          loginPage.classList.add("on");
-          loginId.focus();
-        });
-        joinBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          joinPage.classList.add("on");
-          joinId.focus();
-        });
-      </script>
-      {% endif %}
-    </div>
-  </div>
-  <section id="contents" class="section">
-    <div class="container">
-      <ul>
-        {% for item in list %}
-        <li>
-          <div class="contentsBox">
-            <div class="img">
-              <img src="{{item.imgUrl}}" alt="" />
-            </div>
-            <div class="txtBox">
-              <div class="top">
-                <div class="titleBox">
-                  <span class="location">{{item.location}}</span>
-                  <h1>{{item.title}}</h1>
-                </div>
-              </div>
-              <p>{{item.desc}}</p>
-            </div>
-          </div>
-          {% if userInfo %}
-          <div class="heart">
-            <button id="emptyHeart" class="on" data-no={{item.no}}><span class="material-icons-outlined"> favorite_border </span></button>
-            <button id="fullHeart" class="" data-no={{item.no}}><span class="material-icons"> favorite </span></button>
-          </div>
-          {% endif %}
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-  </section>
-  {% if idError %}
-  <script>
-    alert("존재하지 않는 아이디입니다.");
-  </script>
-  {% endif %} {% if pwError %}
-  <script>
-    alert("비밀번호를 확인해주세요.");
-  </script>
-  {% endif %}
-  <div id="loginCover" class="cover">
-    <div id="loginBox" class="userBox">
-      <div class="top">
-        <div class="title">
-          <h1>Login</h1>
-        </div>
-        <button id="loginCloseBtn"><span class="material-icons"> close </span></button>
-      </div>
-      <form action="/user/login" method="POST">
-        <div class="center">
-          <div class="inputBox"><input type="text" placeholder="ID" id="loginId" name="loginId" /></div>
-          <div class="inputBox"><input type="password" placeholder="PASSWORD" id="loginPw" name="loginPw" /></div>
-        </div>
-        <div class="bottom">
-          <div class="btns">
-            <button class="loginBtn"><span>LOGIN</span></button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-  <div id="joinCover" class="cover">
-    <div id="joinBox" class="userBox">
-      <div class="top">
-        <div class="title">
-          <h1>Sign up</h1>
-        </div>
-        <button id="joinCloseBtn"><span class="material-icons"> close </span></button>
-      </div>
-      <form action="" method="">
-        <div class="center">
-          <div class="idBox">
-            <div class="inputBox">
-              <input type="text" placeholder="ID (6자 이상)" id="joinId" name="joinId" />
-              <p class="idOk">사용할 수 있는 아이디입니다.</p>
-              <p class="idNo">사용할 수 없는 아이디입니다.</p>
-            </div>
-          </div>
-          <div class="inputBox">
-            <input type="text" name="joinNickname" id="joinNickname" placeholder="NICKNAME (2자 이상)" />
-            <p class="nickNameOk">사용할 수 있는 닉네임입니다.</p>
-            <p class="nickNameNo">사용할 수 없는 닉네임입니다.</p>
-          </div>
-          <div class="inputBox"><input type="password" placeholder="PASSWORD (8자 이상)" id="joinPw" name="joinPw" /></div>
-          <div class="inputBox">
-            <input type="password" placeholder="PASSWORD CHECK" id="joinPwCheck" name="joinPwCheck" />
-            <p class="pwNotSame">비밀번호를 다시 한번 확인해 주세요.</p>
-          </div>
-        </div>
-        <div class="bottom">
-          <div class="btns">
-            <button class="joinBtn"><span>JOIN</span></button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-  {% for item in list %}
-  <div id="contentsPopup" class="cover">
-    <div id="popupItem" class="userBox">
-      <div class="top">
-        <div class="title">
-          <h1>{{item.title}}</h1>
-        </div>
-        <button id="popupCloseBtn"><span class="material-icons"> close </span></button>
-      </div>
-      <div class="center">
-        <div class="imgBox">
-          <img src="{{item.imgUrl}}" alt="" />
-        </div>
-        <div class="infoBox">
-          <div class="info"><span class="location">{{item.location}}</span> <span class="date">{{item.date}}</span> <span class="nickname">{{item.nickname}}</span></div>
-          {% if userInfo %}
-          <div class="heart">
-            <span id="userHeartNum" class="heartNum" data-no={{item.no}}>{{item.heartNum}}</span>
-            <button id="popupEmptyHeart" class="on" data-no={{item.no}}><span class="material-icons-outlined"> favorite_border </span></button>
-            <button id="popupFullHeart" class="" data-no={{item.no}}><span class="material-icons"> favorite </span></button>
-          </div>
-          {% else %}
-          <div class="heart">
-            <span id="noUserHeartNum" class="heartNum" data-no={{item.no}}>{{item.heartNum}}</span><button id="noUserHeart" data-no={{item.no}}><span class="material-icons-outlined"> favorite_border </span></button>
-          </div>
-          {% endif %}
-        </div>
-        <div class="txtBox">
-          <p>{{item.desc}}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  {% endfor %}
-  <div id="pagination" class="pagination">
-    <button id="preBtn" class="btn">
-      <span class="material-icons">
-        chevron_left
-        </span>
-    </button>
-    <ul class="list">
-    {% if totalPage -%}
-      {% for i in range(1, totalPage + 1) %}
-        {% if page == i %}
-      <li class="page"><a href=""  class="on" data-num={{i}}>{{i}}</a></li>
-          {% else %}
-      <li class="page"><a href="" data-num={{i}}>{{i}}</a></li>
-        {% endif %}
-      {%- endfor %}
-    {% endif %}
-    </ul>
-    <button id="nextBtn" class="btn"><span class="material-icons">
-      chevron_right
-      </span></button>
-  </div>
-  {% if userInfo %}
-  <script>
-    //유저의 클릭한 하트 글이 들어있는 배열 받아오기
-    axios({
-      url:"/heart/arr"
-    }).then(res=> {
-    const heartArr = res.data.heartArr;
-    heartArr.forEach((heart, heartIdx)=> {
-    fullHearts.forEach((item, idx)=> {
-    const no = item.dataset.no;
-    if(heart==no) {
-      item.classList.add("on")
-    }
-    })
-    emptyHearts.forEach((item2, idx2)=> {
-      const no = item2.dataset.no;
-      if(heart==no) {
-        item2.classList.remove("on")
-      }
-    })
-    popupFullHearts.forEach((item3, idx2)=> {
-    const no = item3.dataset.no;
-    if(heart==no) {
-      item3.classList.add("on")
-    }
-    })
-    popupEmptyHearts.forEach((item4, idx4)=> {
-      const no = item4.dataset.no;
-      if(heart==no) {
-        item4.classList.remove("on")
-      }
-    })
-     })
-    }).catch(err=> {
-      location.href = "/500";
-     })
-    </script>
-      {% endif %}
-  <script>
-    const contentsList = document.querySelector("#contents .container ul");
-    const loginBtn = document.querySelector("#loginBtn");
-    const loginPage = document.querySelector("#loginCover");
-    const loginCloseBtn = document.querySelector("#loginCloseBtn");
-    const loginPageInLoginBtn = document.querySelector("#loginCover .loginBtn");
-    const loginId = document.querySelector("#loginId");
-    const loginPw = document.querySelector("#loginPw");
-    const joinBtn = document.querySelector("#joinBtn");
-    const joinCloseBtn = document.querySelector("#joinCloseBtn");
-    const joinPage = document.querySelector("#joinCover");
-    const joinPageInJoinBtn = document.querySelector("#joinCover .joinBtn");
-    const joinId = document.querySelector("#joinId");
-    const joinPw = document.querySelector("#joinPw");
-    const joinNickname = document.querySelector("#joinNickname");
-    const joinPwCheck = document.querySelector("#joinPwCheck");
-    const joinIdOk = document.querySelector("#joinCover .idOk");
-    const joinIdNo = document.querySelector("#joinCover .idNo");
-    const joinNicknameOk = document.querySelector("#joinCover .nickNameOk");
-    const joinNicknameNo = document.querySelector("#joinCover .nickNameNo");
-    const joinPwNotSame = document.querySelector("#joinCover .pwNotSame");
-    const contents = document.querySelectorAll("#contents ul li .contentsBox");
-    const contentsPopups = document.querySelectorAll("#contentsPopup");
-    const popupClostBtns = document.querySelectorAll("#popupCloseBtn");
-    const emptyHearts = document.querySelectorAll("#emptyHeart");
-    const fullHearts = document.querySelectorAll("#fullHeart");
-    const noUserHearts = document.querySelectorAll("#noUserHeart");
-    const userHeartNums = document.querySelectorAll("#userHeartNum");
-    const noUserHeartNums = document.querySelectorAll("#noUserHeartNum");
-    const popupEmptyHearts = document.querySelectorAll("#popupEmptyHeart");
-    const popupFullHearts = document.querySelectorAll("#popupFullHeart");
-    const pageList = document.querySelectorAll("#pagination .list .page");
-    const pageBtns = document.querySelectorAll("#pagination .list .page a");
-
-    
-
-
-    //로그인 팝업
-    loginCloseBtn.addEventListener("click", () => {
-      loginPage.classList.remove("on");
-    });
-    //회원가입 팝업
-    joinCloseBtn.addEventListener("click", () => {
-      joinPage.classList.remove("on");
-      joinIdOk.classList.remove("on");
-      joinIdNo.classList.remove("on");
-      joinNicknameOk.classList.remove("on");
-      joinNicknameNo.classList.remove("on");
-      joinPwNotSame.classList.remove("on");
-      joinId.value = "";
-      joinPw.value = "";
-      joinNickname.value = "";
-      joinPwCheck.value = "";
-    });
-
-    //회원가입을 위한 데이터 전송
-    joinPageInJoinBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const id = joinId.value;
-      const pw = joinPw.value;
-      const nickname = joinNickname.value;
-      const pwCheck = joinPwCheck.value;
-      if (id === "") {
-        alert("ID를 입력해주세요");
-      }
-      if (pw === "") {
-        alert("비밀번호를 입력해주세요");
-      }
-      if (nickname === "") {
-        alert("닉네임을 입력해주세요");
-      }
-      if (pwCheck === "") {
-        alert("비밀번호를 체크해주세요");
-      }
-      if (id.length > 5 && nickname.length > 1 && pw.length > 7) {
-        axios({
-          url: "/user/join",
-          method: "POST",
-          data: {
-            id: id,
-            pw: pw,
-            nickname: nickname,
-            pwCheck: pwCheck,
-          },
-        })
-          .then((res) => {
-            if (!res.data.pwCheck) {
-              joinPwNotSame.classList.add("on");
-            }
-            if (res.data.isjoin) {
-              location.href = "/";
-              joinPage.classList.remove("on");
-              confirm("회원가입을 축하드립니다.");
-            }
-          })
-          .catch((err) => {
-            location.href = "/500";
-          });
-      } else {
-        if (id.length <= 5) {
-          alert("ID는 6자 이상입니다.");
-        }
-        if (nickname.length <= 1) {
-          alert("닉네임은 2글자 이상입니다.");
-        }
-        if (pw.length <= 7) {
-          alert("비밀번호는 8자 이상입니다.");
-        }
-      }
-    });
-    joinId.addEventListener("focusout", () => {
-      const id = joinId.value;
-      if (id.length > 5) {
-        axios({
-          method: "POST",
-          url: "/user/idcheck",
-          data: {
-            id: id,
-          },
-        })
-          .then((res) => {
-            if (res.data.idCheck) {
-              joinIdNo.classList.remove("on");
-              joinIdOk.classList.add("on");
-            } else {
-              joinIdOk.classList.remove("on");
-              joinIdNo.classList.add("on");
-            }
-          })
-          .catch((err) => {
-            location.href = "/500";
-          });
-      }
-      if (id === "" || id.length <= 5) {
-        joinIdOk.classList.remove("on");
-        joinIdNo.classList.remove("on");
-      }
-    });
-    joinNickname.addEventListener("focusout", () => {
-      const nickname = joinNickname.value;
-      if (nickname.length > 1) {
-        axios({
-          method: "POST",
-          url: "/user/nicknamecheck",
-          data: {
-            nickname: nickname,
-          },
-        })
-          .then((res) => {
-            console.log(res.data);
-            if (res.data.isNicknameCheck) {
-              joinNicknameNo.classList.remove("on");
-              joinNicknameOk.classList.add("on");
-            } else {
-              joinNicknameOk.classList.remove("on");
-              joinNicknameNo.classList.add("on");
-            }
-          })
-          .catch((err) => {
-            location.href = "/500";
-          });
-      }
-      if (nickname === "" || nickname.length <= 1) {
-        joinNicknameOk.classList.remove("on");
-        joinNicknameNo.classList.remove("on");
-      }
-    });
-    // 하트 수 계산하고, 하트 바꾸는 함수
-    //(생길 하트1 , 생길 하트2, 없어질 하트, 변경될 하트수, 이벤트 객체의 idx, 이벤트객체의 no)
-const heartCalc = (outHearts, inHearts,removeInHears, heartNum, idx, no) => {
- outHearts.forEach((item2, idx2)=> {
-  if(idx===idx2) {
-    item2.classList.add("on")
-  }
-    });
-  inHearts.forEach((item3, idx3)=> {
-    if(idx===idx3) {
-      item3.classList.add("on")
-    }
-  })
-  removeInHears.forEach((item4,idx4)=> {
-    if(idx===idx4) {
-      item4.classList.remove("on")
-    }
-  })
-  userHeartNums.forEach((h1, hIdx1)=> {
-    const h1Num = h1.dataset.no;
-      if(no===h1Num) {
-        h1.textContent=heartNum
-      } 
-  });
-  noUserHeartNums.forEach((h2, hIdx2)=> {
-    const h2Num = h2.dataset.no;
-      if(no===h2Num){
-        h2.textContent=heartNum
-  }})}
-
-    // 메인리스트 하트작업(emptyHeart -> fullHeart)
-    emptyHearts.forEach((item, idx)=> {
-      item.addEventListener("click",()=> {
-        const no = item.dataset.no;
-        axios({
-          method:"POST",
-          url:"/heart/plus",
-          data: {
-            no:no
-          }
-        }).then(res=> {
-          const heartNum = res.data.heartNum;
-          item.classList.remove("on");
-          heartCalc(fullHearts, popupFullHearts,popupEmptyHearts,heartNum, idx, no);
-        }).catch(err=> {
-          location.href = "/500";
-        })
-      })
-    })
-
-    // 메인리스트 하트작업(fullHeart -> emptyHeart)
-    fullHearts.forEach((item, idx)=> {
-      item.addEventListener("click",()=> {
-        const no = item.dataset.no;
-        axios({
-          method:"POST",
-          url:"/heart/minus",
-          data:{
-            no:no
-          }
-        }).then(res=>  {
-          const heartNum = res.data.heartNum;
-          item.classList.remove("on");
-          heartCalc(emptyHearts, popupEmptyHearts,popupFullHearts,heartNum, idx, no);
-        }).catch(err=> {
-          location.href = "/500";
-        })
-      })
-    })
-
-    //콘텐츠 팝업
-    contents.forEach((item, idx) => {
-      item.addEventListener("click", () => {
-        contentsPopups.forEach((item2, idx2) => {
-          idx === idx2 ? item2.classList.add("on") : item.classList.remove("on");
-        });
+<div id="utilBox">
+  <div class="txtBox"><p>{{ title }}</p></div>
+  <div class="utilMenu">
+    {% if userInfo %}
+    <a href="/user/logout" id="logoutBtn"><span>Logout</span></a>
+    <a href="/user/mytour" id="myTourBtn"><span>My tour</span></a>
+    {% else %}
+    <a href="" id="loginBtn"><span>Login</span></a>
+    <a href="" id="joinBtn"><span>Join</span></a>
+    <script>
+      loginBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        loginPage.classList.add("on");
+        loginId.focus();
       });
-    });
-    popupClostBtns.forEach((item, idx2) => {
-      item.addEventListener("click", () => {
-        contentsPopups.forEach((item2, idx) => {
-          if (idx === idx2) {
+      joinBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        joinPage.classList.add("on");
+        joinId.focus();
+      });
+    </script>
+    {% endif %}
+  </div>
+</div>
+<section id="contents" class="section">
+  <div class="container">
+    <ul>
+      {% for item in list %}
+      <li>
+        <div class="contentsBox">
+          <div class="img">
+            <img src="{{item.imgUrl}}" alt="" />
+          </div>
+          <div class="txtBox">
+            <div class="top">
+              <div class="titleBox">
+                <span class="location">{{item.location}}</span>
+                <h1>{{item.title}}</h1>
+              </div>
+            </div>
+            <p>{{item.desc}}</p>
+          </div>
+        </div>
+        {% if userInfo %}
+        <div class="heart">
+          <button id="emptyHeart" class="on" data-no="{{item.no}}"><span class="material-icons-outlined"> favorite_border </span></button>
+          <button id="fullHeart" class="" data-no="{{item.no}}"><span class="material-icons"> favorite </span></button>
+        </div>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% if idError %}
+<script>
+  alert("존재하지 않는 아이디입니다.");
+</script>
+{% endif %} {% if pwError %}
+<script>
+  alert("비밀번호를 확인해주세요.");
+</script>
+{% endif %}
+<div id="loginCover" class="cover">
+  <div id="loginBox" class="userBox">
+    <div class="top">
+      <div class="title">
+        <h1>Login</h1>
+      </div>
+      <button id="loginCloseBtn"><span class="material-icons"> close </span></button>
+    </div>
+    <form action="/user/login" method="POST">
+      <div class="center">
+        <div class="inputBox"><input type="text" placeholder="ID" id="loginId" name="loginId" /></div>
+        <div class="inputBox"><input type="password" placeholder="PASSWORD" id="loginPw" name="loginPw" /></div>
+      </div>
+      <div class="bottom">
+        <div class="btns">
+          <button class="loginBtn"><span>LOGIN</span></button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div id="joinCover" class="cover">
+  <div id="joinBox" class="userBox">
+    <div class="top">
+      <div class="title">
+        <h1>Sign up</h1>
+      </div>
+      <button id="joinCloseBtn"><span class="material-icons"> close </span></button>
+    </div>
+    <form action="" method="">
+      <div class="center">
+        <div class="idBox">
+          <div class="inputBox">
+            <input type="text" placeholder="ID (6자 이상)" id="joinId" name="joinId" />
+            <p class="idOk">사용할 수 있는 아이디입니다.</p>
+            <p class="idNo">사용할 수 없는 아이디입니다.</p>
+          </div>
+        </div>
+        <div class="inputBox">
+          <input type="text" name="joinNickname" id="joinNickname" placeholder="NICKNAME (2자 이상)" />
+          <p class="nickNameOk">사용할 수 있는 닉네임입니다.</p>
+          <p class="nickNameNo">사용할 수 없는 닉네임입니다.</p>
+        </div>
+        <div class="inputBox"><input type="password" placeholder="PASSWORD (8자 이상)" id="joinPw" name="joinPw" /></div>
+        <div class="inputBox">
+          <input type="password" placeholder="PASSWORD CHECK" id="joinPwCheck" name="joinPwCheck" />
+          <p class="pwNotSame">비밀번호를 다시 한번 확인해 주세요.</p>
+        </div>
+      </div>
+      <div class="bottom">
+        <div class="btns">
+          <button class="joinBtn"><span>JOIN</span></button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% for item in list %}
+<div id="contentsPopup" class="cover">
+  <div id="popupItem" class="userBox">
+    <div class="top">
+      <div class="title">
+        <h1>{{item.title}}</h1>
+      </div>
+      <button id="popupCloseBtn"><span class="material-icons"> close </span></button>
+    </div>
+    <div class="center">
+      <div class="imgBox">
+        <img src="{{item.imgUrl}}" alt="" />
+      </div>
+      <div class="infoBox">
+        <div class="info"><span class="location">{{item.location}}</span> <span class="date">{{item.date}}</span> <span class="nickname">{{item.nickname}}</span></div>
+        {% if userInfo %}
+        <div class="heart">
+          <span id="userHeartNum" class="heartNum" data-no="{{item.no}}">{{item.heartNum}}</span>
+          <button id="popupEmptyHeart" class="on" data-no="{{item.no}}"><span class="material-icons-outlined"> favorite_border </span></button>
+          <button id="popupFullHeart" class="" data-no="{{item.no}}"><span class="material-icons"> favorite </span></button>
+        </div>
+        {% else %}
+        <div class="heart">
+          <span id="noUserHeartNum" class="heartNum" data-no="{{item.no}}">{{item.heartNum}}</span
+          ><button id="noUserHeart" data-no="{{item.no}}"><span class="material-icons-outlined"> favorite_border </span></button>
+        </div>
+        {% endif %}
+      </div>
+      <div class="txtBox">
+        <p>{{item.desc}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+<div id="pagination" class="pagination">
+  <a href="" id="preBtn" class="btn">
+    <span class="material-icons"> chevron_left </span>
+  </a>
+  <ul class="list">
+    {% if totalPage -%} {% for i in range(1, totalPage + 1) %} {% if page == i %}
+    <li class="page"><a href="/?page={{i}}" class="on">{{i}}</a></li>
+    {% else %}
+    <li class="page"><a href="/?page={{i}}">{{i}}</a></li>
+    {% endif %} {%- endfor %} {% endif %}
+  </ul>
+  <a href id="nextBtn" class="btn"><span class="material-icons"> chevron_right </span></a>
+</div>
+{% if userInfo %}
+<script>
+  //유저의 클릭한 하트 글이 들어있는 배열 받아오기
+  axios({
+    url: "/heart/arr",
+  })
+    .then((res) => {
+      const heartArr = res.data.heartArr;
+      heartArr.forEach((heart, heartIdx) => {
+        fullHearts.forEach((item, idx) => {
+          const no = item.dataset.no;
+          if (heart == no) {
+            item.classList.add("on");
+          }
+        });
+        emptyHearts.forEach((item2, idx2) => {
+          const no = item2.dataset.no;
+          if (heart == no) {
             item2.classList.remove("on");
           }
         });
-      });
-    });
-    
-    //팝업창 하트 작업(emptyHeart -> fullHeart)
-    popupEmptyHearts.forEach((item, idx)=> {
-      item.addEventListener("click",()=> {
-        const no = item.dataset.no;
-        axios({
-          method:"POST",
-          url:"/heart/plus",
-          data:{
-            no:no
+        popupFullHearts.forEach((item3, idx2) => {
+          const no = item3.dataset.no;
+          if (heart == no) {
+            item3.classList.add("on");
           }
-        }).then(res=> {
+        });
+        popupEmptyHearts.forEach((item4, idx4) => {
+          const no = item4.dataset.no;
+          if (heart == no) {
+            item4.classList.remove("on");
+          }
+        });
+      });
+    })
+    .catch((err) => {
+      location.href = "/500";
+    });
+</script>
+{% endif %}
+<script>
+  const contentsList = document.querySelector("#contents .container ul");
+  const loginBtn = document.querySelector("#loginBtn");
+  const loginPage = document.querySelector("#loginCover");
+  const loginCloseBtn = document.querySelector("#loginCloseBtn");
+  const loginPageInLoginBtn = document.querySelector("#loginCover .loginBtn");
+  const loginId = document.querySelector("#loginId");
+  const loginPw = document.querySelector("#loginPw");
+  const joinBtn = document.querySelector("#joinBtn");
+  const joinCloseBtn = document.querySelector("#joinCloseBtn");
+  const joinPage = document.querySelector("#joinCover");
+  const joinPageInJoinBtn = document.querySelector("#joinCover .joinBtn");
+  const joinId = document.querySelector("#joinId");
+  const joinPw = document.querySelector("#joinPw");
+  const joinNickname = document.querySelector("#joinNickname");
+  const joinPwCheck = document.querySelector("#joinPwCheck");
+  const joinIdOk = document.querySelector("#joinCover .idOk");
+  const joinIdNo = document.querySelector("#joinCover .idNo");
+  const joinNicknameOk = document.querySelector("#joinCover .nickNameOk");
+  const joinNicknameNo = document.querySelector("#joinCover .nickNameNo");
+  const joinPwNotSame = document.querySelector("#joinCover .pwNotSame");
+  const contents = document.querySelectorAll("#contents ul li .contentsBox");
+  const contentsPopups = document.querySelectorAll("#contentsPopup");
+  const popupClostBtns = document.querySelectorAll("#popupCloseBtn");
+  const emptyHearts = document.querySelectorAll("#emptyHeart");
+  const fullHearts = document.querySelectorAll("#fullHeart");
+  const noUserHearts = document.querySelectorAll("#noUserHeart");
+  const userHeartNums = document.querySelectorAll("#userHeartNum");
+  const noUserHeartNums = document.querySelectorAll("#noUserHeartNum");
+  const popupEmptyHearts = document.querySelectorAll("#popupEmptyHeart");
+  const popupFullHearts = document.querySelectorAll("#popupFullHeart");
+  const pageList = document.querySelectorAll("#pagination .list .page");
+  const pageBtns = document.querySelectorAll("#pagination .list .page a");
+  const preBtn = document.querySelector("#preBtn");
+  const nextBtn = document.querySelector("#nextBtn");
+
+  //로그인 팝업
+  loginCloseBtn.addEventListener("click", () => {
+    loginPage.classList.remove("on");
+  });
+  //회원가입 팝업
+  joinCloseBtn.addEventListener("click", () => {
+    joinPage.classList.remove("on");
+    joinIdOk.classList.remove("on");
+    joinIdNo.classList.remove("on");
+    joinNicknameOk.classList.remove("on");
+    joinNicknameNo.classList.remove("on");
+    joinPwNotSame.classList.remove("on");
+    joinId.value = "";
+    joinPw.value = "";
+    joinNickname.value = "";
+    joinPwCheck.value = "";
+  });
+
+  //회원가입을 위한 데이터 전송
+  joinPageInJoinBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const id = joinId.value;
+    const pw = joinPw.value;
+    const nickname = joinNickname.value;
+    const pwCheck = joinPwCheck.value;
+    if (id === "") {
+      alert("ID를 입력해주세요");
+    }
+    if (pw === "") {
+      alert("비밀번호를 입력해주세요");
+    }
+    if (nickname === "") {
+      alert("닉네임을 입력해주세요");
+    }
+    if (pwCheck === "") {
+      alert("비밀번호를 체크해주세요");
+    }
+    if (id.length > 5 && nickname.length > 1 && pw.length > 7) {
+      axios({
+        url: "/user/join",
+        method: "POST",
+        data: {
+          id: id,
+          pw: pw,
+          nickname: nickname,
+          pwCheck: pwCheck,
+        },
+      })
+        .then((res) => {
+          if (!res.data.pwCheck) {
+            joinPwNotSame.classList.add("on");
+          }
+          if (res.data.isjoin) {
+            location.href = "/";
+            joinPage.classList.remove("on");
+            confirm("회원가입을 축하드립니다.");
+          }
+        })
+        .catch((err) => {
+          location.href = "/500";
+        });
+    } else {
+      if (id.length <= 5) {
+        alert("ID는 6자 이상입니다.");
+      }
+      if (nickname.length <= 1) {
+        alert("닉네임은 2글자 이상입니다.");
+      }
+      if (pw.length <= 7) {
+        alert("비밀번호는 8자 이상입니다.");
+      }
+    }
+  });
+  joinId.addEventListener("focusout", () => {
+    const id = joinId.value;
+    if (id.length > 5) {
+      axios({
+        method: "POST",
+        url: "/user/idcheck",
+        data: {
+          id: id,
+        },
+      })
+        .then((res) => {
+          if (res.data.idCheck) {
+            joinIdNo.classList.remove("on");
+            joinIdOk.classList.add("on");
+          } else {
+            joinIdOk.classList.remove("on");
+            joinIdNo.classList.add("on");
+          }
+        })
+        .catch((err) => {
+          location.href = "/500";
+        });
+    }
+    if (id === "" || id.length <= 5) {
+      joinIdOk.classList.remove("on");
+      joinIdNo.classList.remove("on");
+    }
+  });
+  joinNickname.addEventListener("focusout", () => {
+    const nickname = joinNickname.value;
+    if (nickname.length > 1) {
+      axios({
+        method: "POST",
+        url: "/user/nicknamecheck",
+        data: {
+          nickname: nickname,
+        },
+      })
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.isNicknameCheck) {
+            joinNicknameNo.classList.remove("on");
+            joinNicknameOk.classList.add("on");
+          } else {
+            joinNicknameOk.classList.remove("on");
+            joinNicknameNo.classList.add("on");
+          }
+        })
+        .catch((err) => {
+          location.href = "/500";
+        });
+    }
+    if (nickname === "" || nickname.length <= 1) {
+      joinNicknameOk.classList.remove("on");
+      joinNicknameNo.classList.remove("on");
+    }
+  });
+  // 하트 수 계산하고, 하트 바꾸는 함수
+  //(생길 하트1 , 생길 하트2, 없어질 하트, 변경될 하트수, 이벤트 객체의 idx, 이벤트객체의 no)
+  const heartCalc = (outHearts, inHearts, removeInHears, heartNum, idx, no) => {
+    outHearts.forEach((item2, idx2) => {
+      if (idx === idx2) {
+        item2.classList.add("on");
+      }
+    });
+    inHearts.forEach((item3, idx3) => {
+      if (idx === idx3) {
+        item3.classList.add("on");
+      }
+    });
+    removeInHears.forEach((item4, idx4) => {
+      if (idx === idx4) {
+        item4.classList.remove("on");
+      }
+    });
+    userHeartNums.forEach((h1, hIdx1) => {
+      const h1Num = h1.dataset.no;
+      if (no === h1Num) {
+        h1.textContent = heartNum;
+      }
+    });
+    noUserHeartNums.forEach((h2, hIdx2) => {
+      const h2Num = h2.dataset.no;
+      if (no === h2Num) {
+        h2.textContent = heartNum;
+      }
+    });
+  };
+
+  // 메인리스트 하트작업(emptyHeart -> fullHeart)
+  emptyHearts.forEach((item, idx) => {
+    item.addEventListener("click", () => {
+      const no = item.dataset.no;
+      axios({
+        method: "POST",
+        url: "/heart/plus",
+        data: {
+          no: no,
+        },
+      })
+        .then((res) => {
           const heartNum = res.data.heartNum;
           item.classList.remove("on");
-          heartCalc(fullHearts, popupFullHearts,emptyHearts,heartNum, idx, no);
-        }).catch(err=> {
-          location.href = "/500";
+          heartCalc(fullHearts, popupFullHearts, popupEmptyHearts, heartNum, idx, no);
         })
-      })
-    })
+        .catch((err) => {
+          location.href = "/500";
+        });
+    });
+  });
 
-    //팝업창 하트 작업(fullHeart -> emptyHeart)
-    popupFullHearts.forEach((item, idx)=> {
-      item.addEventListener("click",()=> {
-        const no = item.dataset.no;
-        axios({
-          method:"POST",
-          url:"/heart/minus",
-          data:{
-            no:no
-          }
-        }).then(res=> {
-          const heartNum=res.data.heartNum;
+  // 메인리스트 하트작업(fullHeart -> emptyHeart)
+  fullHearts.forEach((item, idx) => {
+    item.addEventListener("click", () => {
+      const no = item.dataset.no;
+      axios({
+        method: "POST",
+        url: "/heart/minus",
+        data: {
+          no: no,
+        },
+      })
+        .then((res) => {
+          const heartNum = res.data.heartNum;
           item.classList.remove("on");
-          heartCalc(emptyHearts, popupEmptyHearts,fullHearts,heartNum, idx, no);
-        }).catch(err=> {
-          location.href = "/500";
+          heartCalc(emptyHearts, popupEmptyHearts, popupFullHearts, heartNum, idx, no);
         })
-      })
-    })
-
-    //로그인 전 팝업 하트버튼 누르면 경고창뜨는 함수
-    noUserHearts.forEach((item, idx)=> {
-      item.addEventListener("click",()=> {
-        alert("로그인 후 이용해주세요.")
-      })
-    })
-
-    //페이지네이션
-    pageBtns.forEach((item, idx)=> {
-      item.addEventListener("click",(e)=>{
-        e.preventDefault();
-        const num = item.dataset.num;
-        axios({
-          url:`/?page=${num}`,
-        }).then(res=> {
-          console.log("ok")
-          location.href = `/?page=${num}`
-        }).catch(err=> {
+        .catch((err) => {
           location.href = "/500";
-        })
-      })
-    })
- 
-    // 페이지네이션 화살표
+        });
+    });
+  });
 
-    
-  </script>
-  {% include "include/footer.html" %}
-</body>
+  //콘텐츠 팝업
+  contents.forEach((item, idx) => {
+    item.addEventListener("click", () => {
+      contentsPopups.forEach((item2, idx2) => {
+        idx === idx2 ? item2.classList.add("on") : item.classList.remove("on");
+      });
+    });
+  });
+  popupClostBtns.forEach((item, idx2) => {
+    item.addEventListener("click", () => {
+      contentsPopups.forEach((item2, idx) => {
+        if (idx === idx2) {
+          item2.classList.remove("on");
+        }
+      });
+    });
+  });
+
+  //팝업창 하트 작업(emptyHeart -> fullHeart)
+  popupEmptyHearts.forEach((item, idx) => {
+    item.addEventListener("click", () => {
+      const no = item.dataset.no;
+      axios({
+        method: "POST",
+        url: "/heart/plus",
+        data: {
+          no: no,
+        },
+      })
+        .then((res) => {
+          const heartNum = res.data.heartNum;
+          item.classList.remove("on");
+          heartCalc(fullHearts, popupFullHearts, emptyHearts, heartNum, idx, no);
+        })
+        .catch((err) => {
+          location.href = "/500";
+        });
+    });
+  });
+
+  //팝업창 하트 작업(fullHeart -> emptyHeart)
+  popupFullHearts.forEach((item, idx) => {
+    item.addEventListener("click", () => {
+      const no = item.dataset.no;
+      axios({
+        method: "POST",
+        url: "/heart/minus",
+        data: {
+          no: no,
+        },
+      })
+        .then((res) => {
+          const heartNum = res.data.heartNum;
+          item.classList.remove("on");
+          heartCalc(emptyHearts, popupEmptyHearts, fullHearts, heartNum, idx, no);
+        })
+        .catch((err) => {
+          location.href = "/500";
+        });
+    });
+  });
+
+  //로그인 전 팝업 하트버튼 누르면 경고창뜨는 함수
+  noUserHearts.forEach((item, idx) => {
+    item.addEventListener("click", () => {
+      alert("로그인 후 이용해주세요.");
+    });
+  });
+</script>
+{% include "include/footer.html" %}

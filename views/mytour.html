@@ -1,6 +1,8 @@
 {% include "include/head.html" %} {% include "include/header.html" %}
 <div id="utilBox">
-  <div class="txtBox"><p>{{ title }}</p></div>
+  <div class="txtBox">
+    <p>{{ title }}</p>
+  </div>
   <div class="utilMenu">
     <a href="/user/logout" id="logoutBtn"><span>Logout</span></a>
     <a href="/user/mypage" id="mypageBtn"><span>My Page</span></a>
@@ -18,21 +20,21 @@
       <li class="myContents">
         <div class="contentsBox">
           <div class="img">
-            <img src="{{item.imgUrl}}" alt="" />
+            <img src="{{ item.imgUrl }}" alt="" />
           </div>
           <div class="txtBox">
             <div class="top">
               <div class="titleBox">
-                <span class="location">{{item.location}}</span>
-                <h1>{{item.title}}</h1>
+                <span class="location">{{ item.location }}</span>
+                <h1>{{ item.title }}</h1>
               </div>
             </div>
-            <p>{{item.desc}}</p>
+            <p>{{ item.desc }}</p>
           </div>
         </div>
         <div class="heart">
-          <button id="myEmptyHeart" class="on" data-no="{{item.no}}"><span class="material-icons-outlined"> favorite_border </span></button>
-          <button id="myFullHeart" class="" data-no="{{item.no}}"><span class="material-icons"> favorite </span></button>
+          <button id="myEmptyHeart" class="on" data-no="{{ item.no }}"><span class="material-icons-outlined"> favorite_border </span></button>
+          <button id="myFullHeart" class="" data-no="{{ item.no }}"><span class="material-icons"> favorite </span></button>
         </div>
       </li>
       {% endfor %}
@@ -44,30 +46,30 @@
   <div id="popupItem" class="userBox">
     <div class="top">
       <div class="title">
-        <h1>{{item.title}}</h1>
+        <h1>{{ item.title }}</h1>
       </div>
       <button id="popupCloseBtn"><span class="material-icons"> close </span></button>
     </div>
     <div class="center">
       <div class="imgBox">
-        <img src="{{item.imgUrl}}" alt="" />
+        <img src="{{ item.imgUrl }}" alt="" />
       </div>
       <div class="infoBox">
-        <div class="info"><span class="location">{{item.location}}</span> <span class="date">{{item.date}}</span> <span class="nickname">{{item.nickname}}</span></div>
+        <div class="info"><span class="location">{{ item.location }}</span> <span class="date">{{ item.date }}</span> <span class="nickname">{{ item.nickname }}</span></div>
         <div class="heart">
-          <span class="heartNum" id="myHeartNum" data-no="{{item.no}}">{{item.heartNum}}</span>
-          <button id="myPopupEmptyHeart" class="on" data-no="{{item.no}}"><span class="material-icons-outlined"> favorite_border </span></button>
-          <button id="myPopupFullHeart" class="" data-no="{{item.no}}"><span class="material-icons"> favorite </span></button>
+          <span class="heartNum" id="myHeartNum" data-no="{{ item.no }}">{{ item.heartNum }}</span>
+          <button id="myPopupEmptyHeart" class="on" data-no="{{ item.no }}"><span class="material-icons-outlined"> favorite_border </span></button>
+          <button id="myPopupFullHeart" class="" data-no="{{ item.no }}"><span class="material-icons"> favorite </span></button>
         </div>
       </div>
       <div class="txtBox">
-        <p>{{item.desc}}</p>
+        <p>{{ item.desc }}</p>
       </div>
     </div>
     <div class="bottom">
       <div class="btns">
-        <button id="updateBtn" data-no="{{item.no}}"><span>수정</span></button>
-        <button id="delBtn" data-no="{{item.no}}"><span>삭제</span></button>
+        <button id="updateBtn" data-no="{{ item.no }}"><span>수정</span></button>
+        <button id="delBtn" data-no="{{ item.no }}"><span>삭제</span></button>
       </div>
     </div>
   </div>
@@ -76,9 +78,13 @@
 <div id="myPagenation" class="pagination">
   <ul class="list">
     {% if totalPage -%} {% for i in range(1, totalPage + 1) %} {% if page == i %}
-    <li class="page"><a href="" class="on" data-num="{{i}}">{{i}}</a></li>
+    <li class="page">
+      <a href="" class="on" data-num="{{ i }}">{{ i }}</a>
+    </li>
     {% else %}
-    <li class="page"><a href="" data-num="{{i}}">{{i}}</a></li>
+    <li class="page">
+      <a href="" data-num="{{ i }}">{{ i }}</a>
+    </li>
     {% endif %} {%- endfor %} {% endif %}
   </ul>
 </div>
