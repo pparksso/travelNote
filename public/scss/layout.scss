@@ -12,6 +12,14 @@ body {
   font-weight: 500;
   overflow-x: hidden;
   position: relative;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    height: 10%;
+    background: #4ab8c5;
+    border-radius: 10px;
+  }
 }
 * {
   box-sizing: border-box;
@@ -30,4 +38,12 @@ a {
   font-weight: 300;
   letter-spacing: 1px;
   font-size: 16px;
+  word-break: keep-all;
+}
+
+// 반응형
+@media all and (max-width: 450px) {
+  #footer {
+    font-size: clamp(10px, 3.6vw, 16px);
+  }
 }

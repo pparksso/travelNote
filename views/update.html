@@ -31,10 +31,10 @@
           <label><input type="text" name="updateDate" id="updateDate" readonly value="{{list.date}}" /><span>📅</span></label>
         </div>
         <div class="inputBox">
-          <label><span>제목</span><input type="text" name="updateTitle" id="updateTitle" value="{{list.title}}" /></label>
+          <label><span>제목</span><input type="text" name="updateTitle" id="updateTitle" value="{{list.title}}" maxlength="20"/></label>
         </div>
         <div class="inputBox">
-          <label><span>여행지</span><input type="text" name="updateLocation" id="updateLocation" value="{{list.location}}" /></label>
+          <label><span>여행지</span><input type="text" name="updateLocation" id="updateLocation" value="{{list.location}}"maxlength="20" /></label>
         </div>
         <div class="inputBox"><textarea name="updateDesc" id="updateDesc" cols="30" rows="10" value="">{{list.desc}}</textarea></div>
         <div class="btns">

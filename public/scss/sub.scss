@@ -11,7 +11,7 @@
   form {
     .imgBox {
       width: 100%;
-      height: 600px;
+      height: 60vh;
       background-color: #fffbfb;
       margin-bottom: 20px;
       img {
@@ -44,7 +44,7 @@
           display: block;
           position: absolute;
           top: -10px;
-          left: 10%;
+          left: 90px;
           height: calc(100% + 20px);
           width: 1px;
           z-index: 1;
@@ -52,6 +52,9 @@
         }
         span {
           font-size: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         input {
           width: 86%;
@@ -90,9 +93,12 @@
         &::before {
           display: none;
         }
-        // #date {
-        //   font-size: 18px;
-        // }
+        span {
+          position: absolute;
+          right: 0;
+          top: 40%;
+          transform: translateY(-50%);
+        }
       }
     }
     .btns {
@@ -120,4 +126,86 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+// 반응형
+@media all and(max-width:1280px) {
+  .subSection {
+    width: 85%;
+    form .inputBox label::before {
+      left: 110px;
+    }
+  }
+}
+@media all and(max-width:1024px) {
+  .subSection form .inputBox label input {
+    width: 83%;
+  }
+}
+@media all and(max-width:860px) {
+  .subSection form {
+    .inputBox {
+      &.dateBox {
+        width: 35%;
+      }
+      label {
+        input {
+          width: 80%;
+          &::placeholder {
+            font-size: clamp(16px, 2.5vw, 20px);
+          }
+        }
+        span {
+          font-size: clamp(16px, 2.5vw, 20px);
+        }
+      }
+    }
+  }
+}
+@media all and(max-width:700px) {
+  .subSection form {
+    .imgBox {
+      height: 40vh;
+    }
+    .inputBox label input {
+      width: 76%;
+    }
+  }
+}
+@media all and(max-width:630px) {
+  .subSection form .inputBox {
+    &.dateBox {
+      width: 50%;
+    }
+    label input {
+      width: 70%;
+    }
+  }
+}
+@media all and(max-width:520px) {
+  .subSection form .inputBox {
+    &.dateBox {
+      width: 70%;
+    }
+    label::before {
+      left: 70px;
+    }
+  }
+}
+@media all and(max-width:415px) {
+  .subSection form .inputBox {
+    padding: 10px;
+  }
+}
+@media all and(max-width:281px) {
+  .subSection form .inputBox {
+    label {
+      &::before {
+        left: 60px;
+      }
+      span {
+        font-size: 14px;
+      }
+    }
+  }
 }

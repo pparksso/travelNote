@@ -76,17 +76,21 @@
 </div>
 {% endfor %}
 <div id="myPagenation" class="pagination">
+  {% if startPage > 5 -%}
+  <a href="/?page={{startPage-1}}" id="preBtn" class="btn on">
+    <span class="material-icons"> chevron_left </span>
+  </a>
+  {% endif %}
   <ul class="list">
-    {% if totalPage -%} {% for i in range(1, totalPage + 1) %} {% if page == i %}
-    <li class="page">
-      <a href="" class="on" data-num="{{ i }}">{{ i }}</a>
-    </li>
+    {% if totalPage -%} {% for i in range(startPage, minPage+1) %} {% if page == i %}
+    <li class="page"><a href="/?page={{i}}" class="on">{{i}}</a></li>
     {% else %}
-    <li class="page">
-      <a href="" data-num="{{ i }}">{{ i }}</a>
-    </li>
+    <li class="page"><a href="/?page={{i}}">{{i}}</a></li>
     {% endif %} {%- endfor %} {% endif %}
   </ul>
+  {% if totalPage > 5 and totalPage > minPage -%}
+  <a href="/?page={{minPage+1}}" id="nextBtn" class="btn on"><span class="material-icons"> chevron_right </span></a>
+  {% endif -%}
 </div>
 <script>
   const mytourUpdateBtn = document.querySelector("#mytourUpdate");
@@ -313,24 +317,6 @@
           } else {
             console.log("500띄울거임");
           }
-        })
-        .catch((err) => {
-          location.href = "/500";
-        });
-    });
-  });
-
-  //페이지네이션
-  myPageBtns.forEach((item, idx) => {
-    item.addEventListener("click", (e) => {
-      e.preventDefault();
-      const num = item.dataset.num;
-      axios({
-        url: `/?page=${num}`,
-      })
-        .then((res) => {
-          console.log("ok");
-          location.href = `/?page=${num}`;
         })
         .catch((err) => {
           location.href = "/500";

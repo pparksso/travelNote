@@ -106,7 +106,8 @@ router.get("/mytour", async (req, res) => {
   try {
     if (req.user) {
       let page = parseInt(req.query.page);
-      const size = 8;
+      const size = 6;
+      const pageGroupSize = 5;
       if (!page) {
         page = 1;
       }
@@ -114,7 +115,13 @@ router.get("/mytour", async (req, res) => {
       const contents = await contentsDb.find({ userNum: req.user.userNum }).sort({ no: -1 }).limit(size).skip(skip);
       const totalContents = await contentsDb.countDocuments({ userNum: req.user.userNum });
       const totalPage = await Math.ceil(totalContents / size);
-      await res.render("mytour", { page: page, totalPage: totalPage, userInfo: req.user, title: "My tour", list: contents });
+      const startPage = page - ((page - 1) % pageGroupSize);
+      const lastPage = startPage + (pageGroupSize - 1);
+      const minPage = totalPage <= lastPage ? totalPage : lastPage;
+      if (page > totalPage) {
+        return res.redirect("/");
+      }
+      await res.render("mytour", { startPage: startPage, minPage: minPage, page: page, totalPage: totalPage, userInfo: req.user, title: "My tour", list: contents });
     } else {
       res.send(`<script>alert("시간이 지나 로그인이 해제되었습니다. 다시 로그인 해주세요."); location.href = "/"</script>`);
     }

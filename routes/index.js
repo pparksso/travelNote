@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
     const fMsg = req.flash();
     // 페이지네이션
     let page = parseInt(req.query.page);
-    const size = 1;
+    const size = 6;
     const pageGroupSize = 5;
     if (!page) {
       page = 1;
