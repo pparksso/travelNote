@@ -1,5 +1,7 @@
 # travel diary
 
+## 배포 : https://worldtraveldiary.herokuapp.com/
+
 ### 목적 : nodejs crud 연습
 
 ### 새롭게 알게된 기능
@@ -23,9 +25,7 @@
 
 ### 진행
 
-- 남은 진행사항 :배포
 - cloudinary 수정 시 이미지 변경 할 때 전 이미지 삭제해야됨, 탈퇴할 때 모든 사진 삭제해야됨
-- 마지막페이지수, 첫페이지수, 화살표 링크 2개
 
 ### 리팩토링
 
