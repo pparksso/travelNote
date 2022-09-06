@@ -118,8 +118,10 @@ router.get("/mytour", async (req, res) => {
       const startPage = page - ((page - 1) % pageGroupSize);
       const lastPage = startPage + (pageGroupSize - 1);
       const minPage = totalPage <= lastPage ? totalPage : lastPage;
-      if (page > totalPage) {
-        return res.redirect("/");
+      if (totalContents) {
+        if (page > totalPage) {
+          return res.redirect("/");
+        }
       }
       await res.render("mytour", { startPage: startPage, minPage: minPage, page: page, totalPage: totalPage, userInfo: req.user, title: "My tour", list: contents });
     } else {
