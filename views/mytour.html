@@ -77,19 +77,19 @@
 {% endfor %}
 <div id="myPagenation" class="pagination">
   {% if startPage > 5 -%}
-  <a href="/?page={{startPage-1}}" id="preBtn" class="btn on">
+  <a href="/mytour?page={{startPage-1}}" id="preBtn" class="btn on">
     <span class="material-icons"> chevron_left </span>
   </a>
   {% endif %}
   <ul class="list">
     {% if totalPage -%} {% for i in range(startPage, minPage+1) %} {% if page == i %}
-    <li class="page"><a href="/?page={{i}}" class="on">{{i}}</a></li>
+    <li class="page"><a href="/mytour?page={{i}}" class="on">{{i}}</a></li>
     {% else %}
-    <li class="page"><a href="/?page={{i}}">{{i}}</a></li>
+    <li class="page"><a href="/mytour?page={{i}}">{{i}}</a></li>
     {% endif %} {%- endfor %} {% endif %}
   </ul>
   {% if totalPage > 5 and totalPage > minPage -%}
-  <a href="/?page={{minPage+1}}" id="nextBtn" class="btn on"><span class="material-icons"> chevron_right </span></a>
+  <a href="/mytour?page={{minPage+1}}" id="nextBtn" class="btn on"><span class="material-icons"> chevron_right </span></a>
   {% endif -%}
 </div>
 <script>
