@@ -290,8 +290,14 @@
     const pw = joinPw.value;
     const nickname = joinNickname.value;
     const pwCheck = joinPwCheck.value;
+    const regld = /^[A-Za-z0-9]{8,12}$/;
     if (id === "") {
       alert("ID를 입력해주세요");
+      joinId.focus();
+      return false;
+    }
+    if (!regld.test(id)) {
+      alert("영문과 숫자 8~12자 이내로 입력하세요.");
       joinId.focus();
       return false;
     }
@@ -391,7 +397,6 @@
         },
       })
         .then((res) => {
-          console.log(res.data);
           if (res.data.isNicknameCheck) {
             joinNicknameNo.classList.remove("on");
             joinNicknameOk.classList.add("on");
