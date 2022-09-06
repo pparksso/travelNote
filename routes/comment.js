@@ -9,7 +9,6 @@ const commentsDb = require("../db/comments");
 router.post("/add", async (req, res) => {
   try {
     const comment = req.body.comment;
-    console.log("🚀 ~ file: comment.js ~ line 12 ~ router.post ~ comment", comment);
     const contentsNo = parseInt(req.body.contentsNo);
     const nickname = req.user.nickname;
     const id = req.user.id;
