@@ -106,10 +106,11 @@ router.get("/mytour", async (req, res) => {
   try {
     if (req.user) {
       let page = parseInt(req.query.page);
-      const size = 6;
+      let size = 6;
       const pageGroupSize = 5;
       if (!page) {
         page = 1;
+        size = 5;
       }
       const skip = (page - 1) * size;
       const contents = await contentsDb.find({ userNum: req.user.userNum }).sort({ no: -1 }).limit(size).skip(skip);
