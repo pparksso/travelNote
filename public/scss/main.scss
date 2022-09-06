@@ -3,43 +3,43 @@
   height: 40vh;
   position: relative;
   .top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 85%;
+    position: relative;
     background-image: url("/images/main/mainVisual.jpg");
     background-position: 0 50%;
     background-repeat: no-repeat;
     background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
     opacity: 0.85;
     .titleBox {
       h1 {
-        color: #fff;
-        font-size: 40px;
         font-family: "Playfair Display", serif;
+        font-size: 40px;
         font-weight: 400;
+        color: #fff;
       }
     }
   }
 }
 #utilBox {
   width: 260px;
-  border-radius: 10px;
-  box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.15);
   position: absolute;
   top: 25.5vh;
   left: 50%;
-  background-color: #fff;
   transform: translateX(-50%);
+  box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  background-color: #fff;
   .txtBox {
     border-bottom: 1px solid #ccc;
     text-align: center;
     p {
+      padding: 35px 0;
       font-size: 19px;
       font-weight: 700;
-      padding: 35px 0;
     }
   }
   .utilMenu {
@@ -48,13 +48,13 @@
     // background-color: #333;
     a {
       display: block;
-      text-align: center;
       flex-grow: 1;
       padding: 15px 0;
-      // color: #fff;
-      color: #333;
       font-size: 14px;
       font-weight: 500;
+      text-align: center;
+      // color: #fff;
+      color: #333;
       &:first-child {
         border-right: 1px solid #ccc;
       }
@@ -66,31 +66,31 @@
     min-height: 600px;
   }
   .container {
-    padding: 80px 0 100px 0;
     width: 80vw;
     margin: 0 auto;
+    padding: 80px 0 100px 0;
     ul {
       display: flex;
       flex-wrap: wrap;
       li {
-        position: relative;
-        cursor: pointer;
         width: calc(33.33% - 20px);
-        padding: 20px 0;
+        position: relative;
         margin: 0 10px;
+        padding: 20px 0;
+        cursor: pointer;
         .contentsBox {
-          border-radius: 10px;
           overflow: hidden;
           border: 1px solid #ddd;
+          border-radius: 10px;
           .img {
             width: 100%;
             overflow: hidden;
             img {
-              object-fit: cover;
               width: 100%;
               height: 250px;
-              border-radius: 10px 10px 0 0;
               transition: all 0.5s ease-in-out;
+              object-fit: cover;
+              border-radius: 10px 10px 0 0;
               &:hover {
                 transform: scale(1.2);
               }
@@ -101,67 +101,67 @@
             .top {
               display: flex;
               justify-content: space-between;
-              margin-bottom: 10px;
               position: relative;
+              margin-bottom: 10px;
               .titleBox {
-                width: 90%;
                 display: flex;
+                width: 90%;
                 span {
                   font-size: 12px;
                   line-height: 2;
                 }
                 h1 {
-                  flex-grow: 1;
-                  text-overflow: ellipsis;
-                  overflow: hidden;
-                  white-space: nowrap;
                   display: inline-block;
+                  flex-grow: 1;
+                  overflow: hidden;
                   margin-left: 10px;
                   font-weight: 700;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
                 }
               }
             }
             p {
+              display: -webkit-box;
+              height: 2.4em;
+              overflow: hidden;
+              font-family: "GangwonEdu_OTFBoldA";
               font-size: 15px;
               font-weight: 400;
               line-height: 1.2;
-              height: 2.4em;
-              overflow: hidden;
               -webkit-box-orient: vertical;
-              display: -webkit-box;
               -webkit-line-clamp: 2;
-              font-family: "GangwonEdu_OTFBoldA";
             }
           }
         }
         .heart {
           position: absolute;
-          bottom: 28%;
           right: 5%;
+          bottom: 28%;
           z-index: 1;
           button {
+            display: none;
             position: absolute;
             top: 0;
             right: 0;
             z-index: 1;
             padding: 0;
             background: none;
-            display: none;
             &.on {
               display: block;
             }
             .material-icons-outlined,
             .material-icons {
-              color: rgb(228, 9, 9);
               font-size: 18px;
+              color: rgb(228, 9, 9);
             }
           }
         }
         .mytourBox {
-          height: 360px;
           display: flex;
           justify-content: center;
           align-items: center;
+          height: 360px;
           .material-icons {
             font-size: 48px;
           }
@@ -171,49 +171,49 @@
   }
 }
 .pagination {
-  margin-bottom: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 50px;
   .list {
     display: flex;
     li {
       a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 27px;
         height: 27px;
         font-size: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         &.on {
-          background-color: #333;
           color: #fff;
+          background-color: #333;
           border-radius: 100%;
         }
       }
     }
   }
   .btn {
-    background: none;
-    padding: 0;
-    margin: 0 5px;
-    align-items: center;
-    justify-content: center;
     display: none;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    padding: 0;
+    background: none;
     &.on {
       display: flex;
     }
   }
 }
 .cover {
-  // display: none;
-  position: fixed;
-  user-select: none;
-  top: 0;
-  z-index: 5000;
-  background-color: rgba(0, 0, 0, 0.5);
   width: 100vw;
   height: 100vh;
+  // display: none;
+  position: fixed;
+  top: 0;
+  z-index: 5000;
+  user-select: none;
+  background-color: rgba(0, 0, 0, 0.5);
   &#joinCover {
     display: none;
     &.on {
@@ -227,20 +227,20 @@
     }
   }
   .userBox {
-    overflow: hidden;
-    position: absolute;
     width: 300px;
-    background-color: #fff;
+    position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     z-index: 9999;
+    overflow: hidden;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
     border-radius: 20px;
     .top {
-      padding: 10px;
-      border-bottom: 1px solid #aaa;
       display: flex;
       justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid #aaa;
       .title {
         line-height: 1.5;
       }
@@ -257,9 +257,9 @@
         display: flex;
         justify-content: space-between;
         button {
-          background-color: #ddd;
           margin-bottom: 23px;
           padding: 7px;
+          background-color: #ddd;
           span {
             font-weight: 700;
           }
@@ -271,12 +271,12 @@
           padding: 5px;
         }
         p {
-          font-size: 11px;
-          color: #f00;
-          font-weight: 300;
+          display: none;
           margin-top: 5px;
           padding-left: 5px;
-          display: none;
+          font-size: 11px;
+          font-weight: 300;
+          color: #f00;
           &.idOk {
             &.on {
               display: block;
@@ -308,13 +308,13 @@
       }
     }
     .bottom {
-      border-top: 1px solid #aaa;
       padding: 10px;
+      border-top: 1px solid #aaa;
       text-align: right;
       .btns {
         button {
-          background-color: #333;
           padding: 7px;
+          background-color: #333;
           span {
             color: #fff;
             letter-spacing: 1px;
@@ -325,8 +325,8 @@
   }
 }
 #contentsPopup {
-  overflow-y: scroll;
   display: none;
+  overflow-y: scroll;
   &.on {
     display: block;
   }
@@ -366,8 +366,8 @@
           }
           .date,
           .nickname {
-            font-size: 13px;
             margin-right: 10px;
+            font-size: 13px;
           }
         }
         .heart {
@@ -379,15 +379,15 @@
             font-size: 12px;
           }
           button {
-            background: none;
             display: none;
+            background: none;
             &#noUserHeart {
               display: block;
             }
             .material-icons-outlined,
             .material-icons {
-              color: rgb(228, 9, 9);
               font-size: 18px;
+              color: rgb(228, 9, 9);
             }
             &.on {
               display: block;
@@ -397,10 +397,10 @@
       }
       .txtBox {
         p {
-          line-height: 1.5;
+          font-family: "GangwonEdu_OTFBoldA";
           font-size: 16px;
           font-weight: 400;
-          font-family: "GangwonEdu_OTFBoldA";
+          line-height: 1.5;
         }
       }
     }
@@ -410,18 +410,18 @@
 input[type="text"],
 input[type="password"] {
   border: none;
-  outline: none;
   border-bottom: 1px solid #aaa;
+  outline: none;
   &:focus {
-    border-radius: 3px;
     border-bottom: none;
+    border-radius: 3px;
     outline: 2px solid #333;
   }
 }
 button {
+  border: none;
   outline: none;
   cursor: pointer;
-  border: none;
   border-radius: 3px;
 }
 

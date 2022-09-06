@@ -213,11 +213,10 @@
 {% endif %}
 <script>
   const contentsList = document.querySelector("#contents .container ul");
-  const loginBtn = document.querySelector("#loginBtn");
+  const popUpLoginBtn = document.querySelector("#loginBtn");
   const loginPage = document.querySelector("#loginCover");
   const loginCloseBtn = document.querySelector("#loginCloseBtn");
   const loginPageInLoginBtn = document.querySelector("#loginCover .loginBtn");
-  const loginId = document.querySelector("#loginId");
   const loginPw = document.querySelector("#loginPw");
   const joinBtn = document.querySelector("#joinBtn");
   const joinCloseBtn = document.querySelector("#joinCloseBtn");
@@ -232,6 +231,7 @@
   const joinNicknameOk = document.querySelector("#joinCover .nickNameOk");
   const joinNicknameNo = document.querySelector("#joinCover .nickNameNo");
   const joinPwNotSame = document.querySelector("#joinCover .pwNotSame");
+  const loginId = document.querySelector("#loginId");
   const contents = document.querySelectorAll("#contents ul li .contentsBox");
   const contentsPopups = document.querySelectorAll("#contentsPopup");
   const popupClostBtns = document.querySelectorAll("#popupCloseBtn");
@@ -250,6 +250,18 @@
   //로그인 팝업
   loginCloseBtn.addEventListener("click", () => {
     loginPage.classList.remove("on");
+  });
+  loginPageInLoginBtn.addEventListener("click", (e) => {
+    if (loginId.value === "") {
+      alert("아이디를 입력해주세요.");
+      loginId.focus();
+      return false;
+    }
+    if (loginPw.value === "") {
+      alert("비밀번호를 입력해주세요.");
+      loginPw.focus();
+      return false;
+    }
   });
   //회원가입 팝업
   joinCloseBtn.addEventListener("click", () => {
@@ -274,15 +286,23 @@
     const pwCheck = joinPwCheck.value;
     if (id === "") {
       alert("ID를 입력해주세요");
+      joinId.focus();
+      return false;
     }
     if (pw === "") {
       alert("비밀번호를 입력해주세요");
+      joinPw.focus();
+      return false;
     }
     if (nickname === "") {
       alert("닉네임을 입력해주세요");
+      joinNickname.focus();
+      return false;
     }
     if (pwCheck === "") {
       alert("비밀번호를 체크해주세요");
+      joinPwCheck.focus();
+      return false;
     }
     if (id.length > 5 && nickname.length > 1 && pw.length > 7) {
       axios({
@@ -311,12 +331,18 @@
     } else {
       if (id.length <= 5) {
         alert("ID는 6자 이상입니다.");
+        joinId.focus();
+        return false;
       }
       if (nickname.length <= 1) {
         alert("닉네임은 2글자 이상입니다.");
+        joinNickname.focus();
+        return false;
       }
       if (pw.length <= 7) {
         alert("비밀번호는 8자 이상입니다.");
+        joinPw.focus();
+        return false;
       }
     }
   });

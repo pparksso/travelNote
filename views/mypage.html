@@ -45,10 +45,14 @@
     const nickname = document.querySelector("#updateNickname").value;
     if (pw === pwCheck) {
       if (pw.length < 8) {
-        return alert("비밀번호는 8자 이상입니다.");
+        alert("비밀번호는 8자 이상입니다.");
+        document.querySelector("#updatePw").focus();
+        return false;
       }
       if (nickname.length < 3) {
-        return alert("닉네임은 2글자 이상입니다.");
+        alert("닉네임은 2글자 이상입니다.");
+        document.querySelector("#updateNickname").focus();
+        return false;
       }
       axios({
         method: "POST",
@@ -70,6 +74,8 @@
         });
     } else {
       alert("비밀번호가 일치하지 않습니다.");
+      document.querySelector("#updatePw").focus();
+      return false;
     }
   });
 
@@ -90,7 +96,9 @@
       })
         .then((res) => {
           if (res.data.isPw) {
-            return alert("가입하신 비밀번호와 일치하지 않습니다.");
+            alert("가입하신 비밀번호와 일치하지 않습니다.");
+            document.querySelector("#updatePw").focus();
+            return false;
           }
           if (res.data.delete) {
             alert("모든 글과 회원 정보가 삭제되었습니다.");
@@ -102,6 +110,8 @@
         });
     } else {
       alert("비밀번호가 일치하지 않습니다.");
+      document.querySelector("#updatePw").focus();
+      return false;
     }
   });
 </script>
