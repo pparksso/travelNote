@@ -138,8 +138,13 @@
   }
 }
 @media all and(max-width:1024px) {
-  .subSection form .inputBox label input {
-    width: 83%;
+  .subSection form .inputBox label {
+    input {
+      width: 83%;
+    }
+    &.myPageLabel::before {
+      left: 15%;
+    }
   }
 }
 @media all and(max-width:860px) {
@@ -157,6 +162,9 @@
         }
         span {
           font-size: clamp(16px, 2.5vw, 20px);
+        }
+        &.myPageLabel::before {
+          left: 17%;
         }
       }
     }
@@ -177,8 +185,13 @@
     &.dateBox {
       width: 50%;
     }
-    label input {
-      width: 70%;
+    label {
+      &.myPageLabel::before {
+        left: 25%;
+      }
+      input {
+        width: 70%;
+      }
     }
   }
 }
@@ -187,8 +200,15 @@
     &.dateBox {
       width: 70%;
     }
-    label::before {
-      left: 70px;
+    label {
+      &::before {
+        left: 70px;
+      }
+      &.myPageLabel {
+        span {
+          font-size: clamp(10px, 3vw, 16px);
+        }
+      }
     }
   }
 }
