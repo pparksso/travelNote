@@ -7,7 +7,7 @@ const commentsSchema = new mongoose.Schema({
   },
   comment: {
     type: String,
-    required: true,
+    // required: true,
   },
   nickname: {
     type: String,
