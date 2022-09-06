@@ -249,6 +249,8 @@
 
   //로그인 팝업
   loginCloseBtn.addEventListener("click", () => {
+    loginId.value = "";
+    loginPw.value = "";
     loginPage.classList.remove("on");
   });
   loginPageInLoginBtn.addEventListener("click", (e) => {
