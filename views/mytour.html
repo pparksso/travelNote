@@ -42,28 +42,38 @@
   </div>
 </section>
 {% for item in list %}
-<div id="contentsPopup" class="cover">
-  <div id="popupItem" class="userBox">
+<div class="contentsPopup cover">
+  <div class="popupItem userBox">
     <div class="top">
       <div class="title">
         <h1>{{ item.title }}</h1>
       </div>
-      <button id="popupCloseBtn"><span class="material-icons"> close </span></button>
+      <button class="popupCloseBtn"><span class="material-icons"> close </span></button>
     </div>
-    <div class="center">
-      <div class="imgBox">
-        <img src="{{ item.imgUrl }}" alt="" />
-      </div>
-      <div class="infoBox">
-        <div class="info"><span class="location">{{ item.location }}</span> <span class="date">{{ item.date }}</span> <span class="nickname">{{ item.nickname }}</span></div>
-        <div class="heart">
-          <span class="heartNum" id="myHeartNum" data-no="{{ item.no }}">{{ item.heartNum }}</span>
-          <button id="myPopupEmptyHeart" class="on" data-no="{{ item.no }}"><span class="material-icons-outlined"> favorite_border </span></button>
-          <button id="myPopupFullHeart" class="" data-no="{{ item.no }}"><span class="material-icons"> favorite </span></button>
+    <div class="popupBody">
+      <div class="center">
+        <div class="imgBox">
+          <img src="{{ item.imgUrl }}" alt="" />
+        </div>
+        <div class="infoBox">
+          <div class="info"><span class="location">{{ item.location }}</span> <span class="date">{{ item.date }}</span> <span class="nickname">{{ item.nickname }}</span></div>
+          <div class="heart">
+            <span class="heartNum" id="myHeartNum" data-no="{{ item.no }}">{{ item.heartNum }}</span>
+            <button id="myPopupEmptyHeart" class="on" data-no="{{ item.no }}"><span class="material-icons-outlined"> favorite_border </span></button>
+            <button id="myPopupFullHeart" class="" data-no="{{ item.no }}"><span class="material-icons"> favorite </span></button>
+          </div>
+        </div>
+        <div class="txtBox">
+          <p>{{ item.desc }}</p>
         </div>
       </div>
-      <div class="txtBox">
-        <p>{{ item.desc }}</p>
+      <div class="commentWrap">
+        <div class="commentBox">
+          <!-- <div class="comment">
+            <span class="userNickname"></span>
+            <p></p>
+          </div> -->
+        </div>
       </div>
     </div>
     <div class="bottom">
@@ -95,8 +105,8 @@
 <script>
   const mytourUpdateBtn = document.querySelector("#mytourUpdate");
   const contents = document.querySelectorAll("#contents ul .myContents .contentsBox");
-  const contentsPopups = document.querySelectorAll("#contentsPopup");
-  const popupClostBtns = document.querySelectorAll("#popupCloseBtn");
+  const contentsPopups = document.querySelectorAll(".contentsPopup");
+  const popupClostBtns = document.querySelectorAll(".popupCloseBtn");
   const updateBtn = document.querySelectorAll("#updateBtn");
   const deleteBtn = document.querySelectorAll("#delBtn");
   const myEmptyHearts = document.querySelectorAll("#myEmptyHeart");

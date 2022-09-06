@@ -12,6 +12,7 @@ const createRouter = require("./routes/create.js");
 const updateRouter = require("./routes/update.js");
 const userRouter = require("./routes/user.js");
 const heartRouter = require("./routes/heart.js");
+const commentRouter = require("./routes/comment.js");
 
 nunjucks.configure("views", {
   express: app,
@@ -44,6 +45,7 @@ app.use("/create", createRouter);
 app.use("/update", updateRouter);
 app.use("/user", userRouter);
 app.use("/heart", heartRouter);
+app.use("/comment", commentRouter);
 
 // 에러처리 미들웨어
 app.use((req, res, next) => {

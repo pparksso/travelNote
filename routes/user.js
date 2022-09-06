@@ -7,6 +7,7 @@ const mongoose = require("../db/mongoose");
 const userDb = require("../db/user");
 const countDb = require("../db/count");
 const contentsDb = require("../db/contents");
+const commentsDb = require("../db/comments");
 
 router.post("/join", (req, res) => {
   const id = req.body.id;

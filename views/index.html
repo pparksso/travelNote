@@ -95,13 +95,13 @@
       <div class="center">
         <div class="idBox">
           <div class="inputBox">
-            <input type="text" placeholder="ID (6자 이상)" id="joinId" name="joinId" />
+            <input type="text" placeholder="ID (6자 이상)" id="joinId" name="joinId" maxlength="12" />
             <p class="idOk">사용할 수 있는 아이디입니다.</p>
             <p class="idNo">사용할 수 없는 아이디입니다.</p>
           </div>
         </div>
         <div class="inputBox">
-          <input type="text" name="joinNickname" id="joinNickname" placeholder="NICKNAME (2자 이상)" />
+          <input type="text" name="joinNickname" id="joinNickname" placeholder="NICKNAME (2자 이상)" maxlength="12" />
           <p class="nickNameOk">사용할 수 있는 닉네임입니다.</p>
           <p class="nickNameNo">사용할 수 없는 닉네임입니다.</p>
         </div>
@@ -120,35 +120,53 @@
   </div>
 </div>
 {% for item in list %}
-<div id="contentsPopup" class="cover">
-  <div id="popupItem" class="userBox">
+<div class="contentsPopup cover">
+  <div class="popupItem userBox">
     <div class="top">
       <div class="title">
         <h1>{{item.title}}</h1>
       </div>
-      <button id="popupCloseBtn"><span class="material-icons"> close </span></button>
+      <button class="popupCloseBtn"><span class="material-icons"> close </span></button>
     </div>
-    <div class="center">
-      <div class="imgBox">
-        <img src="{{item.imgUrl}}" alt="" />
-      </div>
-      <div class="infoBox">
-        <div class="info"><span class="location">{{item.location}}</span> <span class="date">{{item.date}}</span> <span class="nickname">{{item.nickname}}</span></div>
-        {% if userInfo %}
-        <div class="heart">
-          <span id="userHeartNum" class="heartNum" data-no="{{item.no}}">{{item.heartNum}}</span>
-          <button id="popupEmptyHeart" class="on" data-no="{{item.no}}"><span class="material-icons-outlined"> favorite_border </span></button>
-          <button id="popupFullHeart" class="" data-no="{{item.no}}"><span class="material-icons"> favorite </span></button>
+    <div class="popupBody">
+      <div class="center">
+        <div class="imgBox">
+          <img src="{{item.imgUrl}}" alt="" />
         </div>
-        {% else %}
-        <div class="heart">
-          <span id="noUserHeartNum" class="heartNum" data-no="{{item.no}}">{{item.heartNum}}</span
-          ><button id="noUserHeart" data-no="{{item.no}}"><span class="material-icons-outlined"> favorite_border </span></button>
+        <div class="infoBox">
+          <div class="info"><span class="location">{{item.location}}</span> <span class="date">{{item.date}}</span> <span class="nickname">{{item.nickname}}</span></div>
+          {% if userInfo %}
+          <div class="heart">
+            <span id="userHeartNum" class="heartNum" data-no="{{item.no}}">{{item.heartNum}}</span>
+            <button id="popupEmptyHeart" class="on" data-no="{{item.no}}"><span class="material-icons-outlined"> favorite_border </span></button>
+            <button id="popupFullHeart" class="" data-no="{{item.no}}"><span class="material-icons"> favorite </span></button>
+          </div>
+          {% else %}
+          <div class="heart">
+            <span id="noUserHeartNum" class="heartNum" data-no="{{item.no}}">{{item.heartNum}}</span
+            ><button id="noUserHeart" data-no="{{item.no}}"><span class="material-icons-outlined"> favorite_border </span></button>
+          </div>
+          {% endif %}
+        </div>
+        <div class="txtBox">
+          <p>{{item.desc}}</p>
+        </div>
+      </div>
+      <div class="commentWrap">
+        {% if userInfo %}
+        <div class="inputBox">
+          <label><input type="text" name="" maxlength="50" class="comment" /></label>
+          <button class="commentAddBtn" data-no="{{item.no}}"><span>등록</span></button>
         </div>
         {% endif %}
-      </div>
-      <div class="txtBox">
-        <p>{{item.desc}}</p>
+        <div class="commentBox" data-no="{{item.no}}">
+          {% for comment in comments %} {% if item.no == comment.contentsNo %}
+          <div class="comment">
+            <span class="userNickname"> {{comment.nickname}} </span>
+            <p>{{comment.comment}}</p>
+          </div>
+          {% endif %} {% endfor %}
+        </div>
       </div>
     </div>
   </div>
@@ -233,8 +251,11 @@
   const joinPwNotSame = document.querySelector("#joinCover .pwNotSame");
   const loginId = document.querySelector("#loginId");
   const contents = document.querySelectorAll("#contents ul li .contentsBox");
-  const contentsPopups = document.querySelectorAll("#contentsPopup");
-  const popupClostBtns = document.querySelectorAll("#popupCloseBtn");
+  const contentsPopups = document.querySelectorAll(".contentsPopup");
+  const popupClostBtns = document.querySelectorAll(".popupCloseBtn");
+  const commentAddBtns = document.querySelectorAll(".commentAddBtn");
+  const comments = document.querySelectorAll(".comment");
+  const commentBoxs = document.querySelectorAll(".commentBox");
   const emptyHearts = document.querySelectorAll("#emptyHeart");
   const fullHearts = document.querySelectorAll("#fullHeart");
   const noUserHearts = document.querySelectorAll("#noUserHeart");
@@ -507,6 +528,49 @@
       });
     });
   });
+
+  // 댓글 전송(클릭,)
+  commentAddBtns.forEach((item, idx) => {
+    item.addEventListener("click", () => {
+      const contentsNo = item.dataset.no;
+      let commentVal = "";
+      comments.forEach((item2, idx2) => {
+        if (idx == idx2) {
+          commentVal = item2.value;
+        }
+      });
+      axios({
+        method: "POST",
+        url: "/comment/add",
+        data: {
+          comment: commentVal,
+          contentsNo: contentsNo,
+        },
+      })
+        .then((res) => {
+          commentBoxs.forEach((item3, idx3) => {
+            const commentBoxNum = item3.dataset.no;
+            if (commentBoxNum == res.data.contentsNo) {
+              item3.innerHTML += `<div class="comment">
+            <span class="userNickname">${res.data.nickname}</span>
+            <p>${res.data.comment}</p>
+          </div>`;
+            }
+            comments.forEach((item2, idx2) => {
+              if (idx3 == idx2) {
+                item2.value = "";
+              }
+            });
+          });
+        })
+        .catch((err) => {
+          // location.href = "/500";
+          console.log(err);
+        });
+    });
+  });
+
+  //댓글 전송(엔터)
 
   //팝업창 하트 작업(emptyHeart -> fullHeart)
   popupEmptyHearts.forEach((item, idx) => {

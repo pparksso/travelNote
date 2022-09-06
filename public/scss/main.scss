@@ -324,13 +324,12 @@
     }
   }
 }
-#contentsPopup {
+.contentsPopup {
   display: none;
-  overflow-y: scroll;
   &.on {
     display: block;
   }
-  #popupItem {
+  .popupItem {
     width: 40%;
     .top {
       .title {
@@ -340,7 +339,7 @@
         }
       }
     }
-    .center {
+    .popupBody {
       max-height: 80vh;
       overflow-y: auto;
       &::-webkit-scrollbar {
@@ -350,6 +349,9 @@
         background: #4ab8c5;
         border-radius: 10px;
       }
+    }
+    .center {
+      border-bottom: 1px solid #aaa;
       .imgBox {
         margin-bottom: 20px;
         img {
@@ -404,6 +406,40 @@
         }
       }
     }
+    .commentWrap {
+      padding: 10px 20px;
+      .inputBox {
+        display: flex;
+        label {
+          flex-grow: 1;
+          input {
+            width: 100%;
+            padding: 5px;
+            outline: none;
+            border-bottom: 1px solid #aaa;
+          }
+        }
+      }
+      .commentBox {
+        padding: 20px;
+        .comment {
+          display: flex;
+          font-size: 14px;
+          margin-bottom: 10px;
+          span {
+            word-break: keep-all;
+            display: inline-block;
+            width: 120px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+          }
+          p {
+            word-break: keep-all;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -454,8 +490,8 @@ button {
       word-break: keep-all;
     }
   }
-  #contentsPopup {
-    #popupItem {
+  .contentsPopup {
+    .popupItem {
       width: 60%;
     }
   }
@@ -480,7 +516,7 @@ button {
   .section .container {
     width: 90vw;
   }
-  #contentsPopup #popupItem {
+  .contentsPopup .popupItem {
     width: 80vw;
   }
 }
@@ -491,7 +527,7 @@ button {
   #utilBox {
     width: 200px;
   }
-  #contentsPopup #popupItem {
+  .contentsPopup .popupItem {
     width: 90vw;
   }
 }
