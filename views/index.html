@@ -155,7 +155,7 @@
       <div class="commentWrap">
         {% if userInfo %}
         <div class="inputBox">
-          <label><input type="text" name="" maxlength="50" class="comment" /></label>
+          <label><input type="text" name="" maxlength="50" class="comment" data-no="{{item.no}}" /></label>
           <button class="commentAddBtn" data-no="{{item.no}}"><span>등록</span></button>
         </div>
         {% endif %}
@@ -535,7 +535,7 @@
       const contentsNo = item.dataset.no;
       let commentVal = "";
       comments.forEach((item2, idx2) => {
-        if (idx == idx2) {
+        if (item2.dataset.no == contentsNo) {
           commentVal = item2.value;
         }
       });
