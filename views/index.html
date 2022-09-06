@@ -161,9 +161,19 @@
         {% endif %}
         <div class="commentBox" data-no="{{item.no}}">
           {% for comment in comments %} {% if item.no == comment.contentsNo %}
-          <div class="comment">
-            <span class="userNickname"> {{comment.nickname}} </span>
-            <p>{{comment.comment}}</p>
+          <div class="comment" data-no="{{comment.no}}">
+            {% if userInfo.id == comment.id %}
+            <div class="commentLeft">
+              <span class="userNickname"> {{comment.nickname}} </span>
+              <p>{{comment.comment}}</p>
+            </div>
+            <button class="commentDelBtn" data-no="{{comment.no}}"><span class="material-icons"> close </span></button>
+            {% else %}
+            <div class="commentLeft">
+              <span class="userNickname"> {{comment.nickname}} </span>
+              <p>{{comment.comment}}</p>
+            </div>
+            {% endif %}
           </div>
           {% endif %} {% endfor %}
         </div>
@@ -256,6 +266,7 @@
   const commentAddBtns = document.querySelectorAll(".commentAddBtn");
   const comments = document.querySelectorAll(".comment");
   const commentBoxs = document.querySelectorAll(".commentBox");
+  const commentDelBtns = document.querySelectorAll(".commentDelBtn");
   const emptyHearts = document.querySelectorAll("#emptyHeart");
   const fullHearts = document.querySelectorAll("#fullHeart");
   const noUserHearts = document.querySelectorAll("#noUserHeart");
@@ -529,7 +540,7 @@
     });
   });
 
-  // 댓글 전송(클릭,)
+  // 댓글 전송(클릭)
   commentAddBtns.forEach((item, idx) => {
     item.addEventListener("click", () => {
       const contentsNo = item.dataset.no;
@@ -551,26 +562,79 @@
           commentBoxs.forEach((item3, idx3) => {
             const commentBoxNum = item3.dataset.no;
             if (commentBoxNum == res.data.contentsNo) {
-              item3.innerHTML += `<div class="comment">
-            <span class="userNickname">${res.data.nickname}</span>
-            <p>${res.data.comment}</p>
-          </div>`;
+              item3.insertAdjacentHTML(
+                "afterbegin",
+                `<div class="comment" data-no="${res.data.no}">
+            <div class="commentLeft">
+              <span class="userNickname">${res.data.nickname}</span>
+              <p>${res.data.comment}</p>
+            </div><button class="commentDelBtn" data-no=${res.data.no}><span class="material-icons"> close </span></button>
+          </div>`
+              );
             }
             comments.forEach((item2, idx2) => {
-              if (idx3 == idx2) {
+              if (item2.dataset.no == res.data.contentsNo) {
                 item2.value = "";
+                item2.focus();
               }
             });
           });
         })
         .catch((err) => {
-          // location.href = "/500";
-          console.log(err);
+          location.href = "/500";
         });
     });
   });
 
   //댓글 전송(엔터)
+  comments.forEach((item, idx) => {
+    item.addEventListener("keyup", (e) => {
+      const commentNo = item.dataset.no;
+      let commentVal = "";
+      if (e.keyCode === 13) {
+        commentVal = item.value;
+        axios({
+          method: "POST",
+          url: "/comment/add",
+          data: {
+            comment: commentVal,
+            contentsNo: commentNo,
+          },
+        })
+          .then((res) => {
+            commentBoxs.forEach((item3, idx3) => {
+              const commentBoxNum = item3.dataset.no;
+              if (commentBoxNum == res.data.contentsNo) {
+                item3.insertAdjacentHTML(
+                  "afterbegin",
+                  `<div class="comment" data-no="${res.data.no}">
+            <div class="commentLeft">
+              <span class="userNickname">${res.data.nickname}</span>
+              <p>${res.data.comment}</p>
+            </div><button class="commentDelBtn" data-no=${res.data.no}><span class="material-icons"> close </span></button>
+          </div>`
+                );
+              }
+              if (commentNo == res.data.contentsNo) {
+                item.value = "";
+                item.focus();
+              }
+            });
+          })
+          .catch((err) => {
+            // location.href = "/500";
+            console.log(err);
+          });
+      }
+    });
+  });
+
+  //본인 댓글 삭제
+  commentDelBtns.forEach((item, idx) => {
+    item.addEventListener("click", () => {
+      const no = item.dataset.no;
+    });
+  });
 
   //팝업창 하트 작업(emptyHeart -> fullHeart)
   popupEmptyHearts.forEach((item, idx) => {

@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
     }
     const skip = (page - 1) * size;
     const contents = await contentsDb.find().sort({ no: -1 }).limit(size).skip(skip);
-    const comments = await commentsDb.find().sort({ no: -1 });
+    const comments = await commentsDb.find().sort({ _id: -1 });
     const totalContents = await contentsDb.countDocuments({});
     const totalPage = await Math.ceil(totalContents / size);
     const startPage = page - ((page - 1) % pageGroupSize);

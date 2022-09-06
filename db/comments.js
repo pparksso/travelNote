@@ -17,6 +17,10 @@ const commentsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  no: {
+    type: Number,
+    require: true,
+  },
 });
 
 module.exports = mongoose.model("comments", commentsSchema, "comments");
