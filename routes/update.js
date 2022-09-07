@@ -8,6 +8,7 @@ const mongoose = require("../db/mongoose");
 const userDb = require("../db/user");
 const countDb = require("../db/count");
 const contentsDb = require("../db/contents");
+const commentsDb = require("../db/comments");
 
 const fileUpload = multer({ storage: storage });
 
@@ -67,6 +68,7 @@ router.post("/delete", async (req, res) => {
     const result = await contentsDb.findOne({ no: no });
     await cloudinary.uploader.destroy(result.fileName);
     await contentsDb.deleteOne({ no: no });
+    await commentsDb.deleteMany({ contentsNo: no });
     res.json({ delete: true });
   } catch (err) {
     res.redirect("500");

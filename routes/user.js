@@ -114,6 +114,7 @@ router.get("/mytour", async (req, res) => {
       }
       const skip = (page - 1) * size;
       const contents = await contentsDb.find({ userNum: req.user.userNum }).sort({ no: -1 }).limit(size).skip(skip);
+      const comments = await commentsDb.find().sort({ _id: -1 });
       const totalContents = await contentsDb.countDocuments({ userNum: req.user.userNum });
       const totalPage = await Math.ceil(totalContents / size);
       const startPage = page - ((page - 1) % pageGroupSize);
@@ -124,7 +125,7 @@ router.get("/mytour", async (req, res) => {
           return res.redirect("/");
         }
       }
-      await res.render("mytour", { startPage: startPage, minPage: minPage, page: page, totalPage: totalPage, userInfo: req.user, title: "My tour", list: contents });
+      await res.render("mytour", { startPage: startPage, minPage: minPage, page: page, totalPage: totalPage, userInfo: req.user, title: "My tour", list: contents, comments: comments });
     } else {
       res.send(`<script>alert("시간이 지나 로그인이 해제되었습니다. 다시 로그인 해주세요."); location.href = "/"</script>`);
     }

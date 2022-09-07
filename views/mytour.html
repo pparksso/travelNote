@@ -68,11 +68,23 @@
         </div>
       </div>
       <div class="commentWrap">
-        <div class="commentBox">
-          <!-- <div class="comment">
-            <span class="userNickname"></span>
-            <p></p>
-          </div> -->
+        <div class="commentBox" data-no="{{item.no}}">
+          {% for comment in comments %} {% if item.no == comment.contentsNo %}
+          <div class="comment" data-no="{{comment.contentsNo}}" data-commentno="{{comment.no}}">
+            {% if userInfo.id == comment.id %}
+            <div class="commentLeft">
+              <span class="userNickname"> {{comment.nickname}} </span>
+              <p>{{comment.comment}}</p>
+            </div>
+            <button class="commentDelBtn" data-commentno="{{comment.no}}"><span class="material-icons"> close </span></button>
+            {% else %}
+            <div class="commentLeft">
+              <span class="userNickname"> {{comment.nickname}} </span>
+              <p>{{comment.comment}}</p>
+            </div>
+            {% endif %}
+          </div>
+          {% endif %} {% endfor %}
         </div>
       </div>
     </div>
@@ -106,6 +118,7 @@
   const mytourUpdateBtn = document.querySelector("#mytourUpdate");
   const contents = document.querySelectorAll("#contents ul .myContents .contentsBox");
   const contentsPopups = document.querySelectorAll(".contentsPopup");
+  const commentDelBtns = document.querySelectorAll(".commentDelBtn");
   const popupClostBtns = document.querySelectorAll(".popupCloseBtn");
   const updateBtn = document.querySelectorAll("#updateBtn");
   const deleteBtn = document.querySelectorAll("#delBtn");
@@ -244,6 +257,29 @@
           item2.classList.remove("on");
         }
       });
+    });
+  });
+
+  // 댓글 삭제
+  commentDelBtns.forEach((item, idx) => {
+    item.addEventListener("click", () => {
+      console.log("click");
+      const no = item.dataset.commentno;
+      axios({
+        method: "POST",
+        url: "/comment/delete",
+        data: {
+          no: no,
+        },
+      })
+        .then((res) => {
+          if (res.data.del) {
+            item.parentNode.remove();
+          }
+        })
+        .catch((err) => {
+          location.href = "/500";
+        });
     });
   });
 

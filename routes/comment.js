@@ -36,7 +36,7 @@ router.post("/delete", async (req, res) => {
       }
     });
   } catch (err) {
-    console.log(err);
+    res.redirect("500");
   }
 });
 
