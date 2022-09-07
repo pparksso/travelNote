@@ -155,19 +155,19 @@
       <div class="commentWrap">
         {% if userInfo %}
         <div class="inputBox">
-          <label><input type="text" name="" maxlength="50" class="comment" data-no="{{item.no}}" /></label>
+          <label><input type="text" name="" maxlength="50" class="commentInput" data-no="{{item.no}}" /></label>
           <button class="commentAddBtn" data-no="{{item.no}}"><span>등록</span></button>
         </div>
         {% endif %}
         <div class="commentBox" data-no="{{item.no}}">
           {% for comment in comments %} {% if item.no == comment.contentsNo %}
-          <div class="comment" data-no="{{comment.no}}">
+          <div class="comment" data-no="{{comment.contentsNo}}" data-commentno="{{comment.no}}">
             {% if userInfo.id == comment.id %}
             <div class="commentLeft">
               <span class="userNickname"> {{comment.nickname}} </span>
               <p>{{comment.comment}}</p>
             </div>
-            <button class="commentDelBtn" data-no="{{comment.no}}"><span class="material-icons"> close </span></button>
+            <button class="commentDelBtn" data-commentno="{{comment.no}}"><span class="material-icons"> close </span></button>
             {% else %}
             <div class="commentLeft">
               <span class="userNickname"> {{comment.nickname}} </span>
@@ -264,7 +264,7 @@
   const contentsPopups = document.querySelectorAll(".contentsPopup");
   const popupClostBtns = document.querySelectorAll(".popupCloseBtn");
   const commentAddBtns = document.querySelectorAll(".commentAddBtn");
-  const comments = document.querySelectorAll(".comment");
+  const comments = document.querySelectorAll(".commentInput");
   const commentBoxs = document.querySelectorAll(".commentBox");
   const commentDelBtns = document.querySelectorAll(".commentDelBtn");
   const emptyHearts = document.querySelectorAll("#emptyHeart");
@@ -546,7 +546,7 @@
       const contentsNo = item.dataset.no;
       let commentVal = "";
       comments.forEach((item2, idx2) => {
-        if (item2.dataset.no == contentsNo) {
+        if (idx == idx2) {
           commentVal = item2.value;
         }
       });
@@ -568,7 +568,7 @@
             <div class="commentLeft">
               <span class="userNickname">${res.data.nickname}</span>
               <p>${res.data.comment}</p>
-            </div><button class="commentDelBtn" data-no=${res.data.no}><span class="material-icons"> close </span></button>
+            </div><button class="commentDelBtn" data-commentno=${res.data.no}><span class="material-icons"> close </span></button>
           </div>`
               );
             }
@@ -581,7 +581,8 @@
           });
         })
         .catch((err) => {
-          location.href = "/500";
+          // location.href = "/500";
+          console.log(err);
         });
     });
   });
@@ -611,7 +612,7 @@
             <div class="commentLeft">
               <span class="userNickname">${res.data.nickname}</span>
               <p>${res.data.comment}</p>
-            </div><button class="commentDelBtn" data-no=${res.data.no}><span class="material-icons"> close </span></button>
+            </div><button class="commentDelBtn" data-commentno=${res.data.no}><span class="material-icons"> close </span></button>
           </div>`
                 );
               }
@@ -632,7 +633,22 @@
   //본인 댓글 삭제
   commentDelBtns.forEach((item, idx) => {
     item.addEventListener("click", () => {
-      const no = item.dataset.no;
+      const no = item.dataset.commentno;
+      axios({
+        method: "POST",
+        url: "/comment/delete",
+        data: {
+          no: no,
+        },
+      })
+        .then((res) => {
+          if (res.data.del) {
+            item.parentNode.remove();
+          }
+        })
+        .catch((err) => {
+          location.href = "/500";
+        });
     });
   });
 

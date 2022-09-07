@@ -29,6 +29,12 @@ router.post("/add", async (req, res) => {
 
 router.post("/delete", async (req, res) => {
   try {
+    const no = parseInt(req.body.no);
+    commentsDb.deleteOne({ no: no }, (err, result) => {
+      if (result.deletedCount == 1) {
+        res.json({ del: true });
+      }
+    });
   } catch (err) {
     console.log(err);
   }
