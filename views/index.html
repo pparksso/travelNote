@@ -526,10 +526,11 @@
   contents.forEach((item, idx) => {
     item.addEventListener("click", () => {
       contentsPopups.forEach((item2, idx2) => {
-        idx === idx2 ? item2.classList.add("on") : item.classList.remove("on");
+        idx === idx2 ? item2.classList.add("on") : item2.classList.remove("on");
       });
     });
   });
+
   popupClostBtns.forEach((item, idx2) => {
     item.addEventListener("click", () => {
       contentsPopups.forEach((item2, idx) => {
