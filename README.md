@@ -28,11 +28,87 @@
 
 ### 라우터 구조
 
-| 메소드 | 주소 | 라우터   |    역할    |
-| ------ | :--- | :------- | :--------: |
-| GET    | /    | index.js | 메인페이지 |
+| 메소드 | 주소                | 라우터     |              역할               |
+| ------ | :------------------ | :--------- | :-----------------------------: |
+| GET    | /                   | index.js   |            main page            |
+| GET    | /500                | ''         |       서버에러 page 제공        |
+| GET    | /?page              | ''         |             페이징              |
+| POST   | /user/join          | user.js    |       db에 유저 정보 등록       |
+| POST   | /user/login         | ''         |       Db에 유저 정보 확인       |
+| POST   | /user/idcheck       | ''         |             Id 조회             |
+| POST   | /user/nicknamecheck | ''         |           닉네임 조회           |
+| POST   | /user/logout        | ''         |          Session 삭제           |
+| GET    | /user/mytour        | ''         |           Mytour page           |
+| GET    | /user/mypage        | ''         |        MyPage 파일 제공         |
+| PUT    | /user/mypageupdate  | ''         |          내 정보 수정           |
+| GET    | /user/signout       | ''         |            회원 탈퇴            |
+| POST   | /create/sendimg     | create.js  |        이미지 파일 전송         |
+| GET    | /create             | ''         |        글쓰기 page 제공         |
+| POST   | /new                | ''         |      글쓰기 data db에 저장      |
+| GET    | /update             | update.js  |         수정 page 제공          |
+| POST   | /done               | ''         |       수정 data db로 전송       |
+| POST   | /sendimg            | ''         |         수정이미지 전송         |
+| POST   | /delete             | ''         |      삭제 정보 전송, 삭제       |
+| POST   | /plus               | heart.js   |          하트 수 증가           |
+| POST   | /minus              | ''         |          하트 수 감소           |
+| GET    | /arr                | ''         | 유저의 클릭한 하트 글 번호 전송 |
+| POST   | /add                | comment.js |            댓글 등록            |
+| POST   | /delete             | ''         |         본인 댓글 삭제          |
 
-|
+### 디렉터리 구조
+
+```
+/config
+   ├── /cloudinary.js
+   └── /passport.js
+/db
+  ├── /comments.js
+  ├── /contents.js
+  ├── /count.js
+  ├── /mongoose.js
+  └── /user.js
+/public
+  └──/css
+     ├── /layout.min.css
+     ├── /lightpick.css
+     ├── /main.min.css
+     ├── /reset.css
+     └── /sub.min.css
+  └──/images
+     ├── /layout
+     └── /main
+  └──/js
+     └── /lightpick.js
+  └──/scss
+     ├── /layout.scss
+     ├── /main.scss
+     └── /sub.scss
+/routes
+   ├── /comment.js
+   ├── /create.js
+   ├── /heart.js
+   ├── /index.js
+   ├── /update.js
+   └── /user.js
+/views
+  └── /include
+     ├── /head.html
+     ├── /header.html
+     └── /footer.html
+  └── /index.html
+  └── /mytour.html
+  └── /mypage.html
+  └── /create.html
+  └── /update.html
+  └── /404.html
+  └── /500.html
+├── /.env
+├── /.gitignore
+├── / index.js
+├── / package-lock.json
+├── / package.json
+├── / README.md
+```
 
 ### 주요 기능
 
