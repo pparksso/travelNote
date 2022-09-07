@@ -266,7 +266,7 @@
   const commentAddBtns = document.querySelectorAll(".commentAddBtn");
   const comments = document.querySelectorAll(".commentInput");
   const commentBoxs = document.querySelectorAll(".commentBox");
-  const commentDelBtns = document.querySelectorAll(".commentDelBtn");
+  // const commentDelBtns = document.querySelectorAll(".commentDelBtn");
   const emptyHearts = document.querySelectorAll("#emptyHeart");
   const fullHearts = document.querySelectorAll("#fullHeart");
   const noUserHearts = document.querySelectorAll("#noUserHeart");
@@ -540,6 +540,32 @@
     });
   });
 
+  // 댓글 삭제 함수
+  const deleteComment = () => {
+    const commentDelBtns = document.querySelectorAll(".commentDelBtn");
+    commentDelBtns.forEach((item, idx) => {
+      item.addEventListener("click", () => {
+        console.log("click");
+        const no = item.dataset.commentno;
+        axios({
+          method: "POST",
+          url: "/comment/delete",
+          data: {
+            no: no,
+          },
+        })
+          .then((res) => {
+            if (res.data.del) {
+              item.parentNode.remove();
+            }
+          })
+          .catch((err) => {
+            location.href = "/500";
+          });
+      });
+    });
+  };
+
   // 댓글 전송(클릭)
   commentAddBtns.forEach((item, idx) => {
     item.addEventListener("click", () => {
@@ -564,7 +590,7 @@
             if (commentBoxNum == res.data.contentsNo) {
               item3.insertAdjacentHTML(
                 "afterbegin",
-                `<div class="comment" data-no="${res.data.no}">
+                `<div class="comment" data-commentno="${res.data.no}" data-no="${res.data.contentsNo}">
             <div class="commentLeft">
               <span class="userNickname">${res.data.nickname}</span>
               <p>${res.data.comment}</p>
@@ -579,6 +605,7 @@
               }
             });
           });
+          deleteComment();
         })
         .catch((err) => {
           // location.href = "/500";
@@ -608,7 +635,7 @@
               if (commentBoxNum == res.data.contentsNo) {
                 item3.insertAdjacentHTML(
                   "afterbegin",
-                  `<div class="comment" data-no="${res.data.no}">
+                  `<div class="comment" data-commentno=${res.data.no} data-no=${res.data.contentsNo}>
             <div class="commentLeft">
               <span class="userNickname">${res.data.nickname}</span>
               <p>${res.data.comment}</p>
@@ -621,6 +648,7 @@
                 item.focus();
               }
             });
+            deleteComment();
           })
           .catch((err) => {
             // location.href = "/500";
@@ -630,28 +658,7 @@
     });
   });
 
-  //본인 댓글 삭제
-  commentDelBtns.forEach((item, idx) => {
-    item.addEventListener("click", () => {
-      const no = item.dataset.commentno;
-      axios({
-        method: "POST",
-        url: "/comment/delete",
-        data: {
-          no: no,
-        },
-      })
-        .then((res) => {
-          if (res.data.del) {
-            item.parentNode.remove();
-          }
-        })
-        .catch((err) => {
-          location.href = "/500";
-        });
-    });
-  });
-
+  deleteComment();
   //팝업창 하트 작업(emptyHeart -> fullHeart)
   popupEmptyHearts.forEach((item, idx) => {
     item.addEventListener("click", () => {
