@@ -27,10 +27,30 @@ router.get("/", async (req, res) => {
     const lastPage = startPage + (pageGroupSize - 1);
     const minPage = totalPage <= lastPage ? totalPage : lastPage;
     if (fMsg.error == "존재하지 않는 아이디입니다.") {
-      return res.render("index", { idError: true, page: page, totalPage: totalPage, userInfo: req.user, title: "Welcome back!", list: contents, comments: comments });
+      return res.render("index", {
+        startPage: startPage,
+        minPage: minPage,
+        idError: true,
+        page: page,
+        totalPage: totalPage,
+        userInfo: req.user,
+        title: "Welcome back!",
+        list: contents,
+        comments: comments,
+      });
     }
     if (fMsg.error == "비밀번호를 확인해주세요") {
-      return res.render("index", { pwError: true, page: page, totalPage: totalPage, userInfo: req.user, title: "Welcome back!", list: contents, comments: comments });
+      return res.render("index", {
+        startPage: startPage,
+        minPage: minPage,
+        pwError: true,
+        page: page,
+        totalPage: totalPage,
+        userInfo: req.user,
+        title: "Welcome back!",
+        list: contents,
+        comments: comments,
+      });
     }
     if (page > totalPage) {
       return res.redirect("/");
