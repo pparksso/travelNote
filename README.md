@@ -1,8 +1,6 @@
 # travel diary Project
 
-<center>
 [![Video Label](http://img.youtube.com/vi/yGO6OGt2Zyo/0.jpg)](https://youtu.be/yGO6OGt2Zyo)
-</center>
 
 ---
 
