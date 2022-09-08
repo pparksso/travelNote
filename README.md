@@ -1,5 +1,7 @@
 # travel diary Project
 
+[![Video Label](http://img.youtube.com/vi/'유튜브주소의id'/0.jpg)](https://youtu.be/GB5fsIveZEY)
+
 ---
 
 ### 목적
