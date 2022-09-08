@@ -1,6 +1,6 @@
 # travel diary Project
 
-[![Video Label](http://img.youtube.com/vi/'유튜브주소의id'/0.jpg)](https://youtu.be/GB5fsIveZEY)
+[![Video Label](http://img.youtube.com/vi/yGO6OGt2Zyo/0.jpg)](https://youtu.be/yGO6OGt2Zyo)
 
 ---
 
