@@ -135,5 +135,5 @@
   1. 한 페이지의 최대 페이지수는 5로 구현
   2. 페이지 수에 따라 이전, 다음 버튼 생성 구현
 
-## <a href="https://worldtraveldiary.herokuapp.com/" target="_blank">배포</a>
-## <a href="[https://worldtraveldiary.herokuapp.com/](https://velog.io/@pparksso/nodejs-Toy-Project-%EC%97%AC%ED%96%89-%EB%B8%94%EB%A1%9C%EA%B7%B8-%ED%86%A0%EC%9D%B4%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8)" target="_blank">code & error</a>
+## <a href="https://worldtraveldiary.herokuapp.com/">배포</a>
+## <a href="https://velog.io/@pparksso/nodejs-Toy-Project-%EC%97%AC%ED%96%89-%EB%B8%94%EB%A1%9C%EA%B7%B8-%ED%86%A0%EC%9D%B4%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8" >code & error</a>
