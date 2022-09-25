@@ -22,7 +22,6 @@ router.post("/join", (req, res) => {
       countDb.findOne({ name: "user" }, (err, result) => {
         const userNum = result.count + 1;
         if (err) {
-          // res.send(`<script>alret("회원가입에 실패하였습니다. 다시한번 시도해주세요.")</script>`);
           res.redirect("500");
         }
         userDb.create(
@@ -35,7 +34,6 @@ router.post("/join", (req, res) => {
           },
           (err, result) => {
             if (err) {
-              // res.send(`<script>alret("회원가입에 실패하였습니다. 다시한번 시도해주세요.")</script>`);
               res.redirect("500");
             }
             countDb.updateOne(
@@ -47,7 +45,6 @@ router.post("/join", (req, res) => {
               },
               (err, result) => {
                 if (err) {
-                  // res.send(`<script>alret("회원가입에 실패하였습니다. 다시한번 시도해주세요.")</script>`);
                   res.redirect("500");
                 }
               }
@@ -64,7 +61,6 @@ router.post("/idcheck", (req, res) => {
   const id = req.body.id;
   userDb.findOne({ id: id }, (err, result) => {
     if (err) {
-      // res.send(`<script>alret("id체크에 실패했습니다. 다시 한번 시도해주세요.")</script>`);
       res.redirect("500");
     }
     if (!result) {
@@ -78,7 +74,6 @@ router.post("/nicknamecheck", (req, res) => {
   const nickname = req.body.nickname;
   userDb.findOne({ nickname: nickname }, (err, result) => {
     if (err) {
-      // res.send(`<script>alret("닉네임체크에 실패했습니다. 다시 한번 시도해주세요.")</script>`);
       res.redirect("500");
     }
     if (!result) {

@@ -266,7 +266,6 @@
   const commentAddBtns = document.querySelectorAll(".commentAddBtn");
   const comments = document.querySelectorAll(".commentInput");
   const commentBoxs = document.querySelectorAll(".commentBox");
-  // const commentDelBtns = document.querySelectorAll(".commentDelBtn");
   const emptyHearts = document.querySelectorAll("#emptyHeart");
   const fullHearts = document.querySelectorAll("#fullHeart");
   const noUserHearts = document.querySelectorAll("#noUserHeart");
@@ -323,6 +322,16 @@
     const nickname = joinNickname.value;
     const pwCheck = joinPwCheck.value;
     const regld = /^[A-Za-z0-9]{8,12}$/;
+    if (joinId.dataset.id === "no") {
+      alert("사용할 수 없는 아이디입니다.");
+      joinId.focus();
+      return false;
+    }
+    if (joinNickname.dataset.nickname === "no") {
+      alert("사용할 수 없는 닉네임입니다.");
+      joinNickname.focus();
+      return false;
+    }
     if (id === "") {
       alert("ID를 입력해주세요");
       joinId.focus();
@@ -404,9 +413,11 @@
           if (res.data.idCheck) {
             joinIdNo.classList.remove("on");
             joinIdOk.classList.add("on");
+            joinId.dataset.id = "ok";
           } else {
             joinIdOk.classList.remove("on");
             joinIdNo.classList.add("on");
+            joinId.dataset.id = "no";
           }
         })
         .catch((err) => {
@@ -432,9 +443,11 @@
           if (res.data.isNicknameCheck) {
             joinNicknameNo.classList.remove("on");
             joinNicknameOk.classList.add("on");
+            joinNickname.dataset.nickname = "ok";
           } else {
             joinNicknameOk.classList.remove("on");
             joinNicknameNo.classList.add("on");
+            joinNickname.dataset.nickname = "no";
           }
         })
         .catch((err) => {
